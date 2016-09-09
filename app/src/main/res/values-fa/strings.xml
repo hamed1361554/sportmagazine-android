@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SportMagazine</string>
+    <string name="login">ورود</string>
+    <string name="signin">ثبت نام</string>
+</resources>
