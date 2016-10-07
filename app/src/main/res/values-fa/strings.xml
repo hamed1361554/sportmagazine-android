@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SportMagazine</string>
+    <string name="app_name">مجله ورزش</string>
     <string name="login">ورود</string>
     <string name="signin">ثبت نام</string>
+    <string name="ServerIP">10.0.2.2</string>
+    <string name="ServerPort">5000</string>
 </resources>

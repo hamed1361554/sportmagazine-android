@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="LoginFailed">امکان لاگین به سیستم وجود ندارد: [%s].</string>
+    <string name="OutOfService">امکان سرویس دهی در حال حاضر وجود ندارد.</string>
+    <string name="LoginSuccessful">ورود موفقیت آمیز</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="LoginFailed">Login failed due to error: [%s].</string>
+    <string name="OutOfService">Server is out of service or unreachable.</string>
+    <string name="LoginSuccessful">Successful Login.</string>
+</resources>
