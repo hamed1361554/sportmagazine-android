@@ -4,13 +4,13 @@
     <string name="signin">Sign in</string>
     <string name="ServerIP">10.0.2.2</string>
     <string name="ServerPort">5000</string>
-    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_login">Login …</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Signin</string>
+    <string name="action_sign_in_short">Signin</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
@@ -18,4 +18,46 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="prompt_user_name">User Name</string>
+    <string name="action_login">Login</string>
+    <string name="title_activity_signin">Welcome …</string>
+    <string name="large_text">"Material is the metaphor."</string>
+    <string name="action_settings">Settings</string>
+    <string name="name">Full Name</string>
+    <string name="address">Address</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="create_account">Create Account</string>
+    <string name="already_a_member_login">Already a member? Login</string>
+    <string name="reprompt_password">Password Again</string>
+    <string name="user_name">User Name</string>
+    <string name="creating_account">Creating Account…</string>
+    <string name="at_least_3_chars">at least 3 characters</string>
+    <string name="invalid_email">Enter Valid Email</string>
+    <string name="invalid_address">Enter Valid Address</string>
+    <string name="invalid_mobile">Enter Valid Mobile Number</string>
+    <string name="invalid_signin_password">between 4 and 10 alphanumeric characters</string>
+    <string name="invalid_signin_reenter_password">Password Do not match</string>
+    <string name="could_not_create_user">Could not create user.</string>
+    <string name="consumer">Consumer</string>
+    <string name="producer">Producer</string>
+    <string name="title_activity_select_consumer_package">Select ...</string>
+    <string name="free_package">Free Package</string>
+    <string name="silver_package">Silver Package</string>
+    <string name="golden_package">Golden Package</string>
+    <string name="free_package_description">It\'s free one.</string>
+    <string name="silver_package_description">It\'s silver package.</string>
+    <string name="golden_package_description">It\'s golden package.</string>
+    <string name="agree_to_term_of_use_content">Agree to term of use</string>
+    <string name="term_of_use_of_software_to_agree_with">It\'s term of use of software to agree with.</string>
+    <string name="agree_and_continue">Agree and Continue</string>
+    <string name="consumer_division">Consumer Division</string>
+    <string name="producer_division">Producer Division</string>
+    <string name="producer_division_name">Producer Division Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="national_code">National Code</string>
+    <string name="producer_product_name">Product Name</string>
+    <string name="producer_product_price">Product Price</string>
+    <string name="producer_product_category">Product Category</string>
+    <string name="acquire_product_image">Acquire Product Image</string>
+    <string name="select_product_colors">Select Product Colors</string>
 </resources>

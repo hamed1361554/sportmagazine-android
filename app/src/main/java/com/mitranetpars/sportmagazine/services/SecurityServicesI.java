@@ -1,16 +1,17 @@
 package com.mitranetpars.sportmagazine.services;
 
 import android.os.AsyncTask;
+import android.text.Html;
 
 import com.mitranetpars.sportmagazine.R;
 import com.mitranetpars.sportmagazine.SportMagazineApplication;
 import com.mitranetpars.sportmagazine.common.SecurityEnvironment;
 import com.mitranetpars.sportmagazine.common.dto.security.User;
 
-import java.net.ResponseCache;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -25,6 +26,8 @@ public class SecurityServicesI {
     private final SecurityServices securityServices;
 
     private final BlockingQueue<String> loginQueue = new ArrayBlockingQueue<String>(1, true);
+    private final BlockingQueue<User> createQueue = new ArrayBlockingQueue<User>(1, true);
+    private final BlockingQueue<String> activateQueue = new ArrayBlockingQueue<String>(1, true);
 
     static {
         instance = new SecurityServicesI();
@@ -62,8 +65,12 @@ public class SecurityServicesI {
             else {
                 if (ticket.startsWith("error")){
                     ticket = ticket.substring(5);
+                    throw new Exception(ticket);
                 }
-                throw new Exception(ticket);
+                if (ticket.startsWith("htmlerrorbody")) {
+                    ticket = ticket.substring(13);
+                    throw new Exception(Html.fromHtml(ticket).toString());
+                }
             }
         }
         ticket = ticket.replace("ticket", "");
@@ -72,6 +79,60 @@ public class SecurityServicesI {
         SecurityEnvironment.<SecurityEnvironment>getInstance().setLoginTicket(ticket);
         user.setTicket(ticket);
         return ticket;
+    }
+
+    public User create(String userName, String password, String fullName, String email, String mobile, String address) throws Exception {
+        User user = new User();
+        user.setUserName(userName);
+        user.setPassword(password);
+        user.setFullName(fullName);
+        user.setEmail(email);
+        user.setMobile(mobile);
+        user.setAddress(address);
+
+        CreateAsyncTask createAsyncTask = new CreateAsyncTask();
+        createAsyncTask.execute(user);
+
+        User created_user = this.createQueue.take();
+        if (created_user == null) {
+            throw new Exception(String.format("%s%s", "error", SportMagazineApplication.getContext().getString(R.string.OutOfService)));
+        }
+
+        if (created_user.getUserName() == null || created_user.getUserName() == "" ||
+                created_user.getPassword() == null || created_user.getPassword() == ""){
+            if (created_user.getTicket().startsWith("error")){
+                String error = user.getTicket().substring(5);
+                throw new Exception(error);
+            }
+            if (created_user.getTicket().startsWith("htmlerrorbody")) {
+                String error = user.getTicket().substring(13);
+                throw new Exception(Html.fromHtml(error).toString());
+            }
+        }
+
+        SecurityEnvironment.<SecurityEnvironment>getInstance().setUserName(userName);
+        return created_user;
+    }
+
+    public String activate(String data) throws Exception {
+        ActivateAsyncTask activateAsyncTask = new ActivateAsyncTask();
+        activateAsyncTask.execute(data);
+
+        String url = this.activateQueue.take();
+        if (url == null || url == "") {
+            throw new Exception(String.format("%s%s", "error", SportMagazineApplication.getContext().getString(R.string.OutOfService)));
+        }
+
+        if (url.startsWith("error")) {
+            String error = url.substring(5);
+            throw new Exception(error);
+        }
+        if (url.startsWith("htmlerrorbody")) {
+            String error = url.substring(13);
+            throw new Exception(Html.fromHtml(url).toString());
+        }
+
+        return url;
     }
 
     private class LoginAsyncTask extends AsyncTask{
@@ -84,21 +145,28 @@ public class SecurityServicesI {
             try {
                 Response<User> response = callTicket.execute();
 
-                ticket = response.body().getTicket();
-                if (ticket != null && !ticket.trim().isEmpty()) {
-                    loginQueue.put(String.format("%s%s", "ticket", ticket));
+                User body = response.body();
+                if (body == null) {
+                    ResponseBody errorBody = response.errorBody();
+                    String error = errorBody.string();
+                    loginQueue.put(String.format("%s%s", "htmlerrorbody", error));
                 }
                 else {
-                    ticket = response.message();
-
-                    if (ticket == null || ticket.trim().isEmpty()) {
-                        ticket = response.errorBody().string();
-                    }
-
-                    if (ticket == null || ticket.trim().isEmpty()) {
-                        loginQueue.put(String.format("%s%s", "error", SportMagazineApplication.getContext().getString(R.string.OutOfService)));
+                    ticket = response.body().getTicket();
+                    if (ticket != null && !ticket.trim().isEmpty()) {
+                        loginQueue.put(String.format("%s%s", "ticket", ticket));
                     } else {
-                        loginQueue.put(String.format("%s%s", "error", ticket));
+                        ticket = response.message();
+
+                        if (ticket == null || ticket.trim().isEmpty()) {
+                            ticket = response.errorBody().string();
+                        }
+
+                        if (ticket == null || ticket.trim().isEmpty()) {
+                            loginQueue.put(String.format("%s%s", "error", SportMagazineApplication.getContext().getString(R.string.OutOfService)));
+                        } else {
+                            loginQueue.put(String.format("%s%s", "error", ticket));
+                        }
                     }
                 }
             } catch (Exception ticketEx) {
@@ -110,6 +178,85 @@ public class SecurityServicesI {
             }
 
             return ticket;
+        }
+    }
+
+    private class CreateAsyncTask extends AsyncTask{
+
+        @Override
+        protected User doInBackground(Object[] callVariables) {
+            Call<User> callUser = securityServices.create((User) callVariables[0]);
+
+            User user = null;
+            try {
+                Response<User> response = callUser.execute();
+
+                User body = response.body();
+                if (body == null) {
+                    ResponseBody errorBody = response.errorBody();
+                    String error = errorBody.string();
+                    user = new User();
+                    user.setTicket(String.format("%s%s", "htmlerrorbody", error));
+                    createQueue.put(user);
+                }
+                else {
+                    user = response.body();
+                    if (user != null) {
+                        createQueue.put(user);
+                    } else {
+                        user = new User();
+                        user.setTicket(String.format("%s%s", "error", SportMagazineApplication.getContext().getString(R.string.could_not_create_user)));
+                        createQueue.put(user);
+                    }
+                }
+            } catch (Exception ticketEx) {
+                user = new User();
+                try {
+                    user.setTicket(String.format("%s%s", "error", ticketEx.getMessage()));
+                    createQueue.put(user);
+                } catch (Exception queueEx){
+                    user.setTicket(String.format("%s%s", "error", ticketEx.getMessage()));
+                    createQueue.add(user);
+                }
+            }
+
+            return user;
+        }
+    }
+
+    private class ActivateAsyncTask extends AsyncTask{
+
+        @Override
+        protected String doInBackground(Object[] callVariables) {
+            Call<String> callActivate = securityServices.activate(callVariables[0].toString());
+
+            String url = null;
+            try {
+                Response<String> response = callActivate.execute();
+
+                String body = response.body();
+                if (body == null) {
+                    ResponseBody errorBody = response.errorBody();
+                    String error = errorBody.string();
+                    activateQueue.put(String.format("%s%s", "htmlerrorbody", error));
+                }
+                else {
+                    url = response.body();
+                    if (url != null && url != "") {
+                        activateQueue.put(url);
+                    } else {
+                        activateQueue.put(String.format("%s%s", "error", SportMagazineApplication.getContext().getString(R.string.could_not_create_user)));
+                    }
+                }
+            } catch (Exception ticketEx) {
+                try {
+                    activateQueue.put(String.format("%s%s", "error", ticketEx.getMessage()));
+                } catch (Exception queueEx){
+                    activateQueue.add(String.format("%s%s", "error", ticketEx.getMessage()));
+                }
+            }
+
+            return url;
         }
     }
 }

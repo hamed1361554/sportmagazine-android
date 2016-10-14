@@ -15,12 +15,31 @@
             android:layout_height="wrap_content"
             android:text="@string/login"
             android:id="@+id/loginButton"
-            android:layout_marginTop="136dp" android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"/>
+            android:layout_marginTop="60dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignLeft="@+id/signinButton"
+            android:layout_alignStart="@+id/signinButton" />
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/signin"
-            android:id="@+id/signinButton" android:layout_centerVertical="true" android:layout_alignLeft="@+id/loginButton"
-            android:layout_alignStart="@+id/loginButton"/>
+            android:id="@+id/signinButton"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/consumer"
+        android:id="@+id/consumerRadioButton"
+        android:layout_below="@+id/signinButton"
+        android:layout_centerHorizontal="true" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/producer"
+        android:id="@+id/producerRadioButton"
+        android:layout_below="@+id/consumerRadioButton"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

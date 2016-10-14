@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="producer_division_items">
+        <item>تولیدی</item>
+        <item>شرکت</item>
+        <item>فروشگاه</item>
+    </string-array>
+</resources>
