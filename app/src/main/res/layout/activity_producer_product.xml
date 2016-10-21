@@ -87,6 +87,88 @@
         android:orientation="vertical"
         android:layout_below="@id/producer_product_properties_linear_layout">
 
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <EditText android:id="@+id/input_producer_product_sizes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:hint="@string/producer_product_sizes" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <EditText android:id="@+id/input_producer_product_brands"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:hint="@string/producer_product_brands" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <EditText android:id="@+id/input_producer_product_counter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:hint="@string/producer_product_counter" />
+        </android.support.design.widget.TextInputLayout>
+
+        <com.satsuware.usefulviews.LabelledSpinner
+            android:id="@+id/producer_product_age_category"
+            ls:labelText="@string/producer_product_age_category"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+        <com.satsuware.usefulviews.LabelledSpinner
+            android:id="@+id/producer_product_gender"
+            ls:labelText="@string/producer_product_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <EditText android:id="@+id/input_producer_product_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:hint="@string/producer_product_comment" />
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:text="@string/producer_product_retail_type"
+                android:id="@+id/producer_product_retail_type" />
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:text="@string/producer_product_wholesale_type"
+                android:id="@+id/producer_product_wholesale_type" />
+
+        </LinearLayout>
+
         <ListView
             android:layout_width="match_parent"
             android:layout_height="129dp"

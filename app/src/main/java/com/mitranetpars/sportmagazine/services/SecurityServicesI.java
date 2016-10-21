@@ -27,6 +27,7 @@ public class SecurityServicesI {
 
     private final BlockingQueue<String> loginQueue = new ArrayBlockingQueue<String>(1, true);
     private final BlockingQueue<User> createQueue = new ArrayBlockingQueue<User>(1, true);
+    private final BlockingQueue<User> getUserQueue = new ArrayBlockingQueue<User>(1, true);
     private final BlockingQueue<String> activateQueue = new ArrayBlockingQueue<String>(1, true);
 
     static {
@@ -101,16 +102,45 @@ public class SecurityServicesI {
         if (created_user.getUserName() == null || created_user.getUserName() == "" ||
                 created_user.getPassword() == null || created_user.getPassword() == ""){
             if (created_user.getTicket().startsWith("error")){
-                String error = user.getTicket().substring(5);
+                String error = created_user.getTicket().substring(5);
                 throw new Exception(error);
             }
             if (created_user.getTicket().startsWith("htmlerrorbody")) {
-                String error = user.getTicket().substring(13);
+                String error = created_user.getTicket().substring(13);
                 throw new Exception(Html.fromHtml(error).toString());
             }
         }
 
         SecurityEnvironment.<SecurityEnvironment>getInstance().setUserName(userName);
+        return created_user;
+    }
+
+    public User getUser(String userName) throws Exception {
+        User user = new User();
+        user.setUserName(userName);
+        user.setTicket(SecurityEnvironment.<SecurityEnvironment>getInstance().getLoginTicket());
+
+        GetUserAsyncTask getUserAsyncTask = new GetUserAsyncTask();
+        getUserAsyncTask.execute(user);
+
+        User created_user = this.getUserQueue.take();
+        if (created_user == null) {
+            throw new Exception(String.format("%s%s", "error", SportMagazineApplication.getContext().getString(R.string.OutOfService)));
+        }
+
+        if (created_user.getUserName() == null || created_user.getUserName() == "" ||
+                created_user.getFullName() == null || created_user.getFullName() == ""){
+            if (created_user.getTicket().startsWith("error")){
+                String error = created_user.getTicket().substring(5);
+                throw new Exception(error);
+            }
+            if (created_user.getTicket().startsWith("htmlerrorbody")) {
+                String error = created_user.getTicket().substring(13);
+                throw new Exception(Html.fromHtml(error).toString());
+            }
+        }
+
+        SecurityEnvironment.<SecurityEnvironment>getInstance().setUser(created_user);
         return created_user;
     }
 
@@ -217,6 +247,49 @@ public class SecurityServicesI {
                 } catch (Exception queueEx){
                     user.setTicket(String.format("%s%s", "error", ticketEx.getMessage()));
                     createQueue.add(user);
+                }
+            }
+
+            return user;
+        }
+    }
+
+    private class GetUserAsyncTask extends AsyncTask{
+
+        @Override
+        protected User doInBackground(Object[] callVariables) {
+            Call<User> callUser = securityServices.getUser((User) callVariables[0]);
+
+            User user = null;
+            try {
+                Response<User> response = callUser.execute();
+
+                User body = response.body();
+                if (body == null) {
+                    ResponseBody errorBody = response.errorBody();
+                    String error = errorBody.string();
+                    user = new User();
+                    user.setTicket(String.format("%s%s", "htmlerrorbody", error));
+                    getUserQueue.put(user);
+                }
+                else {
+                    user = response.body();
+                    if (user != null) {
+                        getUserQueue.put(user);
+                    } else {
+                        user = new User();
+                        user.setTicket(String.format("%s%s", "error", SportMagazineApplication.getContext().getString(R.string.user_not_found)));
+                        getUserQueue.put(user);
+                    }
+                }
+            } catch (Exception ticketEx) {
+                user = new User();
+                try {
+                    user.setTicket(String.format("%s%s", "error", ticketEx.getMessage()));
+                    getUserQueue.put(user);
+                } catch (Exception queueEx){
+                    user.setTicket(String.format("%s%s", "error", ticketEx.getMessage()));
+                    getUserQueue.add(user);
                 }
             }
 

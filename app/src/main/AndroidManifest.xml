@@ -38,7 +38,15 @@
             android:label="@string/title_activity_select_consumer_package"
             android:theme="@style/AppTheme" />
         <activity android:name=".ProducerSigninActivity" />
-        <activity android:name=".ProducerProductActivity"></activity>
+        <activity android:name=".ProducerProductActivity" />
+        <activity
+            android:name=".ProducerMainActivity"
+            android:label="@string/title_activity_producer_main"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ConsumerMainActivity"
+            android:label="@string/title_activity_consumer_main"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

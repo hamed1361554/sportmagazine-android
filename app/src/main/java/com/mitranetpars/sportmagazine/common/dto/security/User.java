@@ -10,6 +10,10 @@ public class User {
     public String mobile;
     public String email;
     public String address;
+    public String phone;
+    public String work_address;
+    public int national_code;
+    public int production_type;
     public String ticket;
 
     public void setUserName(String name){
@@ -44,6 +48,14 @@ public class User {
         return this.mobile;
     }
 
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPhone() {
+        return this.phone;
+    }
+
     public void setEmail(String email){
         this.email = email;
     }
@@ -58,6 +70,30 @@ public class User {
 
     public String getAddress(){
         return this.address;
+    }
+
+    public void setWorkAddress(String workAddress){
+        this.work_address = workAddress;
+    }
+
+    public String getWorkAddress(){
+        return this.work_address;
+    }
+
+    public void setNationalCode(int code) {
+        this.national_code = code;
+    }
+
+    public int getNationalCode() {
+        return this.national_code;
+    }
+
+    public void setProductionType(int type) {
+        this.production_type = type;
+    }
+
+    public int getProductionType() {
+        return this.production_type;
     }
 
     public void setTicket(String ticket) {

@@ -6,6 +6,8 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 
 /**
@@ -18,6 +20,9 @@ public interface SecurityServices {
     @POST("/signin")
     Call<User> create(@Body User user);
 
-    @GET("/activate")
+    @POST("/user/get")
+    Call<User> getUser(@Body User user);
+
+    @POST("/activate")
     Call<String> activate(@Body String userData);
 }

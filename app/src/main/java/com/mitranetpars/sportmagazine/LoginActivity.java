@@ -3,6 +3,7 @@ package com.mitranetpars.sportmagazine;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -27,6 +28,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mitranetpars.sportmagazine.common.dto.security.User;
 import com.mitranetpars.sportmagazine.services.SecurityServicesI;
 
 import java.util.ArrayList;
@@ -122,21 +124,34 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // perform the user login attempt.
             showProgress(true);
 
+            User user = null;
             String ticket = null;
+            String error = "";
             try {
                 ticket = SecurityServicesI.getInstance().login(userName, password);
+                user = SecurityServicesI.getInstance().getUser(userName);
                 Toast.makeText(getApplicationContext(), getString(R.string.LoginSuccessful), Toast.LENGTH_LONG).show();
             }
             catch (Exception ex) {
-                Toast.makeText(getApplicationContext(), getString(R.string.LoginFailed, ex.getMessage()), Toast.LENGTH_LONG).show();
+                error = ex.getMessage();
+                Toast.makeText(getApplicationContext(), getString(R.string.LoginFailed, error), Toast.LENGTH_LONG).show();
             }
 
             showProgress(false);
 
-            if (ticket != null && !ticket.isEmpty()) {
+            if (ticket != null && !ticket.isEmpty() && user != null) {
+
+                if (user.getProductionType() == 0){
+                    Intent consumerMainIntent = new Intent(this, ConsumerMainActivity.class);
+                    this.startActivity(consumerMainIntent);
+                } else if (user.getProductionType() == 1) {
+                    Intent producerMainIntent = new Intent(this, ProducerMainActivity.class);
+                    this.startActivity(producerMainIntent);
+                }
+
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.setError(error);
                 mPasswordView.requestFocus();
             }
         }
