@@ -13,8 +13,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
+
+import java.util.HashMap;
+
 public class ProducerMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private SliderLayout sliderShow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,21 @@ public class ProducerMainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
+
+        this.sliderShow = (SliderLayout) findViewById(R.id.slider);
+        HashMap<String,String> urlMaps = new HashMap<String, String>();
+        urlMaps.put("Hannibal", "http://static2.hypable.com/wp-content/uploads/2013/12/hannibal-season-2-release-date.jpg");
+        urlMaps.put("Big Bang Theory", "http://tvfiles.alphacoders.com/100/hdclearart-10.png");
+        urlMaps.put("House of Cards", "http://cdn3.nflximg.net/images/3093/2043093.jpg");
+        urlMaps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
+
+        for (String key: urlMaps.keySet()){
+            TextSliderView textSliderView = new TextSliderView(this);
+            textSliderView
+                    .description(key)
+                    .image(urlMaps.get(key));
+            sliderShow.addSlider(textSliderView);
+        }
     }
 
     @Override
@@ -101,5 +123,11 @@ public class ProducerMainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onStop() {
+        this.sliderShow.stopAutoCycle();
+        super.onStop();
     }
 }

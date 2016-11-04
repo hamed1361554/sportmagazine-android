@@ -91,6 +91,28 @@ public class SecurityServicesI {
         user.setMobile(mobile);
         user.setAddress(address);
 
+        return createUser(user);
+    }
+
+    public User createProducer(String userName, String password, String fullName, String email, String mobile, String address,
+                               String phone, String nationalCode, int producerDivision, String producerDivisionName) throws Exception {
+        User user = new User();
+        user.setUserName(userName);
+        user.setPassword(password);
+        user.setFullName(fullName);
+        user.setEmail(email);
+        user.setMobile(mobile);
+        user.setAddress(address);
+        user.setPhone(phone);
+        user.setNationalCode(nationalCode);
+        user.setProductionType(User.PRODUCER);
+        user.setProducerDivision(producerDivision);
+        user.setProducerDivisionName(producerDivisionName);
+
+        return createUser(user);
+    }
+
+    private User createUser(User user) throws Exception {
         CreateAsyncTask createAsyncTask = new CreateAsyncTask();
         createAsyncTask.execute(user);
 
@@ -111,7 +133,7 @@ public class SecurityServicesI {
             }
         }
 
-        SecurityEnvironment.<SecurityEnvironment>getInstance().setUserName(userName);
+        SecurityEnvironment.<SecurityEnvironment>getInstance().setUserName(created_user.getUserName());
         return created_user;
     }
 

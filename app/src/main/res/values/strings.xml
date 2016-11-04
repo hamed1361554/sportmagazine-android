@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">SportMagazine</string>
+    <string name="app_name">Sport Magazine</string>
     <string name="login">Login</string>
     <string name="signin">Sign in</string>
-    <string name="ServerIP">10.0.2.2</string>
-    <string name="ServerPort">5000</string>
+    <string name="ServerIP">185.94.99.134</string>
+    <string name="ServerPort">5001</string>
     <string name="title_activity_login">Login …</string>
 
     <!-- Strings related to login -->
@@ -21,7 +21,7 @@
     <string name="prompt_user_name">User Name</string>
     <string name="action_login">Login</string>
     <string name="title_activity_signin">Welcome …</string>
-    <string name="large_text">"Material is the metaphor."</string>
+    <string name="large_text">Material is the metaphor.</string>
     <string name="action_settings">Settings</string>
     <string name="name">Full Name</string>
     <string name="address">Address</string>
@@ -55,20 +55,20 @@
     <string name="producer_division_name">Producer Division Name</string>
     <string name="phone_number">Phone Number</string>
     <string name="national_code">National Code</string>
-    <string name="producer_product_name">Product Name</string>
-    <string name="producer_product_price">Product Price</string>
-    <string name="producer_product_category">Product Category</string>
+    <string name="producer_product_name">Name</string>
+    <string name="producer_product_price">Price</string>
+    <string name="producer_product_category">Category</string>
     <string name="acquire_product_image">Acquire Product Image</string>
     <string name="select_product_colors">Select Product Colors</string>
-    <string name="producer_product_sizes">producer_product_sizes</string>
-    <string name="producer_product_brands">producer_product_brands</string>
-    <string name="producer_product_counter">producer_product_counter</string>
-    <string name="producer_product_age_category">producer_product_age_category</string>
-    <string name="producer_product_gender">producer_product_gender</string>
-    <string name="producer_product_comment">producer_product_comment</string>
-    <string name="producer_product_retail_type">producer_product_retail_type</string>
-    <string name="producer_product_wholesale_type">producer_product_wholesale_type</string>
-    <string name="title_activity_producer_main">ProducerMainActivity</string>
+    <string name="producer_product_sizes">Sizes</string>
+    <string name="producer_product_brands">Brands</string>
+    <string name="producer_product_counter">Counter</string>
+    <string name="producer_product_age_category">Age Category</string>
+    <string name="producer_product_gender">Gender</string>
+    <string name="producer_product_comment">Comment</string>
+    <string name="producer_product_retail_type">Retail Type</string>
+    <string name="producer_product_wholesale_type">Wholesale Type</string>
+    <string name="title_activity_producer_main">Producer ....</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -79,8 +79,18 @@
     <string name="settings">Settings</string>
     <string name="about">About</string>
     <string name="eula">EULA</string>
-    <string name="title_activity_consumer_main">ConsumerMainActivity</string>
+    <string name="title_activity_consumer_main">Consumer ....</string>
     <string name="products_categories">Products Categories</string>
     <string name="transactions">Transactions</string>
     <string name="user_not_found">User not found.</string>
+    <string name="welcometext">Welcome %s</string>
+    <string name="exit">Exit</string>
+    <string name="click_back_again_to_eit">Please click BACK again to exit</string>
+    <string name="invalid_national_code">National code is invalid.</string>
+    <string name="invalid_phone">Phone is not valid.</string>
+    <string name="invalid_producer_division">Producer division category is not valid.</string>
+    <string name="invalid_producer_division_name">Producer division name is not valid.</string>
+    <string name="signup_failed">Signup failed</string>
+    <string name="product">Product ...</string>
+    <string name="title_actitvity_producer_product">Product ...</string>
 </resources>

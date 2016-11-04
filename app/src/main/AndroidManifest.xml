@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".SportMagazineApplication"
         android:allowBackup="true"
@@ -37,8 +39,12 @@
             android:name=".ProducerPackageSelectionActivity"
             android:label="@string/title_activity_select_consumer_package"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ProducerSigninActivity" />
-        <activity android:name=".ProducerProductActivity" />
+        <activity android:name=".ProducerSigninActivity"
+            android:label="@string/title_activity_signin"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ProducerProductActivity"
+            android:label="@string/title_actitvity_producer_product"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ProducerMainActivity"
             android:label="@string/title_activity_producer_main"
@@ -46,7 +52,7 @@
         <activity
             android:name=".ConsumerMainActivity"
             android:label="@string/title_activity_consumer_main"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

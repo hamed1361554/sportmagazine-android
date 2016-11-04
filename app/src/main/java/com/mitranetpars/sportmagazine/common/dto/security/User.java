@@ -4,6 +4,9 @@ package com.mitranetpars.sportmagazine.common.dto.security;
  * Created by Hamed on 9/16/2016.
  */
 public class User {
+    public static int CONSUMER = 0;
+    public static int PRODUCER = 1;
+
     public String user_name;
     public String password;
     public String full_name;
@@ -12,8 +15,10 @@ public class User {
     public String address;
     public String phone;
     public String work_address;
-    public int national_code;
+    public String national_code;
     public int production_type;
+    public int producer_division;
+    public String producer_division_name;
     public String ticket;
 
     public void setUserName(String name){
@@ -80,16 +85,32 @@ public class User {
         return this.work_address;
     }
 
-    public void setNationalCode(int code) {
+    public void setNationalCode(String code) {
         this.national_code = code;
     }
 
-    public int getNationalCode() {
+    public String getNationalCode() {
         return this.national_code;
     }
 
     public void setProductionType(int type) {
         this.production_type = type;
+    }
+
+    public void setProducerDivision(int division){
+        this.producer_division = division;
+    }
+
+    public int getProducerDivision() {
+        return this.producer_division;
+    }
+
+    public void setProducerDivisionName(String divisionName) {
+        this.producer_division_name = divisionName;
+    }
+
+    public String getProducerDivisionName() {
+        return this.producer_division_name;
     }
 
     public int getProductionType() {

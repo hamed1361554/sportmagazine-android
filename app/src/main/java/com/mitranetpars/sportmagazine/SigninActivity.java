@@ -18,7 +18,14 @@ import com.mitranetpars.sportmagazine.common.dto.security.User;
 import com.mitranetpars.sportmagazine.services.SecurityServicesI;
 
 public class SigninActivity extends AppCompatActivity {
-    private Button signinButton = null;
+    private Button signinButton;
+    private EditText userNameEditText;
+    private EditText fullNameEditText;
+    private EditText addressEditText;
+    private EditText emailEditText;
+    private EditText mobileEditText;
+    private EditText passwordEditText;
+    private EditText reEnterPasswordEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +33,6 @@ public class SigninActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signin);
 
         this.signinButton = (Button) findViewById(R.id.btn_signup);
-
         this.signinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,6 +51,14 @@ public class SigninActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
+
+        this.userNameEditText = (EditText)findViewById(R.id.input_user_name);
+        this.fullNameEditText = (EditText)findViewById(R.id.input_full_name);
+        this.addressEditText = (EditText)findViewById(R.id.input_address);
+        this.emailEditText = (EditText)findViewById(R.id.input_email);
+        this.mobileEditText = (EditText)findViewById(R.id.input_mobile);
+        this.passwordEditText = (EditText)findViewById(R.id.input_password);
+        this.reEnterPasswordEditText = (EditText)findViewById(R.id.input_reEnterPassword);
     }
 
     private void signin() {
@@ -61,17 +75,11 @@ public class SigninActivity extends AppCompatActivity {
         progressDialog.setMessage(getString(R.string.creating_account));
         progressDialog.show();
 
-        EditText userNameEditText = (EditText)findViewById(R.id.input_user_name);
         String userName = userNameEditText.getText().toString();
-        EditText fullNameEditText = (EditText)findViewById(R.id.input_full_name);
         String fullName = fullNameEditText.getText().toString();
-        EditText addressEditText = (EditText)findViewById(R.id.input_address);
         String address = addressEditText.getText().toString();
-        EditText emailEditText = (EditText)findViewById(R.id.input_email);
         String email = emailEditText.getText().toString();
-        EditText mobileEditText = (EditText)findViewById(R.id.input_mobile);
         String mobile = mobileEditText.getText().toString();
-        EditText passwordEditText = (EditText)findViewById(R.id.input_password);
         String password = passwordEditText.getText().toString();
 
         try {
@@ -111,26 +119,19 @@ public class SigninActivity extends AppCompatActivity {
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), R.string.signup_failed, Toast.LENGTH_LONG).show();
         this.signinButton.setEnabled(true);
     }
 
     public boolean validate() {
         boolean valid = true;
 
-        EditText userNameEditText = (EditText)findViewById(R.id.input_user_name);
         String userName = userNameEditText.getText().toString();
-        EditText fullNameEditText = (EditText)findViewById(R.id.input_full_name);
         String fullName = fullNameEditText.getText().toString();
-        EditText addressEditText = (EditText)findViewById(R.id.input_address);
         String address = addressEditText.getText().toString();
-        EditText emailEditText = (EditText)findViewById(R.id.input_email);
         String email = emailEditText.getText().toString();
-        EditText mobileEditText = (EditText)findViewById(R.id.input_mobile);
         String mobile = mobileEditText.getText().toString();
-        EditText passwordEditText = (EditText)findViewById(R.id.input_password);
         String password = passwordEditText.getText().toString();
-        EditText reEnterPasswordEditText = (EditText)findViewById(R.id.input_reEnterPassword);
         String reEnterPassword = reEnterPasswordEditText.getText().toString();
 
         if (userName.isEmpty() || userName.length() < 3) {
@@ -153,7 +154,6 @@ public class SigninActivity extends AppCompatActivity {
         } else {
             addressEditText.setError(null);
         }
-
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailEditText.setError(getString(R.string.invalid_email));
