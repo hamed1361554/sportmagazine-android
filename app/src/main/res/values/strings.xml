@@ -2,7 +2,7 @@
     <string name="app_name">Sport Magazine</string>
     <string name="login">Login</string>
     <string name="signin">Sign in</string>
-    <string name="ServerIP">10.0.2.2</string>
+    <string name="ServerIP">185.94.99.134</string>
     <string name="ServerPort">5001</string>
     <string name="title_activity_login">Login …</string>
 
@@ -96,4 +96,7 @@
     <string name="pref_locale">fa</string>
     <string name="crash_toast_text">Sorry, app crashed.</string>
     <string name="production_package_not_selected">Production package is not selected.</string>
+    <string name="about_us">About us</string>
+    <string name="button">Button</string>
+    <string name="user">User</string>
 </resources>

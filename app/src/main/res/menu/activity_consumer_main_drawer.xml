@@ -4,23 +4,27 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/consumer_nav_home"
-            android:icon="@drawable/home"
+            android:icon="@drawable/home128"
             android:title="@string/home" />
         <item
             android:id="@+id/consumer_nav_products_categories"
-            android:icon="@drawable/organization"
+            android:icon="@drawable/organization128"
             android:title="@string/products_categories" />
         <item
             android:id="@+id/consumer_nav_transactions"
-            android:icon="@drawable/transactions"
+            android:icon="@drawable/transactions128"
             android:title="@string/transactions" />
         <item
+            android:id="@+id/consumer_nav_profile"
+            android:icon="@drawable/user128"
+            android:title="@string/profile" />
+        <item
             android:id="@+id/consumer_nav_settings"
-            android:icon="@drawable/settings"
+            android:icon="@drawable/settings128"
             android:title="@string/settings" />
         <item
             android:id="@+id/consumer_nav_about"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/about128"
             android:title="@string/about" />
     </group>
 

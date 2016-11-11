@@ -1,5 +1,6 @@
 package com.mitranetpars.sportmagazine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -44,7 +45,14 @@ public class ProducerMainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                drawerView.bringToFront();
+                drawerView.requestLayout();
+            }
+        };
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -113,15 +121,19 @@ public class ProducerMainActivity extends AppCompatActivity
         if (id == R.id.producer_nav_home) {
 
         } else if (id == R.id.producer_nav_retail_purchase) {
-
+            Intent retailIntent = new Intent(this, ProducerProductActivity.class);
+            this.startActivity(retailIntent);
         } else if (id == R.id.producer_nav_wholesale_purchase) {
-
+            Intent wholesaleIntent = new Intent(this, ProducerProductActivity.class);
+            this.startActivity(wholesaleIntent);
         } else if (id == R.id.producer_nav_profile) {
-
+            Intent profileIntent = new Intent(this, ProfileActivity.class);
+            this.startActivity(profileIntent);
         } else if (id == R.id.producer_nav_settings) {
 
         } else if (id == R.id.producer_nav_about) {
-
+            Intent aboutIntent = new Intent(this, AboutActivity.class);
+            this.startActivity(aboutIntent);
         } else if (id == R.id.producer_nav_eula) {
 
         }

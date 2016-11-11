@@ -1,5 +1,6 @@
 package com.mitranetpars.sportmagazine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -45,7 +46,14 @@ public class ConsumerMainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                drawerView.bringToFront();
+                drawerView.requestLayout();
+            }
+        };
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -105,7 +113,6 @@ public class ConsumerMainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -117,10 +124,15 @@ public class ConsumerMainActivity extends AppCompatActivity
 
         } else if (id == R.id.consumer_nav_transactions) {
 
-        } else if (id == R.id.consumer_nav_settings) {
+        } else if (id == R.id.consumer_nav_profile) {
+            Intent profileIntent = new Intent(this, ProfileActivity.class);
+            this.startActivity(profileIntent);
+        }
+        else if (id == R.id.consumer_nav_settings) {
 
         } else if (id == R.id.consumer_nav_about) {
-
+            Intent aboutIntent = new Intent(this, AboutActivity.class);
+            this.startActivity(aboutIntent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
