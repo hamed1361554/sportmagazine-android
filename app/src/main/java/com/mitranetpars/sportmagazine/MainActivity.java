@@ -1,17 +1,21 @@
 package com.mitranetpars.sportmagazine;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mitranetpars.sportmagazine.common.SecurityEnvironment;
 import com.mitranetpars.sportmagazine.common.dto.security.User;
+import com.squareup.picasso.Picasso;
 
 import at.markushi.ui.CircleButton;
 
@@ -26,13 +30,20 @@ public class MainActivity extends AppCompatActivity {
     private CircleButton homeButton;
 
     private TextView welcomeTextView;
-
+    private View mContentView;
+    private ImageView splash;
+    private boolean isSplashShowing;
     private boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        this.isSplashShowing = true;
+        this.mContentView = findViewById(R.id.main_activity_relative_layout).getRootView();
+        this.splash = (ImageView) findViewById(R.id.splash_image_view);
+        Picasso.with(getApplicationContext()).load(R.drawable.logo720).into(this.splash);
 
         this.consumerRadioButton = (RadioButton) findViewById(R.id.consumerRadioButton);
         this.producerRadioButton = (RadioButton) findViewById(R.id.producerRadioButton);
@@ -72,19 +83,68 @@ public class MainActivity extends AppCompatActivity {
         });
 
         this.welcomeTextView = (TextView) findViewById(R.id.welcomeTextView);
+
+        this.splash.bringToFront();
+        this.fadeSplashOut();
+    }
+
+    private void fadeSplashOut() {
+        // Set the content view to 0% opacity but visible, so that it is visible
+        // (but fully transparent) during the animation.
+        mContentView.setAlpha(0f);
+        mContentView.setVisibility(View.VISIBLE);
+
+        // Animate the content view to 100% opacity, and clear any animation
+        // listener set on the view.
+        int mShortAnimationDuration = 5000;
+        mContentView.animate()
+                .alpha(1f)
+                .setDuration(mShortAnimationDuration)
+                .setListener(null);
+
+        // Animate the loading view to 0% opacity. After the animation ends,
+        // set its visibility to GONE as an optimization step (it won't
+        // participate in layout passes, etc.)
+        splash.animate()
+                .alpha(0f)
+                .setDuration(mShortAnimationDuration)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        splashAnimationEnd();
+                    }
+                });
+    }
+
+    private void splashAnimationEnd(){
+        splash.setVisibility(View.GONE);
+        this.isSplashShowing = false;
+        this.setControlsVisibility();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
+        this.setControlsVisibility();
+    }
+
+    private void setControlsVisibility() {
+        this.welcomeTextView.setText("");
+        this.loginButton.setVisibility(View.INVISIBLE);
+        this.signinButton.setVisibility(View.INVISIBLE);
+        this.consumerRadioButton.setVisibility(View.INVISIBLE);
+        this.producerRadioButton.setVisibility(View.INVISIBLE);
+        this.welcomeTextView.setVisibility(View.INVISIBLE);
+        this.exitButton.setVisibility(View.INVISIBLE);
+        this.homeButton.setVisibility(View.INVISIBLE);
+
+        if (this.isSplashShowing) {
+            return;
+        }
+
         if (SecurityEnvironment.<SecurityEnvironment>getInstance().getLoginTicket() != null &&
                 SecurityEnvironment.<SecurityEnvironment>getInstance().getLoginTicket() != "") {
-            this.loginButton.setVisibility(View.INVISIBLE);
-            this.signinButton.setVisibility(View.INVISIBLE);
-            this.consumerRadioButton.setVisibility(View.INVISIBLE);
-            this.producerRadioButton.setVisibility(View.INVISIBLE);
-
             this.welcomeTextView.setText(getString(R.string.welcometext,
                     SecurityEnvironment.<SecurityEnvironment>getInstance().getUserName()));
             this.welcomeTextView.setVisibility(View.VISIBLE);
@@ -95,11 +155,6 @@ public class MainActivity extends AppCompatActivity {
             this.signinButton.setVisibility(View.VISIBLE);
             this.consumerRadioButton.setVisibility(View.VISIBLE);
             this.producerRadioButton.setVisibility(View.VISIBLE);
-
-            this.welcomeTextView.setText("");
-            this.welcomeTextView.setVisibility(View.INVISIBLE);
-            this.exitButton.setVisibility(View.INVISIBLE);
-            this.homeButton.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -133,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (producerRadioButton.isChecked()){
-            Intent signinIntent = new Intent(MainActivity.this, ProducerSigninActivity.class);
+            Intent signinIntent = new Intent(MainActivity.this, ProducerPackageSelectionActivity.class);
             MainActivity.this.startActivity(signinIntent);
         }
     }

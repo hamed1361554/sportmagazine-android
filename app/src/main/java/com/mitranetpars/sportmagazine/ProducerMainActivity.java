@@ -12,9 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
@@ -64,6 +66,10 @@ public class ProducerMainActivity extends AppCompatActivity
                     .image(urlMaps.get(key));
             sliderShow.addSlider(textSliderView);
         }
+
+        View header = navigationView.getHeaderView(0);
+        ImageView logoImageView = (ImageView) header.findViewById(R.id.producer_nav_header_imageView);
+        Picasso.with(getApplicationContext()).load(R.drawable.logo240).into(logoImageView);
     }
 
     @Override

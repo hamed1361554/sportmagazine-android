@@ -22,7 +22,7 @@ android {
                     def formattedDate = new Date().format('yyyyMMddHHmmss')
                     def newName = output.outputFile.name
                     newName = newName.replace("app-", "$project.ext.appName-") //"MyAppName" -> I set my app variables in the root project
-                    newName = newName.replace("-release", "-release" + formattedDate)
+                    newName = newName.replace("-release", ".v1.2")
                     //noinspection GroovyAssignabilityCheck
                     output.outputFile = new File(output.outputFile.parent, newName)
                 }
@@ -49,4 +49,5 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.slider:library:1.1.5@aar'
     compile 'com.android.support:design:23.+'
+    compile 'ch.acra:acra:4.9.0'
 }

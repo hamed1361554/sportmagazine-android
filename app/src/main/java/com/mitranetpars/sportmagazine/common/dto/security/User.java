@@ -20,6 +20,7 @@ public class User {
     public int producer_division;
     public String producer_division_name;
     public String ticket;
+    public int production_package;
 
     public void setUserName(String name){
         this.user_name = name;
@@ -123,5 +124,13 @@ public class User {
 
     public String getTicket() {
         return ticket;
+    }
+
+    public void setProductionPackage(int type){
+        this.production_package = type;
+    }
+
+    public int getProductionPackage(){
+        return this.production_package;
     }
 }

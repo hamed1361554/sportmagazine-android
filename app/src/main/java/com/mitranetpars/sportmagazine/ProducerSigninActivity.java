@@ -28,6 +28,8 @@ public class ProducerSigninActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private EditText reEnterPasswordEditText;
 
+    private int productionPackageType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +68,13 @@ public class ProducerSigninActivity extends AppCompatActivity {
         this.producerDivisionEditText = (EditText)findViewById(R.id.input_producer_division_name);
         this.passwordEditText = (EditText)findViewById(R.id.input_producer_password);
         this.reEnterPasswordEditText = (EditText)findViewById(R.id.input_producer_reEnterPassword);
+
+        Bundle extraBundle = getIntent().getExtras();
+        if (extraBundle != null){
+            this.productionPackageType = extraBundle.getInt("package_type", 0);
+        } else {
+            this.productionPackageType = 0;
+        }
     }
 
     private void signin() {
@@ -95,7 +104,8 @@ public class ProducerSigninActivity extends AppCompatActivity {
 
         try {
             SecurityServicesI.getInstance().createProducer(userName, password, fullName, email, mobile,
-                    address, phone, nationalCode, producerDivision, producerDivisionName);
+                    address, phone, nationalCode, producerDivision, producerDivisionName,
+                    this.productionPackageType);
             Toast.makeText(getApplicationContext(), getString(R.string.CreationSuccessful), Toast.LENGTH_LONG).show();
             new android.os.Handler().postDelayed(
                     new Runnable() {

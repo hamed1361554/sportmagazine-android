@@ -95,7 +95,8 @@ public class SecurityServicesI {
     }
 
     public User createProducer(String userName, String password, String fullName, String email, String mobile, String address,
-                               String phone, String nationalCode, int producerDivision, String producerDivisionName) throws Exception {
+                               String phone, String nationalCode, int producerDivision, String producerDivisionName,
+                               int productionPackage) throws Exception {
         User user = new User();
         user.setUserName(userName);
         user.setPassword(password);
@@ -108,6 +109,7 @@ public class SecurityServicesI {
         user.setProductionType(User.PRODUCER);
         user.setProducerDivision(producerDivision);
         user.setProducerDivisionName(producerDivisionName);
+        user.setProductionPackage(productionPackage);
 
         return createUser(user);
     }

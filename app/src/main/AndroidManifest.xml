@@ -12,49 +12,59 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:name=".SportMagazineApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo60"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:largeHeap="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:configChanges="layoutDirection|locale">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:configChanges="layoutDirection|locale"/>
         <activity
             android:name=".SigninActivity"
             android:label="@string/title_activity_signin"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:configChanges="layoutDirection|locale"/>
         <activity
             android:name=".ProducerPackageSelectionActivity"
             android:label="@string/title_activity_select_consumer_package"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:configChanges="layoutDirection|locale"/>
         <activity android:name=".ProducerSigninActivity"
             android:label="@string/title_activity_signin"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:configChanges="layoutDirection|locale"/>
         <activity android:name=".ProducerProductActivity"
             android:label="@string/title_actitvity_producer_product"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:configChanges="layoutDirection|locale"/>
         <activity
             android:name=".ProducerMainActivity"
             android:label="@string/title_activity_producer_main"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="layoutDirection|locale"/>
         <activity
             android:name=".ConsumerMainActivity"
             android:label="@string/title_activity_consumer_main"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="layoutDirection|locale"/>
     </application>
 
 </manifest>
