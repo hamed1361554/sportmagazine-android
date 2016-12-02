@@ -1,9 +1,12 @@
 package com.mitranetpars.sportmagazine;
 
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -22,8 +25,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
+import at.markushi.ui.CircleButton;
+
 public class ConsumerMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private CircleButton retailButton;
 
     private SliderLayout sliderShow;
     private ViewPager postsViewPager;
@@ -39,8 +46,7 @@ public class ConsumerMainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                showShoppingCart();
             }
         });
 
@@ -78,7 +84,15 @@ public class ConsumerMainActivity extends AppCompatActivity
 
         View header = navigationView.getHeaderView(0);
         ImageView logoImageView = (ImageView) header.findViewById(R.id.consumer_nav_header_imageView);
-        Picasso.with(getApplicationContext()).load(R.drawable.logo240).into(logoImageView);
+        Picasso.with(this).load(R.drawable.logo240).into(logoImageView);
+
+        this.retailButton = (CircleButton) findViewById(R.id.consumer_retail_purchase_button);
+        this.retailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showProductsList();
+            }
+        });
     }
 
     @Override
@@ -121,7 +135,7 @@ public class ConsumerMainActivity extends AppCompatActivity
         if (id == R.id.consumer_nav_home) {
             // Handle the camera action
         } else if (id == R.id.consumer_nav_products_categories) {
-
+            this.showProductsList();
         } else if (id == R.id.consumer_nav_transactions) {
 
         } else if (id == R.id.consumer_nav_profile) {
@@ -138,5 +152,23 @@ public class ConsumerMainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void showProductsList() {
+        Fragment fragment = new ProductsListFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.addToBackStack(null);
+        transaction.replace(R.id.consumer_main_frame_container, fragment, null);
+        transaction.commitAllowingStateLoss();
+    }
+
+    private void showShoppingCart() {
+        Fragment fragment = new CartListFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.addToBackStack(null);
+        transaction.replace(R.id.consumer_main_frame_container, fragment, null);
+        transaction.commitAllowingStateLoss();
     }
 }

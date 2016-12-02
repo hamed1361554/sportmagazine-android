@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,11 +10,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.mitranetpars.sportmagazine.ProducerProductActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/producer_product_properties_linear_layout"
-        android:orientation="horizontal">
+        android:id="@+id/first_producer_product_properties_linear_layout"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -42,7 +47,7 @@
                 <EditText android:id="@+id/input_producer_product_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
+                    android:inputType="number"
                     android:hint="@string/producer_product_price" />
             </android.support.design.widget.TextInputLayout>
 
@@ -53,6 +58,7 @@
                 android:layout_height="match_parent" />
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight=".5"
@@ -62,12 +68,13 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight=".4"
+                android:layout_weight=".75"
                 android:id="@+id/producer_product_image"/>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight=".6">
+                android:layout_weight=".25">
 
                 <Button
                     android:layout_width="match_parent"
@@ -85,13 +92,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@id/producer_product_properties_linear_layout">
+        android:id="@+id/second_producer_product_properties_linear_layout"
+        android:layout_below="@id/first_producer_product_properties_linear_layout">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
+
             <EditText android:id="@+id/input_producer_product_sizes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -120,8 +129,8 @@
             <EditText android:id="@+id/input_producer_product_counter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:hint="@string/producer_product_counter" />
+                android:hint="@string/producer_product_counter"
+                android:inputType="number" />
         </android.support.design.widget.TextInputLayout>
 
         <com.satsuware.usefulviews.LabelledSpinner
@@ -148,30 +157,31 @@
                 android:hint="@string/producer_product_comment" />
         </android.support.design.widget.TextInputLayout>
 
-        <LinearLayout
+        <RadioGroup
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
-
             <RadioButton
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:text="@string/producer_product_retail_type"
+                android:layout_gravity="center"
                 android:id="@+id/producer_product_retail_type" />
 
             <RadioButton
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
+                android:layout_gravity="center"
                 android:text="@string/producer_product_wholesale_type"
                 android:id="@+id/producer_product_wholesale_type" />
-
-        </LinearLayout>
+        </RadioGroup>
 
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="129dp"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
             android:id="@+id/producer_product_colors_list">
         </ListView>
 
@@ -183,4 +193,19 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/third_producer_product_properties_linear_layout"
+        android:layout_below="@id/second_producer_product_properties_linear_layout"
+        android:orientation="horizontal">
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_producer_product"
+        android:text="@string/add_product" />
+    </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

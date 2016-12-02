@@ -25,6 +25,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/consumer_main_frame_container"
         android:orientation="vertical">
 
         <LinearLayout
@@ -96,7 +97,7 @@
                 android:text="@string/retail_purchase"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:id="@+id/producer_retail_purchase_button"
+                android:id="@+id/consumer_retail_purchase_button"
                 android:src="@drawable/retail128"
                 app:cb_color="#99CC00"
                 app:cb_pressedRingWidth="8dip"

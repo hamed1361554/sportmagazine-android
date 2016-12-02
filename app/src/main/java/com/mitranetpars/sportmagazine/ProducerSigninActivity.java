@@ -134,6 +134,7 @@ public class ProducerSigninActivity extends AppCompatActivity {
     }
 
     public void onSignupSuccess() {
+        Toast.makeText(getBaseContext(), R.string.acvtivation_email_sent, Toast.LENGTH_LONG).show();
         this.signinButton.setEnabled(true);
         setResult(RESULT_OK, null);
         finish();
@@ -209,14 +210,14 @@ public class ProducerSigninActivity extends AppCompatActivity {
             nationalCodeEditText.setError(null);
         }
 
-        if (mobile.isEmpty() || mobile.length()!=10) {
+        if (mobile.isEmpty() || !(mobile.length()==10 || (mobile.length() == 11 && mobile.startsWith("0")))) {
             mobileEditText.setError(getString(R.string.invalid_mobile));
             valid = false;
         } else {
             mobileEditText.setError(null);
         }
 
-        if (phone.isEmpty() || phone.length()!=10) {
+        if (phone.isEmpty() || !(phone.length()==10 || (phone.length() == 11 && phone.startsWith("0")))) {
             phoneEditText.setError(getString(R.string.invalid_phone));
             valid = false;
         } else {

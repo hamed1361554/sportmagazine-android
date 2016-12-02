@@ -5,4 +5,35 @@
         <item>شرکت</item>
         <item>فروشگاه</item>
     </string-array>
+    <string-array name="product_category_items">
+        <item>لوازم بدنسازی و پاورلیفتینگ</item>
+        <item>پوشاک</item>
+        <item>چاپ روی لیاس ورزشی</item>
+        <item>کفش ورزشی</item>
+        <item>چخش</item>
+        <item>لوازم رزمی</item>
+        <item>کوله و ساک ورزشی</item>
+        <item>لوازم الکترونیکی</item>
+        <item>چمن مصنوعی</item>
+        <item>کفپوش های ورزشی</item>
+        <item>تجهیز، نصب و راه اندازی اماکن</item>
+        <item>لوازم اسکیت و اسکی</item>
+        <item>لوازم کوهنوری، صخره نوردی و سنگ نوردی</item>
+        <item>انواع میز و راکت</item>
+        <item>انواع توپ و تور</item>
+        <item>لوازم و تجهیزات شنا</item>
+        <item>انواع دوچرخه و تجهیرات دوجرخه</item>
+        <item>لوازم شکار</item>
+        <item>لوازم تیر و کمان</item>
+        <item>لوازم و تحهیزات ژیمناستیک</item>
+    </string-array>
+    <string-array name="product_age_category_items">
+        <item>بزرگسال</item>
+        <item>کودک و نوجوان</item>
+    </string-array>
+    <string-array name="product_gender_items">
+        <item>مردانه</item>
+        <item>زنانه</item>
+        <item>مردانه/زنانه</item>
+    </string-array>
 </resources>

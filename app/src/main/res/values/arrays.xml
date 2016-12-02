@@ -5,4 +5,35 @@
         <item>Corporation</item>
         <item>Store</item>
     </string-array>
+    <string-array name="product_category_items">
+        <item>Body Building &amp; Power Lifting</item>
+        <item>Clothing</item>
+        <item>Sport Suits Printing</item>
+        <item>Sneakers</item>
+        <item>Distribution</item>
+        <item>Martial Supplies</item>
+        <item>Sport Backpacks &amp; Carriage</item>
+        <item>Electronic Supplies</item>
+        <item>Artificial Grass</item>
+        <item>Sport Parkets</item>
+        <item>Equip, Install &amp; Establish Facilities</item>
+        <item>Skate &amp; Skiing</item>
+        <item>Climbing, Boldering &amp; Hiking</item>
+        <item>Rockets &amp; Tables</item>
+        <item>Balls &amp; Tours</item>
+        <item>Swimming Supplies</item>
+        <item>Cycling Supplies</item>
+        <item>Hunting Supplies</item>
+        <item>Bows &amp; Arrows</item>
+        <item>Gymnastic Supplies</item>
+    </string-array>
+    <string-array name="product_age_category_items">
+        <item>Adult</item>
+        <item>Children &amp; Teenagers</item>
+    </string-array>
+    <string-array name="product_gender_items">
+        <item>Men</item>
+        <item>Women</item>
+        <item>All</item>
+    </string-array>
 </resources>

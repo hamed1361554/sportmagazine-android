@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,10 +24,14 @@ import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
+import at.markushi.ui.CircleButton;
+
 public class ProducerMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private SliderLayout sliderShow;
+    private CircleButton retailPurchase;
+    private CircleButton wholesalePurchase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +45,7 @@ public class ProducerMainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                showShoppingCart();
             }
         });
 
@@ -77,7 +83,24 @@ public class ProducerMainActivity extends AppCompatActivity
 
         View header = navigationView.getHeaderView(0);
         ImageView logoImageView = (ImageView) header.findViewById(R.id.producer_nav_header_imageView);
-        Picasso.with(getApplicationContext()).load(R.drawable.logo240).into(logoImageView);
+        Picasso.with(this).load(R.drawable.logo240).into(logoImageView);
+
+        this.retailPurchase = (CircleButton) findViewById(R.id.producer_retail_purchase_button);
+        this.wholesalePurchase = (CircleButton) findViewById(R.id.producer_wholesale_purchase_button);
+
+        this.retailPurchase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showProductsList();
+            }
+        });
+
+        this.wholesalePurchase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showProductsList();
+            }
+        });
     }
 
     @Override
@@ -105,7 +128,9 @@ public class ProducerMainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.producer_action_add_product) {
+            Intent productIntent = new Intent(this, ProducerProductActivity.class);
+            this.startActivity(productIntent);
             return true;
         }
 
@@ -121,11 +146,9 @@ public class ProducerMainActivity extends AppCompatActivity
         if (id == R.id.producer_nav_home) {
 
         } else if (id == R.id.producer_nav_retail_purchase) {
-            Intent retailIntent = new Intent(this, ProducerProductActivity.class);
-            this.startActivity(retailIntent);
+            showProductsList();
         } else if (id == R.id.producer_nav_wholesale_purchase) {
-            Intent wholesaleIntent = new Intent(this, ProducerProductActivity.class);
-            this.startActivity(wholesaleIntent);
+            showProductsList();
         } else if (id == R.id.producer_nav_profile) {
             Intent profileIntent = new Intent(this, ProfileActivity.class);
             this.startActivity(profileIntent);
@@ -147,5 +170,23 @@ public class ProducerMainActivity extends AppCompatActivity
     protected void onStop() {
         this.sliderShow.stopAutoCycle();
         super.onStop();
+    }
+
+    private void showProductsList() {
+        Fragment fragment = new ProductsListFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.addToBackStack(null);
+        transaction.replace(R.id.consumer_main_frame_container, fragment, null);
+        transaction.commitAllowingStateLoss();
+    }
+
+    private void showShoppingCart() {
+        Fragment fragment = new CartListFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.addToBackStack(null);
+        transaction.replace(R.id.consumer_main_frame_container, fragment, null);
+        transaction.commitAllowingStateLoss();
     }
 }

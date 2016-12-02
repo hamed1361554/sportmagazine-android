@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button loginButton;
     private Button signinButton;
+    private CircleButton logoffButton;
     private CircleButton exitButton;
     private CircleButton homeButton;
 
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         this.isSplashShowing = true;
         this.mContentView = findViewById(R.id.main_activity_relative_layout).getRootView();
         this.splash = (ImageView) findViewById(R.id.splash_image_view);
-        Picasso.with(getApplicationContext()).load(R.drawable.logo720).into(this.splash);
+        Picasso.with(this).load(R.drawable.logo720).into(this.splash);
 
         this.consumerRadioButton = (RadioButton) findViewById(R.id.consumerRadioButton);
         this.producerRadioButton = (RadioButton) findViewById(R.id.producerRadioButton);
@@ -79,6 +80,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 homeButton_onClick(v);
+            }
+        });
+
+        this.logoffButton = (CircleButton) findViewById(R.id.logoutbutton);
+        this.logoffButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logoffButton_onClick(v);
             }
         });
 
@@ -138,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
         this.welcomeTextView.setVisibility(View.INVISIBLE);
         this.exitButton.setVisibility(View.INVISIBLE);
         this.homeButton.setVisibility(View.INVISIBLE);
+        this.logoffButton.setVisibility(View.INVISIBLE);
 
         if (this.isSplashShowing) {
             return;
@@ -150,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
             this.welcomeTextView.setVisibility(View.VISIBLE);
             this.exitButton.setVisibility(View.VISIBLE);
             this.homeButton.setVisibility(View.VISIBLE);
+            this.logoffButton.setVisibility(View.VISIBLE);
         } else {
             this.loginButton.setVisibility(View.VISIBLE);
             this.signinButton.setVisibility(View.VISIBLE);
@@ -191,6 +202,13 @@ public class MainActivity extends AppCompatActivity {
             Intent signinIntent = new Intent(MainActivity.this, ProducerPackageSelectionActivity.class);
             MainActivity.this.startActivity(signinIntent);
         }
+    }
+
+    private void logoffButton_onClick(View v) {
+        SecurityEnvironment.<SecurityEnvironment>getInstance().setLoginTicket("");
+        SecurityEnvironment.<SecurityEnvironment>getInstance().setUserName("");
+        SecurityEnvironment.<SecurityEnvironment>getInstance().setUser(null);
+        this.setControlsVisibility();
     }
 
     @Override

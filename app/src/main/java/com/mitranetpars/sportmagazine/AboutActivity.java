@@ -15,6 +15,6 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about);
 
         ImageView imageView = (ImageView) findViewById(R.id.aboutus_imageView_logo);
-        Picasso.with(getApplicationContext()).load(R.drawable.logo720).into(imageView);
+        Picasso.with(this).load(R.drawable.logo720).into(imageView);
     }
 }
