@@ -177,7 +177,7 @@ public class ProducerMainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.addToBackStack(null);
-        transaction.replace(R.id.consumer_main_frame_container, fragment, null);
+        transaction.replace(R.id.producer_main_frame_container, fragment, null);
         transaction.commitAllowingStateLoss();
     }
 
@@ -186,7 +186,7 @@ public class ProducerMainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.addToBackStack(null);
-        transaction.replace(R.id.consumer_main_frame_container, fragment, null);
+        transaction.replace(R.id.producer_main_frame_container, fragment, null);
         transaction.commitAllowingStateLoss();
     }
 }
