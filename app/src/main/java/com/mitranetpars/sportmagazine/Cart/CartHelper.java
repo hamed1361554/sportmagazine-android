@@ -1,4 +1,4 @@
-package com.mitranetpars.sportmagazine.Cart;
+package com.mitranetpars.sportmagazine.cart;
 
 /**
  * A helper class to retrieve the static shopping cart. Call {@code getCart()} to retrieve the shopping cart before you perform any operation on the shopping cart.

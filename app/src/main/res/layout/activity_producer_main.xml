@@ -82,6 +82,7 @@
 
         <at.markushi.ui.CircleButton
             android:text="@string/wholesale_purchase"
+            android:contentDescription="@string/wholesale_purchase"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:id="@+id/producer_wholesale_purchase_button"
@@ -96,6 +97,7 @@
 
         <at.markushi.ui.CircleButton
             android:text="@string/retail_purchase"
+            android:contentDescription="@string/retail_purchase"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:id="@+id/producer_retail_purchase_button"

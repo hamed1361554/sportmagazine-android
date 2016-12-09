@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.chiralcode.colorpicker.ColorPickerDialog;
 import com.chiralcode.colorpicker.ColorPickerDialog.OnColorSelectedListener;
-import com.mitranetpars.sportmagazine.R;
+import com.chiralcode.colorpicker.R;
 
 public class DemoActivity extends ListActivity {
 

@@ -1,7 +1,9 @@
 package com.mitranetpars.sportmagazine;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +17,11 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         User user = SecurityEnvironment.<SecurityEnvironment>getInstance().getUser();
 
@@ -39,5 +46,18 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
         findViewById(R.id.user_profile_photo).bringToFront();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == android.R.id.home){
+            this.finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

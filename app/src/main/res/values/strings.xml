@@ -78,13 +78,13 @@
     <string name="profile">Profile</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
-    <string name="eula">EULA</string>
+    <string name="eula">End User License Agreement</string>
     <string name="title_activity_consumer_main">Consumer ....</string>
     <string name="products_categories">Products Categories</string>
     <string name="transactions">Transactions</string>
     <string name="user_not_found">User not found.</string>
     <string name="welcometext">Welcome %s</string>
-    <string name="exit">Exit</string>
+    <string name="exit">Application Exit</string>
     <string name="click_back_again_to_eit">Please click BACK again to exit</string>
     <string name="invalid_national_code">National code is invalid.</string>
     <string name="invalid_phone">Phone is not valid.</string>
@@ -115,9 +115,9 @@
     <string name="ok">Ok</string>
     <string name="pref_name">Pick a color</string>
     <string name="pref_summary">Dialog Preference with Color Picker.</string>
-    <string name="create_product_succeeded" >Product creation succeeded.</string>
+    <string name="create_product_succeeded">Product creation succeeded.</string>
     <string name="processing_image_error">Processing image error: %s</string>
-    <string name="logout">Logout</string>
+    <string name="logout">User Logout</string>
     <string name="product_search">Product Search</string>
     <string name="advanced_product_search">Advanced Product Search</string>
     <string name="load_products_another_page">Load Another Products Page</string>
@@ -125,4 +125,11 @@
     <string name="quantity_out_of_range">Quantity is out of range</string>
     <string name="cart_products_purchase">Purchase</string>
     <string name="acvtivation_email_sent">Activation email has been sent.</string>
+    <string name="buy">Buy</string>
+    <string name="invoice">Invoice</string>
+    <string name="invoice_date">Invoice Date</string>
+    <string name="invoices_search">Invoices Search</string>
+    <string name="load_invoices_another_page">Load more ...</string>
+    <string name="http_www_sportmagazine_ir"><a href="http://www.sportmagazine.ir">Sport Magazine</a></string>
+    <string name="separation_hint">Consider separating with dash or comma.</string>
 </resources>

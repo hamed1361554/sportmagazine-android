@@ -3,7 +3,7 @@ package com.chiralcode.colorpicker.demo;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
-import com.mitranetpars.sportmagazine.R;
+import com.chiralcode.colorpicker.R;
 
 public class PreferencesActivity extends PreferenceActivity {
 

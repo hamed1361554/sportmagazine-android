@@ -26,6 +26,10 @@
             android:id="@+id/consumer_nav_about"
             android:icon="@drawable/about128"
             android:title="@string/about" />
+        <item
+            android:id="@+id/consumer_nav_eula"
+            android:icon="@drawable/eula128"
+            android:title="@string/eula" />
     </group>
 
 </menu>

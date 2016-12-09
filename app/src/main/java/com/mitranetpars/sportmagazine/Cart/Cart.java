@@ -1,4 +1,4 @@
-package com.mitranetpars.sportmagazine.Cart;
+package com.mitranetpars.sportmagazine.cart;
 
 import java.io.Serializable;
 import java.util.HashMap;

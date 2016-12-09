@@ -1,6 +1,4 @@
-package com.mitranetpars.sportmagazine.Cart;
-
-import com.mitranetpars.sportmagazine.R;
+package com.mitranetpars.sportmagazine.cart;
 
 /**
  * Throw this exception to indicate invalid quantity to be used on a shopping cart product.

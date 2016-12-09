@@ -1,4 +1,4 @@
-package com.mitranetpars.sportmagazine.Cart;
+package com.mitranetpars.sportmagazine.cart;
 
 /**
  * Implements this interface for any product which can be added to shopping cart

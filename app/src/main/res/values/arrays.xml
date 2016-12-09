@@ -30,6 +30,7 @@
     <string-array name="product_age_category_items">
         <item>Adult</item>
         <item>Children &amp; Teenagers</item>
+        <item>All</item>
     </string-array>
     <string-array name="product_gender_items">
         <item>Men</item>

@@ -19,6 +19,7 @@
 
         <at.markushi.ui.CircleButton
             android:text="@string/product_search"
+            android:contentDescription="@string/product_search"
             android:layout_width="0dp"
             android:layout_height="32dp"
             android:layout_weight="0.1"
@@ -29,6 +30,7 @@
 
         <at.markushi.ui.CircleButton
             android:text="@string/advanced_product_search"
+            android:contentDescription="@string/advanced_product_search"
             android:layout_width="0dp"
             android:layout_height="32dp"
             android:layout_weight="0.1"
@@ -42,13 +44,14 @@
     <ListView
         android:id="@+id/products_listview"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@android:color/transparent"
         android:divider="#f55" />
 
     <at.markushi.ui.CircleButton
         android:text="@string/load_products_another_page"
+        android:contentDescription="@string/load_products_another_page"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:id="@+id/load_products_another_page_button"

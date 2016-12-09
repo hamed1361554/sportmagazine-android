@@ -3,12 +3,10 @@ package com.mitranetpars.sportmagazine;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,10 +14,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.mitranetpars.sportmagazine.widgets.TooltipWindow;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -27,11 +27,12 @@ import java.util.HashMap;
 import at.markushi.ui.CircleButton;
 
 public class ProducerMainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnLongClickListener {
 
     private SliderLayout sliderShow;
     private CircleButton retailPurchase;
     private CircleButton wholesalePurchase;
+    private TooltipWindow tipWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,16 +92,18 @@ public class ProducerMainActivity extends AppCompatActivity
         this.retailPurchase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showProductsList();
+                showProductsList(0);
             }
         });
-
+        this.retailPurchase.setOnLongClickListener(this);
         this.wholesalePurchase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showProductsList();
+                showProductsList(1);
             }
         });
+        this.wholesalePurchase.setOnLongClickListener(this);
+        this.tipWindow = new TooltipWindow(ProducerMainActivity.this);
     }
 
     @Override
@@ -146,9 +149,9 @@ public class ProducerMainActivity extends AppCompatActivity
         if (id == R.id.producer_nav_home) {
 
         } else if (id == R.id.producer_nav_retail_purchase) {
-            showProductsList();
+            showProductsList(0);
         } else if (id == R.id.producer_nav_wholesale_purchase) {
-            showProductsList();
+            showProductsList(1);
         } else if (id == R.id.producer_nav_profile) {
             Intent profileIntent = new Intent(this, ProfileActivity.class);
             this.startActivity(profileIntent);
@@ -158,7 +161,10 @@ public class ProducerMainActivity extends AppCompatActivity
             Intent aboutIntent = new Intent(this, AboutActivity.class);
             this.startActivity(aboutIntent);
         } else if (id == R.id.producer_nav_eula) {
-
+            Intent eulaIntent = new Intent(this, EulaActivity.class);
+            this.startActivity(eulaIntent);
+        } else if (id == R.id.producer_nav_transactions){
+            showInvoicesList();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -172,8 +178,9 @@ public class ProducerMainActivity extends AppCompatActivity
         super.onStop();
     }
 
-    private void showProductsList() {
-        Fragment fragment = new ProductsListFragment();
+    private void showProductsList(int wholesaleType) {
+        ProductsListFragment fragment = new ProductsListFragment();
+        fragment.setWholesaleType(wholesaleType);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.addToBackStack(null);
@@ -188,5 +195,34 @@ public class ProducerMainActivity extends AppCompatActivity
         transaction.addToBackStack(null);
         transaction.replace(R.id.producer_main_frame_container, fragment, null);
         transaction.commitAllowingStateLoss();
+    }
+
+    private void showInvoicesList() {
+        Fragment fragment = new InvoiceListFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.addToBackStack(null);
+        transaction.replace(R.id.producer_main_frame_container, fragment, null);
+        transaction.commitAllowingStateLoss();
+    }
+
+    @Override
+    public boolean onLongClick(View anchor) {
+        if (tipWindow.isTooltipShown()) return false;
+
+        CircleButton c = (CircleButton) anchor;
+        if(c != null) {
+            tipWindow.showToolTip(c);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void onDestroy() {
+        if(tipWindow != null && tipWindow.isTooltipShown())
+            tipWindow.dismissTooltip();
+        super.onDestroy();
     }
 }

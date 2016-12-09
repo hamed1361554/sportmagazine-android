@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -54,6 +56,11 @@ public class ProducerProductActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_producer_product);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         this.nameEditText = (EditText) findViewById(R.id.input_producer_product_name);
         this.priceEditText = (EditText) findViewById(R.id.input_producer_product_price);
@@ -130,6 +137,24 @@ public class ProducerProductActivity extends AppCompatActivity {
         this.categoryLabelledSpinner.getSpinner().setSelection(-1);
         this.ageCategoryLabelledSpinner.getSpinner().setSelection(-1);
         this.genderLabelledSpinner.getSpinner().setSelection(-1);
+
+        this.brandsEditText.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            public void onFocusChange(View v, boolean hasFocus){
+                if(hasFocus)
+                    brandsEditText.setHint("");
+                else
+                    brandsEditText.setHint(R.string.separation_hint);
+            }
+        });
+
+        this.sizesEditText.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            public void onFocusChange(View v, boolean hasFocus){
+                if(hasFocus)
+                    sizesEditText.setHint("");
+                else
+                    sizesEditText.setHint(R.string.separation_hint);
+            }
+        });
     }
 
     @Override
@@ -223,6 +248,9 @@ public class ProducerProductActivity extends AppCompatActivity {
         if (this.wholesaleRadioButton.isChecked()){
             wholesaleType = 1;
         }
+
+        sizes = this.normalize(sizes);
+        brands = this.normalize(brands);
 
         StringBuilder colors = new StringBuilder();
         for (int i = 0; i < this.productColorsListView.getAdapter().getCount(); i++){
@@ -327,7 +355,7 @@ public class ProducerProductActivity extends AppCompatActivity {
             brandsEditText.setError(null);
         }
 
-        if (counter == "") {
+        if (counter == null || counter == "") {
             counterEditText.setError(getString(R.string.invalid_product_counter));
             valid = false;
         } else {
@@ -371,5 +399,22 @@ public class ProducerProductActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+
+    private String normalize(String input){
+        return input.replace("-", ",").replace(";", ",").replace("،", ",").replace("؛", ",");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == android.R.id.home){
+            this.finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

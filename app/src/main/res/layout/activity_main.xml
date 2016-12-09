@@ -61,6 +61,7 @@
 
     <at.markushi.ui.CircleButton
         android:text="@string/exit"
+        android:contentDescription="@string/exit"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:id="@+id/exitbutton"
@@ -76,6 +77,7 @@
 
     <at.markushi.ui.CircleButton
         android:text="@string/home"
+        android:contentDescription="@string/home"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:id="@+id/homebutton"
@@ -107,5 +109,7 @@
         app:cb_color="#99CC00"
         app:cb_pressedRingWidth="8dip"
         android:layout_alignTop="@+id/homebutton"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/logout" />
+
 </RelativeLayout>

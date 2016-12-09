@@ -97,7 +97,7 @@ public class ProductServicesI {
     }
 
     public ArrayList<Product> search(Date fromCreationDate, Date toCreationDate, double fromPrice, double toPrice,
-                                     String name, int categories, int offset, int limit) throws Exception{
+                                     String name, int categories, int wholesaleType, int offset, int limit) throws Exception{
         ProductSearchFilter filter = new ProductSearchFilter();
 
         filter.setTicket(SecurityEnvironment.<SecurityEnvironment>getInstance().getLoginTicket());
@@ -109,6 +109,7 @@ public class ProductServicesI {
         filter.to_price = toPrice;
         filter.name = name;
         filter.categories = categories;
+        filter.wholesale_type = wholesaleType;
 
         filter.__limit__ = limit;
         filter.__offset__ = offset;

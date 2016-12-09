@@ -1,8 +1,10 @@
 package com.mitranetpars.sportmagazine;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -22,6 +24,11 @@ public class ProducerPackageSelectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_producer_package_selection);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         findViewById(R.id.btn_agree_term_of_use_continue).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,5 +86,18 @@ public class ProducerPackageSelectionActivity extends AppCompatActivity {
                                                 this.goldenRadioButtion.isChecked() ? GOLDEN : FREE);
         this.startActivity(continueIntent);
         finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == android.R.id.home){
+            this.finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

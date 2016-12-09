@@ -2,18 +2,23 @@ package com.mitranetpars.sportmagazine.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.mitranetpars.sportmagazine.Cart.CartHelper;
+import com.mitranetpars.sportmagazine.SportMagazineApplication;
+import com.mitranetpars.sportmagazine.cart.CartHelper;
 import com.mitranetpars.sportmagazine.R;
 import com.mitranetpars.sportmagazine.common.dto.product.Product;
 import com.mitranetpars.sportmagazine.utils.ImageUtils;
+import com.mitranetpars.sportmagazine.widgets.ShapedCheckBox;
+import com.satsuware.usefulviews.LabelledSpinner;
 
 import java.util.ArrayList;
 
@@ -36,7 +41,7 @@ public class ProductsListAdapter extends ArrayAdapter<Product> {
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull final ViewGroup parent) {
         ProductHolder holder = null;
         if(convertView == null)
         {
@@ -48,9 +53,14 @@ public class ProductsListAdapter extends ArrayAdapter<Product> {
             holder.holderProductComment = (TextView)convertView.findViewById(R.id.product_list_item_comment);
             holder.holderProductQuantity = (TextView)convertView.findViewById(R.id.product_list_item_quantity_tv);
 
+            holder.sizesLabelledSpinner = (LabelledSpinner)convertView.findViewById(R.id.product_list_size_selector);
+            holder.brandsLabelledSpinner = (LabelledSpinner)convertView.findViewById(R.id.product_list_brand_selector);
+
             holder.addToCart = (ImageView)convertView.findViewById(R.id.product_list_item_add_to_cart);
             holder.plusQuantity = (ImageView)convertView.findViewById(R.id.product_list_item_cart_plus);
             holder.minusQuantity = (ImageView)convertView.findViewById(R.id.product_list_item_cart_minus);
+
+            holder.colorsLinearLayout = (LinearLayout)convertView.findViewById(R.id.product_list_item_additional_colors);
 
             convertView.setTag(holder);
         }
@@ -72,8 +82,28 @@ public class ProductsListAdapter extends ArrayAdapter<Product> {
         holder.addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                View parentView = (View)v.getParent();
                 TextView quantityTextView =
-                        (TextView)(((View)v.getParent()).findViewById(R.id.product_list_item_quantity_tv));
+                        (TextView)parentView.findViewById(R.id.product_list_item_quantity_tv);
+
+                LinearLayout colors =
+                        (LinearLayout) parentView.findViewById(R.id.product_list_item_additional_colors);
+                for (int i = 0; i < colors.getChildCount(); i++){
+                    ShapedCheckBox cb = (ShapedCheckBox) colors.getChildAt(i);
+                    if (cb.isChecked()){
+                        product.SelectedColor = i;
+                        break;
+                    }
+                }
+
+                LabelledSpinner sizesSpinner =
+                        (LabelledSpinner) parentView.findViewById(R.id.product_list_size_selector);
+                product.SelectedSize = sizesSpinner.getSpinner().getSelectedItemPosition();
+
+                LabelledSpinner brandsSpinner =
+                        (LabelledSpinner) parentView.findViewById(R.id.product_list_brand_selector);
+                product.SelectedBrand = brandsSpinner.getSpinner().getSelectedItemPosition();
+
                 CartHelper.getCart().add(product, Integer.parseInt(quantityTextView.getText().toString()));
 
                 quantityTextView.setText(String.valueOf(CartHelper.getCart().getQuantity(product)));
@@ -83,32 +113,136 @@ public class ProductsListAdapter extends ArrayAdapter<Product> {
         holder.plusQuantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                View parentView = (View)v.getParent();
                 TextView quantityTextView =
-                        (TextView)(((View)v.getParent()).findViewById(R.id.product_list_item_quantity_tv));
+                        (TextView)parentView.findViewById(R.id.product_list_item_quantity_tv);
 
                 int newQuantity = Integer.parseInt(quantityTextView.getText().toString()) + 1;
+                if (newQuantity > 999999){
+                    return;
+                }
                 quantityTextView.setText(String.valueOf(newQuantity));
-                CartHelper.getCart().update(product, newQuantity);
+
+                parentView = (View)parentView.getParent();
+                LinearLayout colors =
+                        (LinearLayout) parentView.findViewById(R.id.product_list_item_additional_colors);
+                for (int i = 0; i < colors.getChildCount(); i++){
+                    ShapedCheckBox cb = (ShapedCheckBox) colors.getChildAt(i);
+                    if (cb.isChecked()){
+                        product.SelectedColor = i;
+                        break;
+                    }
+                }
+
+                LabelledSpinner sizesSpinner =
+                        (LabelledSpinner) parentView.findViewById(R.id.product_list_size_selector);
+                product.SelectedSize = sizesSpinner.getSpinner().getSelectedItemPosition();
+
+                LabelledSpinner brandsSpinner =
+                        (LabelledSpinner) parentView.findViewById(R.id.product_list_brand_selector);
+                product.SelectedBrand = brandsSpinner.getSpinner().getSelectedItemPosition();
+
+                if (CartHelper.getCart().getProducts().contains(product)) {
+                    CartHelper.getCart().update(product, newQuantity);
+                }else {
+                    CartHelper.getCart().add(product, newQuantity);
+                }
             }
         });
 
         holder.minusQuantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                View parentView = (View)v.getParent();
                 TextView quantityTextView =
-                        (TextView)(((View)v.getParent()).findViewById(R.id.product_list_item_quantity_tv));
+                        (TextView)parentView.findViewById(R.id.product_list_item_quantity_tv);
 
                 int newQuantity = Integer.parseInt(quantityTextView.getText().toString()) - 1;
                 if (newQuantity < 1){
                     return;
                 }
-
                 quantityTextView.setText(String.valueOf(newQuantity));
-                CartHelper.getCart().update(product, newQuantity);
+
+                parentView = (View)parentView.getParent();
+                LinearLayout colors =
+                        (LinearLayout) parentView.findViewById(R.id.product_list_item_additional_colors);
+                for (int i = 0; i < colors.getChildCount(); i++){
+                    ShapedCheckBox cb = (ShapedCheckBox) colors.getChildAt(i);
+                    if (cb.isChecked()){
+                        product.SelectedColor = i;
+                        break;
+                    }
+                }
+
+                LabelledSpinner sizesSpinner =
+                        (LabelledSpinner) parentView.findViewById(R.id.product_list_size_selector);
+                product.SelectedSize = sizesSpinner.getSpinner().getSelectedItemPosition();
+
+                LabelledSpinner brandsSpinner =
+                        (LabelledSpinner) parentView.findViewById(R.id.product_list_brand_selector);
+                product.SelectedBrand = brandsSpinner.getSpinner().getSelectedItemPosition();
+
+                if (CartHelper.getCart().getProducts().contains(product)) {
+                    CartHelper.getCart().update(product, newQuantity);
+                }else {
+                    CartHelper.getCart().add(product, newQuantity);
+                }
             }
         });
 
+        holder.sizesLabelledSpinner.setItemsArray(product.getSizesArray());
+        holder.brandsLabelledSpinner.setItemsArray(product.getBrandsArray());
+        holder.colorsLinearLayout.removeAllViews();
+        int counter = 0;
+        for (String color: product.getColorsArray()){
+            int c = Integer.parseInt(color);
+            int col = Color.rgb(Color.red(c), Color.green(c), Color.blue(c));
+
+            ShapedCheckBox checkBox = new ShapedCheckBox(SportMagazineApplication.getContext(), null);
+            checkBox.setText("CC");
+            checkBox.setBackgroundColor(col);
+            checkBox.setTextColor(col);
+            checkBox.setTag(color);
+
+            checkBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    colorCheckBoxClicked(v);
+                }
+            });
+
+            holder.colorsLinearLayout.addView(checkBox);
+
+            if (product.SelectedColor >= 0 && product.SelectedColor == counter){
+                checkBox.setChecked(true);
+            }
+
+            counter += 1;
+        }
+
+        if (product.SelectedBrand >= 0){
+            holder.brandsLabelledSpinner.getSpinner().setSelection(product.SelectedBrand);
+        }
+        if (product.SelectedSize >= 0){
+            holder.sizesLabelledSpinner.getSpinner().setSelection(product.SelectedSize);
+        }
+
         return convertView;
+    }
+
+    private void colorCheckBoxClicked(View v){
+        ShapedCheckBox clicked = (ShapedCheckBox) v;
+        if (!clicked.isChecked()) return;
+
+        LinearLayout parent =
+                (LinearLayout) v.getParent();
+
+        for (int i = 0; i < parent.getChildCount(); i++){
+            ShapedCheckBox cb = (ShapedCheckBox) parent.getChildAt(i);
+
+            if (v.getTag() == cb.getTag()) continue;
+            cb.setChecked(false);
+        }
     }
 
     private class ProductHolder
@@ -119,8 +253,13 @@ public class ProductsListAdapter extends ArrayAdapter<Product> {
         TextView holderProductComment;
         TextView holderProductQuantity;
 
+        LabelledSpinner sizesLabelledSpinner;
+        LabelledSpinner brandsLabelledSpinner;
+
         ImageView addToCart;
         ImageView plusQuantity;
         ImageView minusQuantity;
+
+        LinearLayout colorsLinearLayout;
     }
 }

@@ -9,13 +9,14 @@
     <ListView
         android:id="@+id/cart_products_listview"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@android:color/transparent"
         android:divider="#f55" />
 
     <at.markushi.ui.CircleButton
         android:text="@string/cart_products_purchase"
+        android:contentDescription="@string/cart_products_purchase"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:id="@+id/cart_products_purchase"

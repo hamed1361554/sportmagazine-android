@@ -9,11 +9,12 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.chiralcode.colorpicker.MultiColorPicker;
-import com.mitranetpars.sportmagazine.R;
+import com.chiralcode.colorpicker.R;
 
 public class MultiColorPickerActivity extends Activity {
 
     private MultiColorPicker multiColorPicker;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,15 +23,20 @@ public class MultiColorPickerActivity extends Activity {
 
         multiColorPicker = (MultiColorPicker) findViewById(R.id.multiColorPicker);
 
-        Button button = (Button) findViewById(R.id.button_color_picker_multi);
+        button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
+
                 int color = multiColorPicker.getColor();
                 String rgbString = "R: " + Color.red(color) + " B: " + Color.blue(color) + " G: " + Color.green(color);
+
                 Toast.makeText(MultiColorPickerActivity.this, rgbString, Toast.LENGTH_SHORT).show();
+
             }
         });
+
     }
+
 }

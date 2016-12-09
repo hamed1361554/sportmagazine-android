@@ -15,6 +15,7 @@ public class ProductSearchFilter extends CommonDataTransferObject {
     public double to_price;
     public String name;
     public int categories;
+    public int wholesale_type;
 
     public int __offset__;
     public int __limit__;

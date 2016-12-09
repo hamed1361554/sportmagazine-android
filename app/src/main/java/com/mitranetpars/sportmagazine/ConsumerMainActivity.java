@@ -1,26 +1,26 @@
 package com.mitranetpars.sportmagazine;
 
-import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.mitranetpars.sportmagazine.widgets.TooltipWindow;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -28,12 +28,14 @@ import java.util.HashMap;
 import at.markushi.ui.CircleButton;
 
 public class ConsumerMainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnLongClickListener {
 
     private CircleButton retailButton;
 
     private SliderLayout sliderShow;
     private ViewPager postsViewPager;
+
+    private TooltipWindow tipWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +95,9 @@ public class ConsumerMainActivity extends AppCompatActivity
                 showProductsList();
             }
         });
+        this.retailButton.setOnLongClickListener(this);
+
+        this.tipWindow = new TooltipWindow(ConsumerMainActivity.this);
     }
 
     @Override
@@ -137,7 +142,7 @@ public class ConsumerMainActivity extends AppCompatActivity
         } else if (id == R.id.consumer_nav_products_categories) {
             this.showProductsList();
         } else if (id == R.id.consumer_nav_transactions) {
-
+            this.showInvoicesList();
         } else if (id == R.id.consumer_nav_profile) {
             Intent profileIntent = new Intent(this, ProfileActivity.class);
             this.startActivity(profileIntent);
@@ -147,6 +152,9 @@ public class ConsumerMainActivity extends AppCompatActivity
         } else if (id == R.id.consumer_nav_about) {
             Intent aboutIntent = new Intent(this, AboutActivity.class);
             this.startActivity(aboutIntent);
+        } else if (id == R.id.consumer_nav_eula) {
+            Intent eulaIntent = new Intent(this, EulaActivity.class);
+            this.startActivity(eulaIntent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -170,5 +178,35 @@ public class ConsumerMainActivity extends AppCompatActivity
         transaction.addToBackStack(null);
         transaction.replace(R.id.consumer_main_frame_container, fragment, null);
         transaction.commitAllowingStateLoss();
+    }
+
+    private void showInvoicesList(){
+        InvoiceListFragment fragment = new InvoiceListFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragment.setFragmentManager(fragmentManager);
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.addToBackStack(null);
+        transaction.replace(R.id.consumer_main_frame_container, fragment, null);
+        transaction.commitAllowingStateLoss();
+    }
+
+    @Override
+    public boolean onLongClick(View anchor) {
+        if (tipWindow.isTooltipShown()) return false;
+
+        CircleButton c = (CircleButton) anchor;
+        if(c != null) {
+            tipWindow.showToolTip(c);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void onDestroy() {
+        if(tipWindow != null && tipWindow.isTooltipShown())
+            tipWindow.dismissTooltip();
+        super.onDestroy();
     }
 }

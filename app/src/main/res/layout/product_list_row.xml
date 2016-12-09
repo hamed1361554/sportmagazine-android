@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ls="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -104,6 +105,48 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_plus" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/product_list_item_additional_properties"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="7dip"
+            android:layout_marginLeft="7dip"
+            android:layout_marginTop="14dip"
+            android:padding="2dip"
+            android:layout_below="@+id/product_list_item_thumbnail"
+            android:orientation="horizontal">
+
+            <com.satsuware.usefulviews.LabelledSpinner
+                android:id="@+id/product_list_size_selector"
+                ls:labelText="@string/producer_product_sizes"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"/>
+
+            <com.satsuware.usefulviews.LabelledSpinner
+                android:id="@+id/product_list_brand_selector"
+                ls:labelText="@string/producer_product_brands"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/product_list_item_additional_colors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="7dip"
+            android:layout_marginLeft="7dip"
+            android:layout_marginTop="14dip"
+            android:padding="2dip"
+            android:layout_below="@+id/product_list_item_additional_properties"
+            android:orientation="horizontal">
+
         </LinearLayout>
 
     </RelativeLayout>

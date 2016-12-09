@@ -1,6 +1,6 @@
 package com.mitranetpars.sportmagazine.common.dto.product;
 
-import com.mitranetpars.sportmagazine.Cart.Saleable;
+import com.mitranetpars.sportmagazine.cart.Saleable;
 import com.mitranetpars.sportmagazine.common.dto.CommonDataTransferObject;
 
 /**
@@ -21,6 +21,10 @@ public class Product extends CommonDataTransferObject implements Saleable{
     public int wholesale_type;
     public String comment;
     public String image;
+
+    public int SelectedColor = -1;
+    public int SelectedBrand = -1;
+    public int SelectedSize = -1;
 
     public void setID(String id){
         this.id = id;

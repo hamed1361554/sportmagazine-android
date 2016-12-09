@@ -10,15 +10,15 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.mitranetpars.sportmagazine.Cart.CartHelper;
-import com.mitranetpars.sportmagazine.Cart.Saleable;
+import com.mitranetpars.sportmagazine.cart.CartHelper;
+import com.mitranetpars.sportmagazine.cart.Saleable;
 import com.mitranetpars.sportmagazine.adapters.ProductsListAdapter;
 import com.mitranetpars.sportmagazine.common.dto.invoice.InvoiceItem;
 import com.mitranetpars.sportmagazine.common.dto.product.Product;
 import com.mitranetpars.sportmagazine.services.InvoiceServicesI;
+import com.mitranetpars.sportmagazine.widgets.TooltipWindow;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import at.markushi.ui.CircleButton;
 
@@ -26,13 +26,15 @@ import at.markushi.ui.CircleButton;
  * Created by Hamed on 12/2/2016.
  */
 
-public class CartListFragment extends Fragment {
+public class CartListFragment extends Fragment implements View.OnLongClickListener {
     private ListView listview;
     private CircleButton purchaseButton;
     private Activity parentActivity;
 
     ArrayList<Product> products;
     ProductsListAdapter listAdapter;
+
+    private TooltipWindow tipWindow;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,8 @@ public class CartListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        this.tipWindow = new TooltipWindow(parentActivity);
 
         View rootView = inflater
                 .inflate(R.layout.cart_list_view, container, false);
@@ -83,6 +87,7 @@ public class CartListFragment extends Fragment {
                 }
             }
         });
+        this.purchaseButton.setOnLongClickListener(this);
 
         return rootView;
     }
@@ -96,10 +101,33 @@ public class CartListFragment extends Fragment {
             i.setPrice(p.getPrice());
             i.setProductID(p.getID());
             i.setQuantity(CartHelper.getCart().getQuantity(s));
+            i.setColor(p.getColorsArray()[p.SelectedColor]);
+            i.setSize(p.getSizesArray()[p.SelectedSize]);
+            i.setBrand(p.getBrandsArray()[p.SelectedBrand]);
             items.add(i);
         }
 
         InvoiceServicesI.getInstance().register(items);
         CartHelper.getCart().clear();
+    }
+
+    @Override
+    public boolean onLongClick(View anchor) {
+        if (tipWindow.isTooltipShown()) return false;
+
+        CircleButton c = (CircleButton) anchor;
+        if(c != null) {
+            tipWindow.showToolTip(c);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void onDestroy() {
+        if(tipWindow != null && tipWindow.isTooltipShown())
+            tipWindow.dismissTooltip();
+        super.onDestroy();
     }
 }

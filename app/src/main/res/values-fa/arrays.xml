@@ -30,6 +30,7 @@
     <string-array name="product_age_category_items">
         <item>بزرگسال</item>
         <item>کودک و نوجوان</item>
+        <item>هر دو</item>
     </string-array>
     <string-array name="product_gender_items">
         <item>مردانه</item>

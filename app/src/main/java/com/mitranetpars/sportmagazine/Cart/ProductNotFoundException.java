@@ -1,4 +1,4 @@
-package com.mitranetpars.sportmagazine.Cart;
+package com.mitranetpars.sportmagazine.cart;
 
 /**
  * Throw this exception to indicate invalid operation on product which does not belong to a shopping cart

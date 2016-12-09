@@ -15,12 +15,13 @@ import android.widget.Toast;
 
 import com.mitranetpars.sportmagazine.common.SecurityEnvironment;
 import com.mitranetpars.sportmagazine.common.dto.security.User;
+import com.mitranetpars.sportmagazine.widgets.TooltipWindow;
 import com.squareup.picasso.Picasso;
 
 import at.markushi.ui.CircleButton;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnLongClickListener {
     private RadioButton consumerRadioButton;
     private RadioButton producerRadioButton;
 
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView splash;
     private boolean isSplashShowing;
     private boolean doubleBackToExitPressedOnce = false;
+
+    private TooltipWindow tipWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 exitButton_onClick(v);
             }
         });
+        this.exitButton.setOnLongClickListener(this);
 
         this.homeButton = (CircleButton) findViewById(R.id.homebutton);
         this.homeButton.setOnClickListener(new View.OnClickListener(){
@@ -82,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 homeButton_onClick(v);
             }
         });
+        this.homeButton.setOnLongClickListener(this);
 
         this.logoffButton = (CircleButton) findViewById(R.id.logoutbutton);
         this.logoffButton.setOnClickListener(new View.OnClickListener() {
@@ -90,11 +95,14 @@ public class MainActivity extends AppCompatActivity {
                 logoffButton_onClick(v);
             }
         });
+        this.logoffButton.setOnLongClickListener(this);
 
         this.welcomeTextView = (TextView) findViewById(R.id.welcomeTextView);
 
         this.splash.bringToFront();
         this.fadeSplashOut();
+
+        this.tipWindow = new TooltipWindow(MainActivity.this);
     }
 
     private void fadeSplashOut() {
@@ -230,5 +238,25 @@ public class MainActivity extends AppCompatActivity {
                 doubleBackToExitPressedOnce=false;
             }
         }, 2000);
+    }
+
+    @Override
+    public boolean onLongClick(View anchor) {
+        if (tipWindow.isTooltipShown()) return false;
+
+        CircleButton c = (CircleButton) anchor;
+        if(c != null) {
+            tipWindow.showToolTip(c);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(tipWindow != null && tipWindow.isTooltipShown())
+        tipWindow.dismissTooltip();
+        super.onDestroy();
     }
 }

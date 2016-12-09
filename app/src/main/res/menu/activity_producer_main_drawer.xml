@@ -16,6 +16,10 @@
             android:icon="@drawable/wholesale128"
             android:title="@string/wholesale_purchase" />
         <item
+            android:id="@+id/producer_nav_transactions"
+            android:icon="@drawable/transactions128"
+            android:title="@string/transactions" />
+        <item
             android:id="@+id/producer_nav_profile"
             android:icon="@drawable/user128"
             android:title="@string/profile" />

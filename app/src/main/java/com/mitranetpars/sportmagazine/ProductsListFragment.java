@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.mitranetpars.sportmagazine.common.dto.product.Product;
 import com.mitranetpars.sportmagazine.services.ProductServicesI;
 import com.mitranetpars.sportmagazine.adapters.ProductsListAdapter;
+import com.mitranetpars.sportmagazine.widgets.TooltipWindow;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,7 +28,7 @@ import at.markushi.ui.CircleButton;
  * Created by Hamed on 12/1/2016.
  */
 
-public class ProductsListFragment extends Fragment {
+public class ProductsListFragment extends Fragment implements View.OnLongClickListener{
     private ListView listview;
     private EditText searchTextView;
     private CircleButton searchButton;
@@ -38,10 +39,13 @@ public class ProductsListFragment extends Fragment {
     private Date searchStartDate;
     private int currentOffset;
     private int limitSize;
+    private int wholesaleType;
 
     ProgressDialog progressDialog;
     ArrayList<Product> products;
     ProductsListAdapter listAdapter;
+
+    private TooltipWindow tipWindow;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,11 +55,13 @@ public class ProductsListFragment extends Fragment {
         this.searchStartDate = Calendar.getInstance().getTime();
         this.currentOffset = 0;
         this.limitSize = 10;
+        this.wholesaleType = 0;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        this.tipWindow = new TooltipWindow(parentActivity);
 
         View rootView = inflater
                 .inflate(R.layout.product_list_view, container, false);
@@ -72,14 +78,16 @@ public class ProductsListFragment extends Fragment {
                 loadNextPage(v);
             }
         });
+        this.loadMoreButton.setOnLongClickListener(this);
         this.searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 searchProducts(v);
             }
         });
+        this.searchButton.setOnLongClickListener(this);
 
-                // listening to single listitem click
+        // listening to single listitem click
         this.listview.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
@@ -114,7 +122,7 @@ public class ProductsListFragment extends Fragment {
         try {
             this.products.addAll(ProductServicesI.getInstance().search(null,
                     this.searchStartDate, 0, 0, this.searchTextView.getText().toString().trim(), -1,
-                    this.currentOffset, this.limitSize));
+                    this.wholesaleType, this.currentOffset, this.limitSize));
             this.listAdapter.notifyDataSetChanged();
             this.currentOffset = this.currentOffset + this.limitSize;
         } catch (Exception error){
@@ -128,5 +136,29 @@ public class ProductsListFragment extends Fragment {
 
     public void setProductListRetrieved(boolean flag) {
         this.isProductListRetrieved = flag;
+    }
+
+    public void setWholesaleType(int type){
+        this.wholesaleType = type;
+    }
+
+    @Override
+    public boolean onLongClick(View anchor) {
+        if (tipWindow.isTooltipShown()) return false;
+
+        CircleButton c = (CircleButton) anchor;
+        if(c != null) {
+            tipWindow.showToolTip(c);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void onDestroy() {
+        if(tipWindow != null && tipWindow.isTooltipShown())
+            tipWindow.dismissTooltip();
+        super.onDestroy();
     }
 }

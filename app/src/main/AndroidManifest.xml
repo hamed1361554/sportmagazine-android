@@ -70,9 +70,11 @@
             android:name=".AboutActivity"
             android:configChanges="layoutDirection|locale"
             android:label="@string/about_us" />
-        <activity android:name=".ProfileActivity"
+        <activity
+            android:name=".ProfileActivity"
             android:configChanges="layoutDirection|locale"
-            android:label="@string/profile"/>
+            android:label="@string/profile" />
+        <activity android:name=".EulaActivity"></activity>
     </application>
 
 </manifest>
