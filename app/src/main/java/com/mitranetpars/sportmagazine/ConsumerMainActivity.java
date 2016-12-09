@@ -31,6 +31,7 @@ public class ConsumerMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnLongClickListener {
 
     private CircleButton retailButton;
+    private CircleButton transactionsButton;
 
     private SliderLayout sliderShow;
     private ViewPager postsViewPager;
@@ -96,6 +97,14 @@ public class ConsumerMainActivity extends AppCompatActivity
             }
         });
         this.retailButton.setOnLongClickListener(this);
+        this.transactionsButton = (CircleButton) findViewById(R.id.consumer_transactions_list_button);
+        this.transactionsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showInvoicesList();
+            }
+        });
+        this.transactionsButton.setOnLongClickListener(this);
 
         this.tipWindow = new TooltipWindow(ConsumerMainActivity.this);
     }
