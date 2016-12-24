@@ -74,7 +74,8 @@
             android:name=".ProfileActivity"
             android:configChanges="layoutDirection|locale"
             android:label="@string/profile" />
-        <activity android:name=".EulaActivity"></activity>
+        <activity android:name=".EulaActivity" />
+        <activity android:name=".ChangePasswordActivity"></activity>
     </application>
 
 </manifest>

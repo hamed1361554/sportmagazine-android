@@ -10,9 +10,9 @@
     <string name="action_sign_in">ثبت نام</string>
     <string name="action_sign_in_short">ثبت نام</string>
     <string name="error_field_required">فیلد اجباری</string>
-    <string name="error_incorrect_password">رمز عبور اشتباه است</string>
-    <string name="error_invalid_email">ایمیل اشتباه است</string>
-    <string name="error_invalid_password">رمز عبور معتبر نیست</string>
+    <string name="error_incorrect_password">رمز عبور اشتباه است.</string>
+    <string name="error_invalid_email">ایمیل اشتباه است.</string>
+    <string name="error_invalid_password">رمز عبور معتبر نیست.</string>
     <string name="prompt_email">ایمیل</string>
     <string name="prompt_password">رمز عبور</string>
     <string name="title_activity_login">ورود به سیستم</string>
@@ -127,5 +127,14 @@
     <string name="invoices_search">جستجوی سفارشات</string>
     <string name="load_invoices_another_page">بارگزاری صفحه بعد ...</string>
     <string name="http_www_sportmagazine_ir"><a href="http://www.sportmagazine.ir">مجله ورزش</a></string>
-    <string name="separation_hint">با خط نیره یا ویرگول حدا شوند.</string>
+    <string name="separation_hint">با خط تیره یا ویرگول جدا شوند.</string>
+    <string name="forgot_password">رمز عبور را فراموش کرده اید ....</string>
+    <string name="change_password_code_recieve">دریافت کد امنیتی</string>
+    <string name="security_code">کد امنیتی</string>
+    <string name="change_password">تغییر رمز</string>
+    <string name="could_not_change_password">امکان تغییر رمز وجود ندارد.</string>
+    <string name="invalid_security_code">کد امنیتی معتبر نمی باشد.</string>
+    <string name="security_code_sent">کد امنیتی جهت تغییر رمز عبور ارسال شد.</string>
+    <string name="failed_due_error">Failed dur to error: %s</string>
+    <string name="password_changed">رمز عبور با موفقیت به روز شد.</string>
 </resources>

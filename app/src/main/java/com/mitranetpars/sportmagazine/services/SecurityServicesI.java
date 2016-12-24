@@ -6,6 +6,7 @@ import android.text.Html;
 import com.mitranetpars.sportmagazine.R;
 import com.mitranetpars.sportmagazine.SportMagazineApplication;
 import com.mitranetpars.sportmagazine.common.SecurityEnvironment;
+import com.mitranetpars.sportmagazine.common.dto.security.ChangeUserPasswordData;
 import com.mitranetpars.sportmagazine.common.dto.security.User;
 
 import java.util.concurrent.ArrayBlockingQueue;
@@ -29,6 +30,7 @@ public class SecurityServicesI {
     private final BlockingQueue<User> createQueue = new ArrayBlockingQueue<User>(1, true);
     private final BlockingQueue<User> getUserQueue = new ArrayBlockingQueue<User>(1, true);
     private final BlockingQueue<String> activateQueue = new ArrayBlockingQueue<String>(1, true);
+    private final BlockingQueue<String> changePasswordQueue = new ArrayBlockingQueue<String>(1, true);
 
     static {
         instance = new SecurityServicesI();
@@ -187,6 +189,27 @@ public class SecurityServicesI {
         }
 
         return url;
+    }
+
+    public String changePassword(ChangeUserPasswordData data) throws Exception {
+        ChangePasswordAsyncTask changePasswordAsyncTask = new ChangePasswordAsyncTask();
+        changePasswordAsyncTask.execute(data);
+
+        String result = this.changePasswordQueue.take();
+        if (result == null || result == "") {
+            throw new Exception(String.format("%s%s", "error", SportMagazineApplication.getContext().getString(R.string.OutOfService)));
+        }
+
+        if (result.startsWith("error")) {
+            String error = result.substring(5);
+            throw new Exception(error);
+        }
+        if (result.startsWith("htmlerrorbody")) {
+            String error = result.substring(13);
+            throw new Exception(Html.fromHtml(error).toString());
+        }
+
+        return result;
     }
 
     private class LoginAsyncTask extends AsyncTask{
@@ -354,6 +377,43 @@ public class SecurityServicesI {
             }
 
             return url;
+        }
+    }
+
+    private class ChangePasswordAsyncTask extends AsyncTask{
+
+        @Override
+        protected String doInBackground(Object[] callVariables) {
+            Call<String> callChange = securityServices.changePassword((ChangeUserPasswordData) callVariables[0]);
+
+            String result = null;
+            try {
+                Response<String> response = callChange.execute();
+
+                String body = response.body();
+                if (body == null) {
+                    ResponseBody errorBody = response.errorBody();
+                    String error = errorBody.string();
+                    changePasswordQueue.put(String.format("%s%s", "htmlerrorbody", error));
+                }
+                else {
+                    result = response.body();
+                    if (result != null && result != "") {
+                        changePasswordQueue.put(result);
+                    } else {
+                        changePasswordQueue.put(String.format("%s%s", "error",
+                                SportMagazineApplication.getContext().getString(R.string.could_not_change_password)));
+                    }
+                }
+            } catch (Exception ticketEx) {
+                try {
+                    changePasswordQueue.put(String.format("%s%s", "error", ticketEx.getMessage()));
+                } catch (Exception queueEx){
+                    changePasswordQueue.add(String.format("%s%s", "error", ticketEx.getMessage()));
+                }
+            }
+
+            return result;
         }
     }
 }

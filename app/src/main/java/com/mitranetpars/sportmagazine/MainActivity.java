@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
     private CircleButton logoffButton;
     private CircleButton exitButton;
     private CircleButton homeButton;
+    private TextView linkTextView;
 
     private TextView welcomeTextView;
     private View mContentView;
@@ -98,6 +100,8 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
         this.logoffButton.setOnLongClickListener(this);
 
         this.welcomeTextView = (TextView) findViewById(R.id.welcomeTextView);
+        this.linkTextView = (TextView) findViewById(R.id.http_www_sportmagazine_ir_link);
+        this.linkTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
         this.splash.bringToFront();
         this.fadeSplashOut();

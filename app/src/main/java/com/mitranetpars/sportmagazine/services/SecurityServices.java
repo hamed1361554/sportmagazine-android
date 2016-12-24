@@ -1,5 +1,6 @@
 package com.mitranetpars.sportmagazine.services;
 
+import com.mitranetpars.sportmagazine.common.dto.security.ChangeUserPasswordData;
 import com.mitranetpars.sportmagazine.common.dto.security.User;
 
 import retrofit2.Call;
@@ -25,4 +26,7 @@ public interface SecurityServices {
 
     @POST("/activate")
     Call<String> activate(@Body String userData);
+
+    @POST("/change_password")
+    Call<String> changePassword(@Body ChangeUserPasswordData data);
 }

@@ -118,7 +118,6 @@ public class SigninActivity extends AppCompatActivity {
         }
     }
 
-
     public void onSignupSuccess() {
         Toast.makeText(getBaseContext(), R.string.acvtivation_email_sent, Toast.LENGTH_LONG).show();
         this.signinButton.setEnabled(true);

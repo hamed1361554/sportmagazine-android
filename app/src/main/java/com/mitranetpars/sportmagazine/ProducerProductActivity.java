@@ -140,7 +140,7 @@ public class ProducerProductActivity extends AppCompatActivity {
 
         this.brandsEditText.setOnFocusChangeListener(new View.OnFocusChangeListener(){
             public void onFocusChange(View v, boolean hasFocus){
-                if(hasFocus)
+                if(!hasFocus)
                     brandsEditText.setHint("");
                 else
                     brandsEditText.setHint(R.string.separation_hint);
@@ -149,7 +149,7 @@ public class ProducerProductActivity extends AppCompatActivity {
 
         this.sizesEditText.setOnFocusChangeListener(new View.OnFocusChangeListener(){
             public void onFocusChange(View v, boolean hasFocus){
-                if(hasFocus)
+                if(!hasFocus)
                     sizesEditText.setHint("");
                 else
                     sizesEditText.setHint(R.string.separation_hint);

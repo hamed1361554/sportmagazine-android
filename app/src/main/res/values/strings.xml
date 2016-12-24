@@ -132,4 +132,13 @@
     <string name="load_invoices_another_page">Load more ...</string>
     <string name="http_www_sportmagazine_ir"><a href="http://www.sportmagazine.ir">Sport Magazine</a></string>
     <string name="separation_hint">Consider separating with dash or comma.</string>
+    <string name="forgot_password">Forgot Password? Click here ...</string>
+    <string name="change_password_code_recieve">Recieve Security Code</string>
+    <string name="security_code">Security Code</string>
+    <string name="change_password">Change Password</string>
+    <string name="could_not_change_password">Could not change password.</string>
+    <string name="invalid_security_code">Security code is invalid.</string>
+    <string name="security_code_sent">Security code to change password has been sent.</string>
+    <string name="failed_due_error">Failed dur to error: %s</string>
+    <string name="password_changed">Password has been changed.</string>
 </resources>
