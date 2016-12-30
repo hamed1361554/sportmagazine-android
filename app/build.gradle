@@ -11,6 +11,7 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -18,11 +19,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
-                    project.ext { appName = 'SimayeSalem' }
-                    def formattedDate = new Date().format('yyyyMMddHHmmss')
+                    project.ext { appName = 'SportMarket' }
                     def newName = output.outputFile.name
                     newName = newName.replace("app-", "$project.ext.appName-") //"MyAppName" -> I set my app variables in the root project
-                    newName = newName.replace("-release", ".v1.5")
+                    newName = newName.replace("-release", ".v1.6")
                     //noinspection GroovyAssignabilityCheck
                     output.outputFile = new File(output.outputFile.parent, newName)
                 }
@@ -35,20 +35,21 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
     //compile 'com.google.code.gson:gson:2.4'
     //compile 'io.realm:realm-gradle-plugin:1.2.0'
-    compile 'com.android.support:appcompat-v7:23'
+    compile project(':library')
+    compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.satsuware.lib:usefulviews:2.3.6'
     compile 'com.github.markushi:circlebutton:1.1'
-    compile 'com.android.support:support-v4:+'
+    compile 'com.android.support:support-v4:23.4.0'
     compile 'com.squareup.picasso:picasso:2.3.2'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.slider:library:1.1.5@aar'
-    compile 'com.android.support:design:23.+'
+    compile 'com.android.support:design:23.4.0'
     compile 'ch.acra:acra:4.9.0'
-    compile project(':library')
+    compile 'com.android.support:support-vector-drawable:23.4.0'
+    testCompile 'junit:junit:4.12'
 }

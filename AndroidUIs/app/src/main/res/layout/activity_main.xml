@@ -1,0 +1,61 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/activity_vertical_margin"
+    android:background="#ffb9d7ff">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/linear_layout"
+        android:drawableTop="@drawable/ic_launcher"
+        android:onClick="getLinearLayoutPage"
+        android:id="@+id/button" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/relative_layout"
+        android:onClick="getRelativeLayoutPage"
+        android:id="@+id/button2" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/table_layout"
+        android:onClick="getTableLayoutPage"
+        android:id="@+id/button3" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/framelayout"
+        android:onClick="getFrameLayoutPage"
+        android:id="@+id/button6" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/list_view"
+        android:onClick="getListViewPage"
+        android:id="@+id/button4" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/grid_view"
+        android:onClick="getGridViewPage"
+        android:id="@+id/button5" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/pickers"
+        android:onClick="getDateTimePickers"
+        android:id="@+id/button7" />
+
+</LinearLayout>
+
+
+

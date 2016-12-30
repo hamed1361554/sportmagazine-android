@@ -1,0 +1,103 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ls="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/product_search_filter_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical"  >
+
+    <TextView
+        android:id="@+id/lbl_search_filter_product_name"
+        android:text="@string/producer_product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/txt_search_filter_product_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text" />
+
+    <TextView
+        android:id="@+id/lbl_search_filter_product_price"
+        android:text="@string/producer_product_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/from"
+            android:labelFor="@+id/txt_search_filter_product_price_from" />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:id="@+id/txt_search_filter_product_price_from"
+            android:inputType="number" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/to"
+            android:labelFor="@+id/txt_search_filter_product_price_to"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:id="@+id/txt_search_filter_product_price_to"
+            android:inputType="number" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/lbl_search_filter_product_size"
+        android:text="@string/producer_product_sizes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/txt_search_filter_product_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/lbl_search_filter_product_brand"
+        android:text="@string/producer_product_brands"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/txt_search_filter_product_brand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text" />
+
+    <com.satsuware.usefulviews.LabelledSpinner
+        android:id="@+id/spn_search_filter_category"
+        ls:labelText="@string/producer_product_category"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+
+    <com.satsuware.usefulviews.LabelledSpinner
+        android:id="@+id/spn_search_filter_age_category"
+        ls:labelText="@string/producer_product_age_category"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+
+    <com.satsuware.usefulviews.LabelledSpinner
+        android:id="@+id/spn_search_filter_gender"
+        ls:labelText="@string/producer_product_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_search_filter_product"
+        android:text="@string/product_search" />
+</LinearLayout>

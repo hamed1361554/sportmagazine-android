@@ -97,18 +97,34 @@ public class ProductServicesI {
     }
 
     public ArrayList<Product> search(Date fromCreationDate, Date toCreationDate, double fromPrice, double toPrice,
-                                     String name, int categories, int wholesaleType, int offset, int limit) throws Exception{
+                                     String name, String size, String brand, int categories, int age_categories,
+                                     int gender, int wholesaleType, int offset, int limit) throws Exception {
+        return search(fromCreationDate, toCreationDate, fromPrice, toPrice,
+                name, size, brand, categories, age_categories, gender, wholesaleType,
+                offset, limit, false, false);
+    }
+
+    public ArrayList<Product> search(Date fromCreationDate, Date toCreationDate, double fromPrice, double toPrice,
+                                     String name, String size, String brand, int categories, int age_categories,
+                                     int gender, int wholesaleType, int offset, int limit,
+                                     boolean justCurrentUser, boolean outOfStock) throws Exception {
         ProductSearchFilter filter = new ProductSearchFilter();
 
         filter.setTicket(SecurityEnvironment.<SecurityEnvironment>getInstance().getLoginTicket());
         filter.setUserName(SecurityEnvironment.<SecurityEnvironment>getInstance().getUserName());
 
+        filter.just_current_user = justCurrentUser;
+        filter.include_out_of_stock = outOfStock;
         filter.from_creation_date = fromCreationDate;
         filter.to_creation_date = toCreationDate;
         filter.from_price = fromPrice;
         filter.to_price = toPrice;
         filter.name = name;
+        filter.size = size;
+        filter.brand = brand;
         filter.categories = categories;
+        filter.age_categories = age_categories;
+        filter.gender = gender;
         filter.wholesale_type = wholesaleType;
 
         filter.__limit__ = limit;

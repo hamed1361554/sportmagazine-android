@@ -137,6 +137,12 @@ public class ProducerMainActivity extends AppCompatActivity
             return true;
         }
 
+        if (id == R.id.producer_action_edit_product) {
+            Intent editIntent = new Intent(this, ProducerProductsGridViewActivity.class);
+            this.startActivity(editIntent);
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -156,7 +162,8 @@ public class ProducerMainActivity extends AppCompatActivity
             Intent profileIntent = new Intent(this, ProfileActivity.class);
             this.startActivity(profileIntent);
         } else if (id == R.id.producer_nav_settings) {
-
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            this.startActivity(settingsIntent);
         } else if (id == R.id.producer_nav_about) {
             Intent aboutIntent = new Intent(this, AboutActivity.class);
             this.startActivity(aboutIntent);

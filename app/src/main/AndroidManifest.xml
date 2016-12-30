@@ -75,7 +75,11 @@
             android:configChanges="layoutDirection|locale"
             android:label="@string/profile" />
         <activity android:name=".EulaActivity" />
-        <activity android:name=".ChangePasswordActivity"></activity>
+        <activity android:name=".ChangePasswordActivity" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" />
+        <activity android:name=".ProducerProductsGridViewActivity"></activity>
     </application>
 
 </manifest>

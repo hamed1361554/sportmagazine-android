@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Android UIs</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_relative_layout">RelativeLayout</string>
+    <string name="title_activity_table_layout">TableLayout</string>
+    <string name="sign_in">Sign In &#8230;</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="let_me_in">Let me in!</string>
+    <string name="linear_layout">LinearLayout</string>
+    <string name="relative_layout">RelativeLayout</string>
+    <string name="table_layout">TableLayout</string>
+    <string name="list_view">ListView</string>
+    <string name="grid_view">GridView</string>
+    <string name="jogging">Jogging</string>
+    <string name="swimming">Swimming</string>
+    <string name="coding">Coding</string>
+    <string name="writing">Writing</string>
+    <string name="pickers">Pickers</string>
+    <string name="title_activity_linear_layout">LinearLayout</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="wifi_on">WiFi On</string>
+    <string name="wifi_off">WiFi Off</string>
+
+    <string-array name="zodiac">
+        <item>Aries</item>
+        <item>Taurus</item>
+        <item>Gemini</item>
+        <item>Cancer</item>
+        <item>Leo</item>
+        <item>Virgo</item>
+        <item>Libra</item>
+        <item>Scorpio</item>
+        <item>Sagittarius</item>
+        <item>Capricorn</item>
+        <item>Aquarius</item>
+        <item>Pisces</item>
+    </string-array>
+
+    <string name="title_activity_list_view">ListView</string>
+    <string name="title_activity_grid_view">GridViewActivity</string>
+    <string name="title_activity_date_time_pickers">DateTimePickers</string>
+    <string name="title_activity_frame_layout">FrameLayout</string>
+    <string name="framelayout">FrameLayout</string>
+
+</resources>

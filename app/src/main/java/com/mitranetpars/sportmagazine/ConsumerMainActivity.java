@@ -157,7 +157,8 @@ public class ConsumerMainActivity extends AppCompatActivity
             this.startActivity(profileIntent);
         }
         else if (id == R.id.consumer_nav_settings) {
-
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            this.startActivity(settingsIntent);
         } else if (id == R.id.consumer_nav_about) {
             Intent aboutIntent = new Intent(this, AboutActivity.class);
             this.startActivity(aboutIntent);

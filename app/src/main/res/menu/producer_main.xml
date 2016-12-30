@@ -6,4 +6,9 @@
         android:orderInCategory="100"
         android:title="@string/add_product"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/producer_action_edit_product"
+        android:orderInCategory="100"
+        android:title="@string/edit_product"
+        app:showAsAction="never" />
 </menu>

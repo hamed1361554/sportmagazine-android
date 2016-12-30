@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.peterleow.androiduis" >
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".RelativeLayout"
+            android:label="@string/title_activity_relative_layout" />
+        <activity
+            android:name=".TableLayout"
+            android:label="@string/title_activity_table_layout" />
+        <activity
+            android:name=".LinearLayout"
+            android:label="@string/title_activity_linear_layout" >
+        </activity>
+        <activity
+            android:name=".ListViewActivity"
+            android:label="@string/title_activity_list_view" >
+        </activity>
+        <activity
+            android:name=".GridViewActivity"
+            android:label="@string/title_activity_grid_view" >
+        </activity>
+        <activity
+            android:name=".DateTimePickers"
+            android:label="@string/title_activity_date_time_pickers" >
+        </activity>
+        <activity
+            android:name=".FrameLayout"
+            android:label="@string/title_activity_frame_layout" >
+        </activity>
+    </application>
+
+</manifest>
