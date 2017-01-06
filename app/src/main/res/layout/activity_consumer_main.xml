@@ -30,16 +30,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:weightSum="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:orientation="vertical"
-                android:layout_weight="0.5"
+                android:layout_weight="0.4"
                 android:paddingTop="64dp">
 
-                <com.daimajia.slider.library.SliderLayout
+                <!--com.daimajia.slider.library.SliderLayout
                     android:id="@+id/slider"
                     android:layout_width="match_parent"
                     app:pager_animation="Accordion"
@@ -70,33 +71,23 @@
                 <com.daimajia.slider.library.Indicators.PagerIndicator
                     android:id="@+id/custom_indicator2"
                     style="@style/AndroidImageSlider_Corner_Oval_Orange"
-                    android:layout_marginBottom="20dp"
-                    />
+                    android:layout_marginBottom="20dp" /-->
 
             </LinearLayout>
 
-            <android.support.v4.view.ViewPager
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.25"
-                android:layout_marginBottom="48dp"
-                android:id="@+id/consumer_posts_view_pager">
+                android:layout_weight="0.45"
+                android:orientation="vertical"
+                android:weightSum="1">
 
-                <android.support.v4.view.PagerTitleStrip
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top" />
-
-            </android.support.v4.view.ViewPager>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.25"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin">
+                <ListView
+                    android:id="@+id/products_listview"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:divider="#f55" />
 
                 <at.markushi.ui.CircleButton
                     android:text="@string/retail_purchase"
@@ -128,7 +119,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </LinearLayout>
 

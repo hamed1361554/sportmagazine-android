@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
         this.isSplashShowing = true;
         this.mContentView = findViewById(R.id.main_activity_relative_layout).getRootView();
         this.splash = (ImageView) findViewById(R.id.splash_image_view);
-        Picasso.with(this).load(R.drawable.logo720).into(this.splash);
+        Picasso.with(this).load(R.drawable.logo400).into(this.splash);
 
         this.consumerRadioButton = (RadioButton) findViewById(R.id.consumerRadioButton);
         this.producerRadioButton = (RadioButton) findViewById(R.id.producerRadioButton);
@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
         this.linkTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
         this.splash.bringToFront();
+        this.linkTextView.bringToFront();
         this.fadeSplashOut();
 
         this.tipWindow = new TooltipWindow(MainActivity.this);
@@ -139,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
 
     private void splashAnimationEnd(){
         splash.setVisibility(View.GONE);
+        linkTextView.setVisibility(View.GONE);
         this.isSplashShowing = false;
         this.setControlsVisibility();
     }

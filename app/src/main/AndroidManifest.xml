@@ -59,12 +59,12 @@
         <activity
             android:name=".ProducerMainActivity"
             android:configChanges="layoutDirection|locale"
-            android:label="@string/title_activity_producer_main"
+            android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ConsumerMainActivity"
             android:configChanges="layoutDirection|locale"
-            android:label="@string/title_activity_consumer_main"
+            android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AboutActivity"
@@ -79,7 +79,7 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" />
-        <activity android:name=".ProducerProductsGridViewActivity"></activity>
+        <activity android:name=".ProducerProductsGridViewActivity" />
     </application>
 
 </manifest>

@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mitranetpars.sportmagazine.CartListFragment;
 import com.mitranetpars.sportmagazine.SportMagazineApplication;
 import com.mitranetpars.sportmagazine.cart.CartHelper;
 import com.mitranetpars.sportmagazine.R;
@@ -31,12 +35,22 @@ public class ProductsListAdapter extends ArrayAdapter<Product> {
     private int layoutResourceId;
     private ArrayList<Product> data = null;
     private LayoutInflater inflater = null;
+    private FragmentManager fragmentManager;
+    private int replacementID;
 
     public ProductsListAdapter(Context context, int layoutResourceId, ArrayList<Product> data) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.data = data;
         this.inflater = ((Activity)context).getLayoutInflater();
+    }
+
+    public void setFragmentManager(FragmentManager fm){
+        this.fragmentManager = fm;
+    }
+
+    public void setReplacementID(int id){
+        this.replacementID = id;
     }
 
     @NonNull
@@ -50,7 +64,7 @@ public class ProductsListAdapter extends ArrayAdapter<Product> {
             holder.holderProductImage = (ImageView)convertView.findViewById(R.id.product_list_item_image);
             holder.holderProductName = (TextView)convertView.findViewById(R.id.product_list_item_name);
             holder.holderProductPrice = (TextView)convertView.findViewById(R.id.product_list_item_price);
-            holder.holderProductComment = (TextView)convertView.findViewById(R.id.product_list_item_comment);
+            //holder.holderProductComment = (TextView)convertView.findViewById(R.id.product_list_item_comment);
             holder.holderProductQuantity = (TextView)convertView.findViewById(R.id.product_list_item_quantity_tv);
 
             holder.sizesLabelledSpinner = (LabelledSpinner)convertView.findViewById(R.id.product_list_size_selector);
@@ -76,7 +90,7 @@ public class ProductsListAdapter extends ArrayAdapter<Product> {
         }
         holder.holderProductName.setText(product.getName());
         holder.holderProductPrice.setText(String.valueOf(product.getPrice()));
-        holder.holderProductComment.setText(product.getComment());
+        //holder.holderProductComment.setText(product.getComment());
         holder.holderProductQuantity.setText("1");
 
         holder.addToCart.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +110,10 @@ public class ProductsListAdapter extends ArrayAdapter<Product> {
                     }
                 }
 
+                if (product.SelectedColor < 0) {
+                    return;
+                }
+
                 LabelledSpinner sizesSpinner =
                         (LabelledSpinner) parentView.findViewById(R.id.product_list_size_selector);
                 product.SelectedSize = sizesSpinner.getSpinner().getSelectedItemPosition();
@@ -106,7 +124,7 @@ public class ProductsListAdapter extends ArrayAdapter<Product> {
 
                 CartHelper.getCart().add(product, Integer.parseInt(quantityTextView.getText().toString()));
 
-                quantityTextView.setText(String.valueOf(CartHelper.getCart().getQuantity(product)));
+                showShoppingCart();
             }
         });
 
@@ -230,6 +248,14 @@ public class ProductsListAdapter extends ArrayAdapter<Product> {
         return convertView;
     }
 
+    private void showShoppingCart() {
+        Fragment fragment = new CartListFragment();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.addToBackStack(null);
+        transaction.replace(this.replacementID, fragment, null);
+        transaction.commitAllowingStateLoss();
+    }
+
     private void colorCheckBoxClicked(View v){
         ShapedCheckBox clicked = (ShapedCheckBox) v;
         if (!clicked.isChecked()) return;
@@ -250,7 +276,7 @@ public class ProductsListAdapter extends ArrayAdapter<Product> {
         ImageView holderProductImage;
         TextView holderProductName;
         TextView holderProductPrice;
-        TextView holderProductComment;
+        //TextView holderProductComment;
         TextView holderProductQuantity;
 
         LabelledSpinner sizesLabelledSpinner;

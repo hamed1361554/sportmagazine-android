@@ -2,11 +2,14 @@ package com.mitranetpars.sportmagazine;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -82,6 +85,38 @@ public class ProducerSigninActivity extends AppCompatActivity {
         } else {
             this.productionPackageType = 0;
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            this.setTextViewDirection();
+        }
+
+        this.producerDivisionSpinner.getSpinner().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                //int s = producerDivisionSpinner.getSpinner().getSelectedItemPosition();
+                //String item = getResources().getStringArray(R.array.producer_division_items)[s];
+                //producerDivisionEditText.setHint(String.format("%s %s", getString(R.string.producer_division_name), item));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                //producerDivisionEditText.setHint(getString(R.string.producer_division_name));
+            }
+        });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void setTextViewDirection(){
+        this.userNameEditText.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        this.fullNameEditText.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        this.addressEditText.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        this.emailEditText.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        this.nationalCodeEditText.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        this.mobileEditText.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        this.phoneEditText.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        this.producerDivisionEditText.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        this.passwordEditText.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        this.reEnterPasswordEditText.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
     }
 
     private void signin() {

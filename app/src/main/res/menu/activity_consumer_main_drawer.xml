@@ -24,7 +24,7 @@
             android:title="@string/settings" />
         <item
             android:id="@+id/consumer_nav_about"
-            android:icon="@drawable/about128"
+            android:icon="@drawable/logo60"
             android:title="@string/about" />
         <item
             android:id="@+id/consumer_nav_eula"

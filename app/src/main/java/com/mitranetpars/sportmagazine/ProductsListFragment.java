@@ -20,6 +20,7 @@ import com.mitranetpars.sportmagazine.common.dto.product.ProductSearchFilter;
 import com.mitranetpars.sportmagazine.services.ProductServicesI;
 import com.mitranetpars.sportmagazine.adapters.ProductsListAdapter;
 import com.mitranetpars.sportmagazine.widgets.TooltipWindow;
+import com.satsuware.usefulviews.LabelledSpinner;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,15 +44,20 @@ public class ProductsListFragment extends Fragment implements View.OnLongClickLi
     private int currentOffset;
     private int limitSize;
     private int wholesaleType;
+    private int replacementID;
 
     ProgressDialog progressDialog;
     ArrayList<Product> products;
     ProductsListAdapter listAdapter;
 
     private TooltipWindow tipWindow;
+    private LabelledSpinner categoryLabelledSpinner;
 
     private boolean isInAdvancedMode;
     private ProductSearchFilter filter;
+
+    private String searchName;
+    private int searchCategory;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +70,12 @@ public class ProductsListFragment extends Fragment implements View.OnLongClickLi
         this.wholesaleType = 0;
         this.isInAdvancedMode = false;
         this.filter = new ProductSearchFilter();
+        this.searchName = "";
+        this.searchCategory = -1;
+    }
+
+    public void setReplacementID(int id){
+        this.replacementID = id;
     }
 
     @Override
@@ -115,7 +127,13 @@ public class ProductsListFragment extends Fragment implements View.OnLongClickLi
         this.listAdapter = new ProductsListAdapter(this.parentActivity,
                 R.layout.product_list_row,
                 this.products);
+        this.listAdapter.setFragmentManager(getFragmentManager());
+        this.listAdapter.setReplacementID(this.replacementID);
         this.listview.setAdapter(this.listAdapter);
+
+        this.categoryLabelledSpinner = (LabelledSpinner) rootView.findViewById(R.id.product_search_category);
+        this.categoryLabelledSpinner.setItemsArray(getResources().getStringArray(R.array.product_category_items));
+        this.categoryLabelledSpinner.getSpinner().setSelection(0);
 
         return rootView;
     }
@@ -127,6 +145,9 @@ public class ProductsListFragment extends Fragment implements View.OnLongClickLi
             this.listAdapter.notifyDataSetChanged();
             this.searchStartDate = Calendar.getInstance().getTime();
             this.currentOffset = 0;
+
+            this.searchName = this.searchTextView.getText().toString().trim();
+            this.searchCategory = this.categoryLabelledSpinner.getSpinner().getSelectedItemPosition();
 
             this.loadNextPage();
 
@@ -141,8 +162,8 @@ public class ProductsListFragment extends Fragment implements View.OnLongClickLi
             if (!this.isInAdvancedMode){
                 list =
                     ProductServicesI.getInstance().search(null,
-                            this.searchStartDate, 0, 0, this.searchTextView.getText().toString().trim(),
-                            "", "", -1, -1, -1,
+                            this.searchStartDate, 0, 0, this.searchName,
+                            "", "", this.searchCategory, -1, -1,
                             this.wholesaleType, this.currentOffset, this.limitSize);
             } else {
                 list =

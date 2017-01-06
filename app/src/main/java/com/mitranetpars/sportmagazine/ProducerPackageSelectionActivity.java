@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -19,6 +20,8 @@ public class ProducerPackageSelectionActivity extends AppCompatActivity {
     private RadioButton freeRadioButton;
     private RadioButton silverRadioButton;
     private RadioButton goldenRadioButtion;
+    private CheckBox agreeContinueCheckBox;
+    private Button continueButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +33,14 @@ public class ProducerPackageSelectionActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        findViewById(R.id.btn_agree_term_of_use_continue).setOnClickListener(new View.OnClickListener() {
+        this.continueButton = (Button) findViewById(R.id.btn_agree_term_of_use_continue);
+        this.continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 continueToRegister(v);
             }
         });
+        this.continueButton.setEnabled(false);
 
         this.freeRadioButton = (RadioButton) findViewById(R.id.freePackageRadioButton);
         this.silverRadioButton = (RadioButton) findViewById(R.id.silverPackageRadioButton);
@@ -68,6 +73,14 @@ public class ProducerPackageSelectionActivity extends AppCompatActivity {
                     freeRadioButton.setChecked(false);
                     silverRadioButton.setChecked(false);
                 }
+            }
+        });
+
+        this.agreeContinueCheckBox = (CheckBox) findViewById(R.id.termof_use_agree_check_box);
+        this.agreeContinueCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                continueButton.setEnabled(agreeContinueCheckBox.isChecked());
             }
         });
     }

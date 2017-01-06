@@ -37,17 +37,17 @@
     <string name="free_package">بسته رایگان</string>
     <string name="silver_package">بسته نقره ای</string>
     <string name="golden_package">بسته طلایی</string>
-    <string name="free_package_description">It\'s free one.</string>
-    <string name="silver_package_description">It\'s silver package.</string>
-    <string name="golden_package_description">It\'s golden package.</string>
+    <string name="free_package_description">با انتخاب این بسته شما میتوانید فقط تصاویر مروبط به فروش عمده را مشاهده نمایید و خریداری کنید.</string>
+    <string name="silver_package_description">با انتخاب این بسته شما می توانید علاوه بر امکانات بسته رایگان، تصاویر مربوط به احناس عمده خود را برای فروش نمایش دهید تا سایر همکاران مشاهده  و خریداری کنند (تا سقف 3 سه پست در روز)</string>
+    <string name="golden_package_description">با انتخاب این بسته میتوانید علاوه بر استفاده از امکانات بسته نقره ای، اجناس خود را به صورت تکی برای فروش به مصرف کننده عمومی نمایش دهید و ارسال اجناس تکی خریداری شده بر عهده سیمای سالم می باشد (تا سقف پنج پست در روز)</string>
     <string name="agree_to_term_of_use_content">موافقت با قوانین و مقررات استفاده</string>
-    <string name="agree_and_continue">موافقم، ادامه ...</string>
+    <string name="agree_and_continue">ادامه ثبت نام ...</string>
     <string name="consumer_division">نوع مصرف کننده</string>
     <string name="producer_division">صنف کاربری</string>
     <string name="invalid_address">آدرس نامعتبر</string>
     <string name="invalid_signin_password">رمز عبور نامعتبر</string>
     <string name="large_text">متن طولانی</string>
-    <string name="producer_division_name">نام</string>
+    <string name="producer_division_name">نام شرکت/تولیدی/فروشگاه</string>
     <string name="phone_number">تلفن ثابت</string>
     <string name="national_code">کدملی</string>
     <string name="producer_product_name">نام محصول</string>
@@ -126,7 +126,7 @@
     <string name="invoice_date">تاریخ سفارش</string>
     <string name="invoices_search">جستجوی سفارشات</string>
     <string name="load_invoices_another_page">بارگزاری صفحه بعد ...</string>
-    <string name="http_www_sportmagazine_ir"><a href="http://www.sportmagazine.ir">مجله ورزش</a></string>
+    <string name="http_www_sportmagazine_ir"><a href="http://www.sportmagazine.ir">Sport Magazine</a></string>
     <string name="separation_hint">با خط تیره یا ویرگول جدا شوند.</string>
     <string name="forgot_password">رمز عبور را فراموش کرده اید ....</string>
     <string name="change_password_code_recieve">دریافت کد امنیتی</string>
@@ -174,7 +174,7 @@
     <string name="pickers">Pickers</string>
     <string name="title_activity_linear_layout">LinearLayout</string>
     <string name="female">Female</string>
-    <string name="male">Male</string>
+    <string name="male">مرد</string>
     <string name="wifi_on">ارتباط بی سیم روشن</string>
     <string name="wifi_off">ارتباط بی سیم خاموش</string>
 	<string name="title_activity_list_view">ListView</string>
@@ -183,6 +183,10 @@
     <string name="title_activity_frame_layout">FrameLayout</string>
     <string name="framelayout">FrameLayout</string>
     <string name="edit_product">اصلاح محصول</string>
+    <string name="agreed_and_accepted">قوانین را خوانده و پذیرفته ام</string>
+    <string name="retail_purchase_requests">درخواست خرید تکی</string>
+    <string name="wholesale_purchase_requests">درخواست خرید عمده</string>
+    <string name="wholesale_retail">خرید تکی/عمده فروشی</string>
 
     <string-array name="pref_example_list_titles">
         <item>همواره</item>

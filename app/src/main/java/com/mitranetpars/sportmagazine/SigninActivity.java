@@ -2,13 +2,11 @@ package com.mitranetpars.sportmagazine;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +14,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mitranetpars.sportmagazine.common.dto.security.User;
 import com.mitranetpars.sportmagazine.services.SecurityServicesI;
 
 public class SigninActivity extends AppCompatActivity {
@@ -66,6 +63,21 @@ public class SigninActivity extends AppCompatActivity {
         this.mobileEditText = (EditText)findViewById(R.id.input_mobile);
         this.passwordEditText = (EditText)findViewById(R.id.input_password);
         this.reEnterPasswordEditText = (EditText)findViewById(R.id.input_reEnterPassword);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            this.setTextViewDirection();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void setTextViewDirection() {
+        this.userNameEditText.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        this.fullNameEditText.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        this.addressEditText.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        this.emailEditText.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        this.mobileEditText.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        this.passwordEditText.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        this.reEnterPasswordEditText.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
     }
 
     private void signin() {
@@ -155,12 +167,12 @@ public class SigninActivity extends AppCompatActivity {
             fullNameEditText.setError(null);
         }
 
-        if (address.isEmpty()) {
-            addressEditText.setError(getString(R.string.invalid_address));
-            valid = false;
-        } else {
-            addressEditText.setError(null);
-        }
+//        if (address.isEmpty()) {
+//            addressEditText.setError(getString(R.string.invalid_address));
+//            valid = false;
+//        } else {
+//            addressEditText.setError(null);
+//        }
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailEditText.setError(getString(R.string.invalid_email));

@@ -70,33 +70,24 @@
                     android:hint="@string/name" />
             </android.support.design.widget.TextInputLayout>
 
-            <LinearLayout
+            <com.satsuware.usefulviews.LabelledSpinner
+                android:id="@+id/producer_division_spinner"
+                ls:labelText="@string/producer_division"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <!-- Producer Division Label -->
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <com.satsuware.usefulviews.LabelledSpinner
-                    android:id="@+id/producer_division_spinner"
-                    ls:labelText="@string/producer_division"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".5"/>
-
-                <!-- Producer Division Label -->
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_weight=".5"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp">
+                <EditText android:id="@+id/input_producer_division_name"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp">
-                    <EditText android:id="@+id/input_producer_division_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
-                        android:hint="@string/producer_division_name" />
-                </android.support.design.widget.TextInputLayout>
-
-            </LinearLayout>
+                    android:inputType="textPersonName"
+                    android:hint="@string/producer_division_name" />
+            </android.support.design.widget.TextInputLayout>
 
             <!-- National Code Label -->
             <android.support.design.widget.TextInputLayout

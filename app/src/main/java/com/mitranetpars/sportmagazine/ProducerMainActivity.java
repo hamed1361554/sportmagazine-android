@@ -16,12 +16,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.mitranetpars.sportmagazine.adapters.ProductsListAdapter;
+import com.mitranetpars.sportmagazine.common.SecurityEnvironment;
+import com.mitranetpars.sportmagazine.common.dto.product.Product;
+import com.mitranetpars.sportmagazine.common.dto.security.User;
+import com.mitranetpars.sportmagazine.services.ProductServicesI;
 import com.mitranetpars.sportmagazine.widgets.TooltipWindow;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import at.markushi.ui.CircleButton;
@@ -29,10 +39,22 @@ import at.markushi.ui.CircleButton;
 public class ProducerMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnLongClickListener {
 
+    private int FREE = 0;
+    private int SILVER = 1;
+    private int GOLDEN = 2;
+
     private SliderLayout sliderShow;
     private CircleButton retailPurchase;
     private CircleButton wholesalePurchase;
     private TooltipWindow tipWindow;
+
+    private ListView listview;
+    ArrayList<Product> products;
+    ProductsListAdapter listAdapter;
+    private Date searchStartDate;
+    private int currentOffset;
+    private int limitSize;
+    private int wholesaleType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +65,16 @@ public class ProducerMainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        //fab.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+        //    public void onClick(View view) {
+        //        showShoppingCart();
+        //    }
+        //});
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showShoppingCart();
+                loadNextPage();
             }
         });
 
@@ -67,19 +95,21 @@ public class ProducerMainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
 
-        this.sliderShow = (SliderLayout) findViewById(R.id.slider);
-        HashMap<String,String> urlMaps = new HashMap<String, String>();
-        urlMaps.put("Hannibal", "http://static2.hypable.com/wp-content/uploads/2013/12/hannibal-season-2-release-date.jpg");
-        urlMaps.put("Big Bang Theory", "http://tvfiles.alphacoders.com/100/hdclearart-10.png");
-        urlMaps.put("House of Cards", "http://cdn3.nflximg.net/images/3093/2043093.jpg");
-        urlMaps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
+        //this.sliderShow = (SliderLayout) findViewById(R.id.slider);
+        if (this.sliderShow != null) {
+            HashMap<String, String> urlMaps = new HashMap<String, String>();
+            urlMaps.put("Hannibal", "http://static2.hypable.com/wp-content/uploads/2013/12/hannibal-season-2-release-date.jpg");
+            urlMaps.put("Big Bang Theory", "http://tvfiles.alphacoders.com/100/hdclearart-10.png");
+            urlMaps.put("House of Cards", "http://cdn3.nflximg.net/images/3093/2043093.jpg");
+            urlMaps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
 
-        for (String key: urlMaps.keySet()){
-            TextSliderView textSliderView = new TextSliderView(this);
-            textSliderView
-                    .description(key)
-                    .image(urlMaps.get(key));
-            sliderShow.addSlider(textSliderView);
+            for (String key : urlMaps.keySet()) {
+                TextSliderView textSliderView = new TextSliderView(this);
+                textSliderView
+                        .description(key)
+                        .image(urlMaps.get(key));
+                sliderShow.addSlider(textSliderView);
+            }
         }
 
         View header = navigationView.getHeaderView(0);
@@ -104,6 +134,33 @@ public class ProducerMainActivity extends AppCompatActivity
         });
         this.wholesalePurchase.setOnLongClickListener(this);
         this.tipWindow = new TooltipWindow(ProducerMainActivity.this);
+
+        this.retailPurchase.setVisibility(View.INVISIBLE);
+        this.wholesalePurchase.setVisibility(View.INVISIBLE);
+
+        this.searchStartDate = Calendar.getInstance().getTime();
+        this.currentOffset = 0;
+        this.limitSize = 10;
+        this.wholesaleType = 1;
+
+        this.listview = (ListView) findViewById(R.id.products_listview);
+        this.products = new ArrayList<>();
+        this.listAdapter = new ProductsListAdapter(this,
+                R.layout.product_list_row,
+                this.products);
+        this.listAdapter.setFragmentManager(getSupportFragmentManager());
+        this.listAdapter.setReplacementID(R.id.producer_main_frame_container);
+        this.listview.setAdapter(this.listAdapter);
+
+        Menu nav_Menu = navigationView.getMenu();
+        User user = SecurityEnvironment.<SecurityEnvironment>getInstance().getUser();
+        if (user.getProductionPackage() == FREE) {
+            nav_Menu.findItem(R.id.producer_nav_wholesale_purchase).setVisible(false);
+            nav_Menu.findItem(R.id.producer_nav_retail_purchase).setVisible(false);
+        }
+        if (user.getProductionPackage() == SILVER){
+            nav_Menu.findItem(R.id.producer_nav_retail_purchase).setVisible(false);
+        }
     }
 
     @Override
@@ -137,9 +194,15 @@ public class ProducerMainActivity extends AppCompatActivity
             return true;
         }
 
-        if (id == R.id.producer_action_edit_product) {
-            Intent editIntent = new Intent(this, ProducerProductsGridViewActivity.class);
-            this.startActivity(editIntent);
+        if (id == R.id.producer_action_wholesale_retail_products) {
+            if (this.wholesaleType == 0) {
+                this.wholesaleType = 1;
+                this.searchProducts();
+                return true;
+            }
+
+            this.wholesaleType = 0;
+            this.searchProducts();
             return true;
         }
 
@@ -155,9 +218,9 @@ public class ProducerMainActivity extends AppCompatActivity
         if (id == R.id.producer_nav_home) {
 
         } else if (id == R.id.producer_nav_retail_purchase) {
-            showProductsList(0);
+
         } else if (id == R.id.producer_nav_wholesale_purchase) {
-            showProductsList(1);
+
         } else if (id == R.id.producer_nav_profile) {
             Intent profileIntent = new Intent(this, ProfileActivity.class);
             this.startActivity(profileIntent);
@@ -181,7 +244,9 @@ public class ProducerMainActivity extends AppCompatActivity
 
     @Override
     protected void onStop() {
-        this.sliderShow.stopAutoCycle();
+        if (this.sliderShow != null) {
+            this.sliderShow.stopAutoCycle();
+        }
         super.onStop();
     }
 
@@ -231,5 +296,39 @@ public class ProducerMainActivity extends AppCompatActivity
         if(tipWindow != null && tipWindow.isTooltipShown())
             tipWindow.dismissTooltip();
         super.onDestroy();
+    }
+
+    private void searchProducts(){
+        try {
+            this.products.clear();
+            this.listAdapter.notifyDataSetChanged();
+            this.searchStartDate = Calendar.getInstance().getTime();
+            this.currentOffset = 0;
+
+            this.loadNextPage();
+
+        } catch (Exception error){
+            Toast.makeText(this, error.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void loadNextPage(){
+        try {
+            ArrayList<Product> list =
+                        ProductServicesI.getInstance().search(null,
+                                this.searchStartDate, 0, 0, null,
+                                "", "", -1, -1, -1,
+                                this.wholesaleType, this.currentOffset, this.limitSize);
+
+            if (list == null || list.size() <= 0){
+                return;
+            }
+
+            this.products.addAll(list);
+            this.listAdapter.notifyDataSetChanged();
+            this.currentOffset = this.currentOffset + this.limitSize;
+        } catch (Exception error){
+            Toast.makeText(this, error.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 }

@@ -4,7 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -134,9 +137,9 @@ public class ProducerProductActivity extends AppCompatActivity {
         this.categoryLabelledSpinner.setItemsArray(getResources().getStringArray(R.array.product_category_items));
         this.ageCategoryLabelledSpinner.setItemsArray(getResources().getStringArray(R.array.product_age_category_items));
         this.genderLabelledSpinner.setItemsArray(getResources().getStringArray(R.array.product_gender_items));
-        this.categoryLabelledSpinner.getSpinner().setSelection(-1);
-        this.ageCategoryLabelledSpinner.getSpinner().setSelection(-1);
-        this.genderLabelledSpinner.getSpinner().setSelection(-1);
+        this.categoryLabelledSpinner.getSpinner().setSelection(0);
+        this.ageCategoryLabelledSpinner.getSpinner().setSelection(0);
+        this.genderLabelledSpinner.getSpinner().setSelection(0);
 
         this.brandsEditText.setOnFocusChangeListener(new View.OnFocusChangeListener(){
             public void onFocusChange(View v, boolean hasFocus){
@@ -155,6 +158,37 @@ public class ProducerProductActivity extends AppCompatActivity {
                     sizesEditText.setHint(R.string.separation_hint);
             }
         });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            this.setTextViewDirection();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void setTextViewDirection(){
+        int padding = 16;
+
+        this.nameEditText.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        this.priceEditText.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        this.sizesEditText.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        this.brandsEditText.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        this.counterEditText.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        this.commentEditText.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        this.categoryLabelledSpinner.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        Spinner s = this.categoryLabelledSpinner.getSpinner();
+        s.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        s.setPadding(padding, s.getPaddingTop(), padding, s.getPaddingBottom());
+        this.categoryLabelledSpinner.setPadding(padding, s.getPaddingTop(), padding, s.getPaddingBottom());
+        this.ageCategoryLabelledSpinner.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        s = this.ageCategoryLabelledSpinner.getSpinner();
+        s.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        s.setPadding(padding, s.getPaddingTop(), padding, s.getPaddingBottom());
+        this.ageCategoryLabelledSpinner.setPadding(padding, s.getPaddingTop(), padding, s.getPaddingBottom());
+        this.genderLabelledSpinner.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        s = this.genderLabelledSpinner.getSpinner();
+        s.setTextDirection(View.TEXT_DIRECTION_ANY_RTL);
+        s.setPadding(padding, s.getPaddingTop(), padding, s.getPaddingBottom());
+        this.genderLabelledSpinner.setPadding(padding, s.getPaddingTop(), padding, s.getPaddingBottom());
     }
 
     @Override

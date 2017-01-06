@@ -4,11 +4,19 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
+    android:weightSum="1"
     android:background="#e1e1e1">
+
+    <com.satsuware.usefulviews.LabelledSpinner
+        android:id="@+id/product_search_category"
+        app:labelText="@string/producer_product_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="36dp"
+        android:weightSum="1"
         android:orientation="horizontal">
 
         <EditText

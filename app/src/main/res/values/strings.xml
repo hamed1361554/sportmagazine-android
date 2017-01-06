@@ -49,7 +49,7 @@
     <string name="golden_package_description">It\'s golden package.</string>
     <string name="agree_to_term_of_use_content">Agree to term of use</string>
     <string name="term_of_use_of_software_to_agree_with">It\'s term of use of software to agree with.</string>
-    <string name="agree_and_continue">Agree and Continue</string>
+    <string name="agree_and_continue">Continue to Register</string>
     <string name="consumer_division">Consumer Division</string>
     <string name="producer_division">Producer Division</string>
     <string name="producer_division_name">Producer Division Name</string>
@@ -245,4 +245,8 @@
     <string name="title_activity_frame_layout">FrameLayout</string>
     <string name="framelayout">FrameLayout</string>
     <string name="edit_product">Edit Product</string>
+    <string name="agreed_and_accepted">Agreed and Accepted</string>
+    <string name="retail_purchase_requests">Retail Purchase Requests</string>
+    <string name="wholesale_purchase_requests">Wholesale Purchase Requests</string>
+    <string name="wholesale_retail">Wholesale/Retail</string>
 </resources>

@@ -13,11 +13,10 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
+        android:weightSum="1"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="4dp"
-        android:weightSum="1">
+        android:layout_alignParentEnd="true">
 
             <RadioGroup
                 android:layout_width="match_parent"
@@ -144,6 +143,11 @@
             </RelativeLayout>
 
         </ScrollView>
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/termof_use_agree_check_box"
+                android:text="@string/agreed_and_accepted"/>
 
         <Button
             android:layout_width="match_parent"
