@@ -36,16 +36,16 @@
         android:layout_weight="0.4"
         android:paddingTop="64dp">
 
-        <!--com.daimajia.slider.library.SliderLayout
+        <com.daimajia.slider.library.SliderLayout
             android:id="@+id/slider"
             android:layout_width="match_parent"
             app:pager_animation="Accordion"
             app:auto_cycle="true"
             app:indicator_visibility="visible"
             app:pager_animation_span="1100"
-            android:layout_height="200dp"/-->
+            android:layout_height="match_parent"/>
 
-        <!--com.daimajia.slider.library.Indicators.PagerIndicator
+        <com.daimajia.slider.library.Indicators.PagerIndicator
             android:id="@+id/custom_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -62,13 +62,12 @@
             app:selected_height="6dp"
             app:unselected_width="6dp"
             app:unselected_height="6dp"
-            android:layout_marginBottom="20dp"
-            /-->
-        <!--com.daimajia.slider.library.Indicators.PagerIndicator
+            android:layout_marginBottom="20dp" />
+
+        <com.daimajia.slider.library.Indicators.PagerIndicator
             android:id="@+id/custom_indicator2"
             style="@style/AndroidImageSlider_Corner_Oval_Orange"
-            android:layout_marginBottom="20dp"
-            /-->
+            android:layout_marginBottom="20dp" />
 
     </LinearLayout>
 

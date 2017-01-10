@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.mitranetpars.sportmagazine.adapters.InvoiceItemsListAdapter;
@@ -25,6 +26,7 @@ public class InvoiceItemsListFragment extends Fragment {
     ProgressDialog progressDialog;
     ArrayList<InvoiceItem> invoiceItems;
     InvoiceItemsListAdapter listAdapter;
+    private ImageView backImageView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,15 @@ public class InvoiceItemsListFragment extends Fragment {
                 this.invoiceItems);
         this.listview.setAdapter(this.listAdapter);
         this.listAdapter.notifyDataSetChanged();
+
+        this.backImageView = (ImageView) rootView.findViewById(R.id.invoice_items_back);
+
+        this.backImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                parentActivity.onBackPressed();
+            }
+        });
 
         return rootView;
     }

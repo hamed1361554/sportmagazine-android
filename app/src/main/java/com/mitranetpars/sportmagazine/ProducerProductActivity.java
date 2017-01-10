@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -63,6 +64,7 @@ public class ProducerProductActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(getString(R.string.default_color))));
         }
 
         this.nameEditText = (EditText) findViewById(R.id.input_producer_product_name);
@@ -196,8 +198,8 @@ public class ProducerProductActivity extends AppCompatActivity {
         try {
             Bitmap gotImage = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
             if (gotImage != null) {
-                this.productImage =
-                        ImageUtils.compressBitmap(gotImage, 4, 64);
+                this.productImage = ImageUtils.compressBitmap(gotImage);
+                //this.productImage = gotImage;
                 this.productImageView.setImageBitmap(this.productImage);
             } else {
                 this.productImage = null;

@@ -30,6 +30,10 @@
             android:id="@+id/consumer_nav_eula"
             android:icon="@drawable/eula128"
             android:title="@string/eula" />
+        <item
+            android:id="@+id/consumer_nav_exit"
+            android:icon="@drawable/close128"
+            android:title="@string/exit" />
     </group>
 
 </menu>

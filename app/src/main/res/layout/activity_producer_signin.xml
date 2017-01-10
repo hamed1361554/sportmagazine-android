@@ -181,6 +181,40 @@
                     android:hint="@string/reprompt_password"/>
             </android.support.design.widget.TextInputLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="175dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".75"
+                    android:id="@+id/input_user_image"
+                    android:contentDescription="@string/app_name" />
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".25">
+
+                    <at.markushi.ui.CircleButton
+                        android:text="@string/acquire_user_image"
+                        android:contentDescription="@string/acquire_user_image"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:id="@+id/acquire_user_image"
+                        android:src="@drawable/photo128"
+                        ls:cb_color="#99CC00"
+                        ls:cb_pressedRingWidth="8dip"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
             <!-- Signup Button -->
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/btn_producer_signup"

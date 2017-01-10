@@ -13,4 +13,21 @@
         android:layout_weight="1"
         android:background="@android:color/transparent"
         android:divider="#f55" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:text="@string/back"
+            android:contentDescription="@string/back"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:id="@+id/invoice_items_back"
+            android:src="@drawable/back64"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
 </LinearLayout>

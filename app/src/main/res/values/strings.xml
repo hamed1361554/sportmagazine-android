@@ -1,10 +1,11 @@
 <resources>
-    <string name="app_name">Sport Magazine</string>
+    <string name="app_name">Sport Market</string>
     <string name="login">Login</string>
     <string name="signin">Sign in</string>
     <string name="ServerIP">185.94.99.134</string>
     <string name="ServerPort">5001</string>
     <string name="title_activity_login">Login …</string>
+    <string name="default_color">#A61744</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -130,7 +131,7 @@
     <string name="invoice_date">Invoice Date</string>
     <string name="invoices_search">Invoices Search</string>
     <string name="load_invoices_another_page">Load more ...</string>
-    <string name="http_www_sportmagazine_ir"><a href="http://www.sportmagazine.ir">Sport Magazine</a></string>
+    <string name="http_www_sportmagazine_ir"><a href="http://www.sportmagazine.ir">www.sportmagazine.ir</a></string>
     <string name="separation_hint">Consider separating with dash or comma.</string>
     <string name="forgot_password">Forgot Password? Click here ...</string>
     <string name="change_password_code_recieve">Recieve Security Code</string>
@@ -249,4 +250,9 @@
     <string name="retail_purchase_requests">Retail Purchase Requests</string>
     <string name="wholesale_purchase_requests">Wholesale Purchase Requests</string>
     <string name="wholesale_retail">Wholesale/Retail</string>
+    <string name="load_producer_invoices_another_page">Load more ...</string>
+    <string name="acquire_user_image">Acquire User Image</string>
+    <string name="could_not_update_user">User could not updated.</string>
+    <string name="select_color">Please select a color!</string>
+    <string name="back">Back</string>
 </resources>

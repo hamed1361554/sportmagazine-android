@@ -3,6 +3,8 @@ package com.mitranetpars.sportmagazine.services;
 import com.mitranetpars.sportmagazine.common.dto.invoice.Invoice;
 import com.mitranetpars.sportmagazine.common.dto.invoice.InvoiceItem;
 import com.mitranetpars.sportmagazine.common.dto.invoice.InvoiceSearchFilter;
+import com.mitranetpars.sportmagazine.common.dto.invoice.ProducerInvoice;
+import com.mitranetpars.sportmagazine.common.dto.invoice.ProducerInvoiceSearchFilter;
 
 import java.util.ArrayList;
 
@@ -20,4 +22,7 @@ public interface InvoiceServices {
 
     @POST("/invoice/find")
     Call<ArrayList<Invoice>> search(@Body InvoiceSearchFilter filter);
+
+    @POST("/invoice/producer")
+    Call<ArrayList<ProducerInvoice>> findProducerInvoices(@Body ProducerInvoiceSearchFilter filter);
 }

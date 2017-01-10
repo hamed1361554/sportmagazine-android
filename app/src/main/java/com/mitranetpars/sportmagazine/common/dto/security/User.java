@@ -21,6 +21,7 @@ public class User {
     public String producer_division_name;
     public String ticket;
     public int production_package;
+    public String image;
 
     public void setUserName(String name){
         this.user_name = name;
@@ -132,5 +133,13 @@ public class User {
 
     public int getProductionPackage(){
         return this.production_package;
+    }
+
+    public void setImage(String image){
+        this.image = image;
+    }
+
+    public String getImage(){
+        return this.image;
     }
 }

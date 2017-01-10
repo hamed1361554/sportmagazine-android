@@ -46,6 +46,7 @@ public class InvoiceListFragment extends Fragment implements InvoiceItemsDetails
     private Activity parentActivity;
     private SimpleDateFormat mFormatter;
     private FragmentManager fragmentManager;
+    private ImageView backImageView;
 
     private Date fromDate;
     private Date toDate;
@@ -198,6 +199,15 @@ public class InvoiceListFragment extends Fragment implements InvoiceItemsDetails
             }
         });
         this.loadNextPageButton.setOnLongClickListener(this);
+
+        this.backImageView = (ImageView) rootView.findViewById(R.id.invoices_listview_back);
+
+        this.backImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                parentActivity.onBackPressed();
+            }
+        });
 
         return rootView;
     }

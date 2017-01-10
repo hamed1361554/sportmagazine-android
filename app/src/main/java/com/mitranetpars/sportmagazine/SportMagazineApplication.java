@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 
+import com.mitranetpars.sportmagazine.services.SystemUtils;
+
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
@@ -61,6 +63,8 @@ public class SportMagazineApplication extends Application {
             config.locale = locale;
             getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         }
+
+        SystemUtils.loadProfile(appContext);
     }
 
     public static Context getContext(){

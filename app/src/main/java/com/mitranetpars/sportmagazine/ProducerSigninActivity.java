@@ -2,6 +2,9 @@ package com.mitranetpars.sportmagazine;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
@@ -12,11 +15,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mitranetpars.sportmagazine.services.SecurityServicesI;
 import com.mitranetpars.sportmagazine.utils.GlobalUtils;
+import com.mitranetpars.sportmagazine.utils.ImageUtils;
+import com.mvc.imagepicker.ImagePicker;
 import com.satsuware.usefulviews.LabelledSpinner;
 
 public class ProducerSigninActivity extends AppCompatActivity {
@@ -33,6 +39,9 @@ public class ProducerSigninActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private EditText reEnterPasswordEditText;
 
+    private ImageView userImageView;
+    private Bitmap userImage;
+
     private int productionPackageType;
 
     @Override
@@ -43,6 +52,7 @@ public class ProducerSigninActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(getString(R.string.default_color))));
         }
 
         this.producerDivisionSpinner = (LabelledSpinner) findViewById(R.id.producer_division_spinner);
@@ -103,6 +113,39 @@ public class ProducerSigninActivity extends AppCompatActivity {
                 //producerDivisionEditText.setHint(getString(R.string.producer_division_name));
             }
         });
+
+        // width and height will be at least 200px long (optional).
+        ImagePicker.setMinQuality(200, 200);
+        this.userImageView = (ImageView) findViewById(R.id.input_user_image);
+        findViewById(R.id.acquire_user_image).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPickImage(v);
+            }
+        });
+    }
+
+    public void onPickImage(View view) {
+        // Click on image button
+        ImagePicker.pickImage(this, getString(R.string.select_your_image));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            Bitmap gotImage = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
+            if (gotImage != null) {
+                this.userImage = ImageUtils.compressLogo(gotImage);
+                //this.userImage = gotImage;
+                this.userImageView.setImageBitmap(this.userImage);
+            } else {
+                this.userImage = null;
+                this.userImageView.setImageBitmap(null);
+            }
+        }
+        catch (Exception error) {
+            Toast.makeText(getApplicationContext(), getString(R.string.processing_image_error, error.getMessage()), Toast.LENGTH_LONG).show();
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -145,9 +188,14 @@ public class ProducerSigninActivity extends AppCompatActivity {
         String producerDivisionName = producerDivisionEditText.getText().toString();
 
         try {
+            String usrImg = "";
+            if (this.userImage != null){
+                usrImg = ImageUtils.encodeToBase64(this.userImage);
+            }
+
             SecurityServicesI.getInstance().createProducer(userName, password, fullName, email, mobile,
                     address, phone, nationalCode, producerDivision, producerDivisionName,
-                    this.productionPackageType);
+                    this.productionPackageType, usrImg);
             Toast.makeText(getApplicationContext(), getString(R.string.CreationSuccessful), Toast.LENGTH_LONG).show();
             new android.os.Handler().postDelayed(
                     new Runnable() {

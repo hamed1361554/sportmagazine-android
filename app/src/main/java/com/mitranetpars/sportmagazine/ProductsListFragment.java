@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -32,7 +33,7 @@ import at.markushi.ui.CircleButton;
  * Created by Hamed on 12/1/2016.
  */
 
-public class ProductsListFragment extends Fragment implements View.OnLongClickListener{
+public class ProductsListFragment extends Fragment implements View.OnLongClickListener {
     private ListView listview;
     private EditText searchTextView;
     private CircleButton searchButton;
@@ -52,6 +53,7 @@ public class ProductsListFragment extends Fragment implements View.OnLongClickLi
 
     private TooltipWindow tipWindow;
     private LabelledSpinner categoryLabelledSpinner;
+    private ImageView backImageView;
 
     private boolean isInAdvancedMode;
     private ProductSearchFilter filter;
@@ -120,6 +122,15 @@ public class ProductsListFragment extends Fragment implements View.OnLongClickLi
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
+            }
+        });
+
+        this.backImageView = (ImageView) rootView.findViewById(R.id.products_list_back);
+
+        this.backImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                parentActivity.onBackPressed();
             }
         });
 

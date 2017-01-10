@@ -3,7 +3,10 @@ package com.mitranetpars.sportmagazine;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
@@ -16,6 +19,7 @@ import android.widget.Toast;
 
 import com.mitranetpars.sportmagazine.common.SecurityEnvironment;
 import com.mitranetpars.sportmagazine.common.dto.security.User;
+import com.mitranetpars.sportmagazine.services.SystemUtils;
 import com.mitranetpars.sportmagazine.widgets.TooltipWindow;
 import com.squareup.picasso.Picasso;
 
@@ -45,6 +49,11 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(getString(R.string.default_color))));
+        }
 
         this.isSplashShowing = true;
         this.mContentView = findViewById(R.id.main_activity_relative_layout).getRootView();
@@ -168,9 +177,17 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
         }
 
         if (SecurityEnvironment.<SecurityEnvironment>getInstance().getLoginTicket() != null &&
-                SecurityEnvironment.<SecurityEnvironment>getInstance().getLoginTicket() != "") {
-            this.welcomeTextView.setText(getString(R.string.welcometext,
-                    SecurityEnvironment.<SecurityEnvironment>getInstance().getUserName()));
+                !SecurityEnvironment.<SecurityEnvironment>getInstance().getLoginTicket().isEmpty()) {
+            String greet = "";
+            User user = SecurityEnvironment.<SecurityEnvironment>getInstance().getUser();
+            if (user != null && user.getFullName() != null && !user.getFullName().isEmpty()) {
+                greet = user.getFullName();
+            }
+            if (greet == null || greet.isEmpty()) {
+                greet = SecurityEnvironment.<SecurityEnvironment>getInstance().getUserName();
+            }
+
+            this.welcomeTextView.setText(getString(R.string.welcometext, greet));
             this.welcomeTextView.setVisibility(View.VISIBLE);
             this.exitButton.setVisibility(View.VISIBLE);
             this.homeButton.setVisibility(View.VISIBLE);
@@ -188,15 +205,33 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
                 SecurityEnvironment.<SecurityEnvironment>getInstance().getLoginTicket() != "") {
             if (SecurityEnvironment.<SecurityEnvironment>getInstance().getUser().getProductionType() == User.CONSUMER) {
                 Intent mainIntent = new Intent(MainActivity.this, ConsumerMainActivity.class);
-                MainActivity.this.startActivity(mainIntent);
+                MainActivity.this.startActivityForResult(mainIntent, 1);
             } else {
                 Intent mainIntent = new Intent(MainActivity.this, ProducerMainActivity.class);
-                MainActivity.this.startActivity(mainIntent);
+                MainActivity.this.startActivityForResult(mainIntent, 1);
+            }
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                boolean forceClose = data.getBooleanExtra("forceClose", false);
+                if (forceClose) {
+                    this.shutdownApp();
+                }
             }
         }
     }
 
     private void exitButton_onClick(View v) {
+        this.shutdownApp();
+    }
+
+    private void shutdownApp() {
+        doubleBackToExitPressedOnce = true;
+        SystemUtils.saveProfile(SportMagazineApplication.getContext());
         finish();
         System.exit(0);
     }
@@ -222,6 +257,7 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
         SecurityEnvironment.<SecurityEnvironment>getInstance().setLoginTicket("");
         SecurityEnvironment.<SecurityEnvironment>getInstance().setUserName("");
         SecurityEnvironment.<SecurityEnvironment>getInstance().setUser(null);
+        SystemUtils.resetProfile(SportMagazineApplication.getContext());
         this.setControlsVisibility();
     }
 

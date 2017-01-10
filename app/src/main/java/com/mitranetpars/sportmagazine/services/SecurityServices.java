@@ -24,6 +24,9 @@ public interface SecurityServices {
     @POST("/user/get")
     Call<User> getUser(@Body User user);
 
+    @POST("/user/update")
+    Call<User> updateUser(@Body User user);
+
     @POST("/activate")
     Call<String> activate(@Body String userData);
 

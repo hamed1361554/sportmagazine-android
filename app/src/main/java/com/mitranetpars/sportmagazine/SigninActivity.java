@@ -2,6 +2,9 @@ package com.mitranetpars.sportmagazine;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -11,10 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mitranetpars.sportmagazine.services.SecurityServicesI;
+import com.mitranetpars.sportmagazine.utils.ImageUtils;
+import com.mvc.imagepicker.ImagePicker;
 
 public class SigninActivity extends AppCompatActivity {
     private Button signinButton;
@@ -26,6 +32,9 @@ public class SigninActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private EditText reEnterPasswordEditText;
 
+    private ImageView userImageView;
+    private Bitmap userImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +43,7 @@ public class SigninActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(getString(R.string.default_color))));
         }
 
         this.signinButton = (Button) findViewById(R.id.btn_signup);
@@ -66,6 +76,39 @@ public class SigninActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             this.setTextViewDirection();
+        }
+
+        // width and height will be at least 200px long (optional).
+        ImagePicker.setMinQuality(200, 200);
+        this.userImageView = (ImageView) findViewById(R.id.input_user_image);
+        findViewById(R.id.acquire_user_image).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPickImage(v);
+            }
+        });
+    }
+
+    public void onPickImage(View view) {
+        // Click on image button
+        ImagePicker.pickImage(this, getString(R.string.select_your_image));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            Bitmap gotImage = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
+            if (gotImage != null) {
+                this.userImage = ImageUtils.compressLogo(gotImage);
+                //this.userImage = gotImage;
+                this.userImageView.setImageBitmap(this.userImage);
+            } else {
+                this.userImage = null;
+                this.userImageView.setImageBitmap(null);
+            }
+        }
+        catch (Exception error) {
+            Toast.makeText(getApplicationContext(), getString(R.string.processing_image_error, error.getMessage()), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -101,8 +144,13 @@ public class SigninActivity extends AppCompatActivity {
         String mobile = mobileEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
+        String usrImg = "";
+        if (this.userImage != null){
+            usrImg = ImageUtils.encodeToBase64(this.userImage);
+        }
+
         try {
-            SecurityServicesI.getInstance().create(userName, password, fullName, email, mobile, address);
+            SecurityServicesI.getInstance().create(userName, password, fullName, email, mobile, address, usrImg);
             Toast.makeText(getApplicationContext(), getString(R.string.CreationSuccessful), Toast.LENGTH_LONG).show();
             new android.os.Handler().postDelayed(
                     new Runnable() {

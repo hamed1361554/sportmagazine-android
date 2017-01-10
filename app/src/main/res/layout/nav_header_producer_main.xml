@@ -17,10 +17,12 @@
         android:id="@+id/producer_nav_header_imageView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight=".75"
-        android:paddingTop="@dimen/nav_header_vertical_spacing" />
+        android:layout_weight="0.75"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:contentDescription="@string/app_name" />
 
     <TextView
+        android:id="@+id/producer_nav_header_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"

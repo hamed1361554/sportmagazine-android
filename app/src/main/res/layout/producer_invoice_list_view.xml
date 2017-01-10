@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:weightSum="1"
+    android:background="#e1e1e1">
+
+    <ListView
+        android:id="@+id/producer_invoices_listview"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:divider="#f55" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <at.markushi.ui.CircleButton
+            android:text="@string/load_producer_invoices_another_page"
+            android:contentDescription="@string/load_producer_invoices_another_page"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:id="@+id/load_products_producer_invoices_page_button"
+            android:src="@drawable/loadmore64"
+            app:cb_color="#99CC00"
+            android:layout_gravity="center"
+            app:cb_pressedRingWidth="8dip"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"/>
+
+        <ImageView
+            android:text="@string/back"
+            android:contentDescription="@string/back"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:id="@+id/producer_invoices_listview_back"
+            android:src="@drawable/back64"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+</LinearLayout>

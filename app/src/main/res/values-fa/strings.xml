@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">مجله ورزش</string>
+    <string name="app_name">Sport Market</string>
     <string name="login">ورود</string>
     <string name="signin">ثبت نام</string>
     <string name="ServerIP">185.94.99.134</string>
     <string name="ServerPort">5001</string>
+    <string name="default_color">#A61744</string>
     <string name="prompt_user_name" >نام کاربری</string>
     <string name="action_login" >ورود</string>
     <string name="action_sign_in">ثبت نام</string>
@@ -120,13 +121,13 @@
     <string name="could_not_search_product">جستجوی محصولات امکان پذیر نمی باشد.</string>
     <string name="quantity_out_of_range">تعداد محصول از محدوده مجاز خارج است.</string>
     <string name="cart_products_purchase">انجام سفارش</string>
-    <string name="acvtivation_email_sent">ایمیل فعال ساری کاربر به آدرس ثبت شده ارسال شد.</string>
+    <string name="acvtivation_email_sent">ایمیل فعال سازی کاربر به آدرس ثبت شده ارسال شد.</string>
     <string name="buy">خرید</string>
     <string name="invoice">سفارش</string>
     <string name="invoice_date">تاریخ سفارش</string>
     <string name="invoices_search">جستجوی سفارشات</string>
     <string name="load_invoices_another_page">بارگزاری صفحه بعد ...</string>
-    <string name="http_www_sportmagazine_ir"><a href="http://www.sportmagazine.ir">Sport Magazine</a></string>
+    <string name="http_www_sportmagazine_ir"><a href="http://www.sportmagazine.ir">www.sportmagazine.ir</a></string>
     <string name="separation_hint">با خط تیره یا ویرگول جدا شوند.</string>
     <string name="forgot_password">رمز عبور را فراموش کرده اید ....</string>
     <string name="change_password_code_recieve">دریافت کد امنیتی</string>
@@ -135,7 +136,7 @@
     <string name="could_not_change_password">امکان تغییر رمز وجود ندارد.</string>
     <string name="invalid_security_code">کد امنیتی معتبر نمی باشد.</string>
     <string name="security_code_sent">کد امنیتی جهت تغییر رمز عبور ارسال شد.</string>
-    <string name="failed_due_error">Failed dur to error: %s</string>
+    <string name="failed_due_error">عملیات با خطا مواجه شد: %s</string>
     <string name="password_changed">رمز عبور با موفقیت به روز شد.</string>
     <string name="from">از</string>
     <string name="to">تا</string>
@@ -187,6 +188,11 @@
     <string name="retail_purchase_requests">درخواست خرید تکی</string>
     <string name="wholesale_purchase_requests">درخواست خرید عمده</string>
     <string name="wholesale_retail">خرید تکی/عمده فروشی</string>
+    <string name="load_producer_invoices_another_page">بارگزاری صفحه بعد ...</string>
+    <string name="acquire_user_image">درج تصویر کاربر</string>
+    <string name="could_not_update_user">امکان بروزرسانی کاربر وجود ندارد.</string>
+    <string name="select_color">لطفا یک رنگ انتخاب شود!</string>
+    <string name="back">بازگشت</string>
 
     <string-array name="pref_example_list_titles">
         <item>همواره</item>

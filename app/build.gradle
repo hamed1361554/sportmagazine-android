@@ -22,7 +22,7 @@ android {
                     project.ext { appName = 'SportMarket' }
                     def newName = output.outputFile.name
                     newName = newName.replace("app-", "$project.ext.appName-") //"MyAppName" -> I set my app variables in the root project
-                    newName = newName.replace("-release", ".v1.6")
+                    newName = newName.replace("-release", ".v1.8")
                     //noinspection GroovyAssignabilityCheck
                     output.outputFile = new File(output.outputFile.parent, newName)
                 }
@@ -51,5 +51,7 @@ dependencies {
     compile 'com.android.support:design:23.4.0'
     compile 'ch.acra:acra:4.9.0'
     compile 'com.android.support:support-vector-drawable:23.4.0'
+    compile 'com.snappydb:snappydb-lib:0.4.0'
+    compile 'com.esotericsoftware.kryo:kryo:2.24.0'
     testCompile 'junit:junit:4.12'
 }

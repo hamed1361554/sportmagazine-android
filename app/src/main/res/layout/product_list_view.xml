@@ -57,14 +57,33 @@
         android:background="@android:color/transparent"
         android:divider="#f55" />
 
-    <at.markushi.ui.CircleButton
-        android:text="@string/load_products_another_page"
-        android:contentDescription="@string/load_products_another_page"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:id="@+id/load_products_another_page_button"
-        android:src="@drawable/loadmore64"
-        app:cb_color="#99CC00"
-        android:layout_gravity="center"
-        app:cb_pressedRingWidth="8dip" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:text="@string/back"
+            android:contentDescription="@string/back"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:id="@+id/products_list_back"
+            android:src="@drawable/back64"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <at.markushi.ui.CircleButton
+            android:text="@string/load_products_another_page"
+            android:contentDescription="@string/load_products_another_page"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:id="@+id/load_products_another_page_button"
+            android:src="@drawable/loadmore64"
+            app:cb_color="#99CC00"
+            android:layout_gravity="center"
+            app:cb_pressedRingWidth="8dip"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
 </LinearLayout>

@@ -14,11 +14,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mitranetpars.sportmagazine.CartListFragment;
 import com.mitranetpars.sportmagazine.SportMagazineApplication;
 import com.mitranetpars.sportmagazine.cart.CartHelper;
 import com.mitranetpars.sportmagazine.R;
+import com.mitranetpars.sportmagazine.common.SecurityEnvironment;
 import com.mitranetpars.sportmagazine.common.dto.product.Product;
 import com.mitranetpars.sportmagazine.utils.ImageUtils;
 import com.mitranetpars.sportmagazine.widgets.ShapedCheckBox;
@@ -37,12 +39,17 @@ public class ProductsListAdapter extends ArrayAdapter<Product> {
     private LayoutInflater inflater = null;
     private FragmentManager fragmentManager;
     private int replacementID;
+    private int productionType;
+    private boolean showForViewOnly;
 
     public ProductsListAdapter(Context context, int layoutResourceId, ArrayList<Product> data) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.data = data;
         this.inflater = ((Activity)context).getLayoutInflater();
+        this.showForViewOnly = false;
+
+        this.productionType = SecurityEnvironment.<SecurityEnvironment>getInstance().getUser().getProductionType();
     }
 
     public void setFragmentManager(FragmentManager fm){
@@ -51,6 +58,10 @@ public class ProductsListAdapter extends ArrayAdapter<Product> {
 
     public void setReplacementID(int id){
         this.replacementID = id;
+    }
+
+    public void setShowForViewOnly(boolean flag){
+        this.showForViewOnly = flag;
     }
 
     @NonNull
@@ -111,6 +122,7 @@ public class ProductsListAdapter extends ArrayAdapter<Product> {
                 }
 
                 if (product.SelectedColor < 0) {
+                    Toast.makeText(getContext(), R.string.select_color, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -221,7 +233,7 @@ public class ProductsListAdapter extends ArrayAdapter<Product> {
             checkBox.setBackgroundColor(col);
             checkBox.setTextColor(col);
             checkBox.setTag(color);
-
+            checkBox.setEnabled(!this.showForViewOnly);
             checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -243,6 +255,29 @@ public class ProductsListAdapter extends ArrayAdapter<Product> {
         }
         if (product.SelectedSize >= 0){
             holder.sizesLabelledSpinner.getSpinner().setSelection(product.SelectedSize);
+        }
+
+        if (this.showForViewOnly){
+            holder.minusQuantity.setEnabled(false);
+            holder.plusQuantity.setEnabled(false);
+            holder.addToCart.setVisibility(View.INVISIBLE);
+            holder.brandsLabelledSpinner.setEnabled(false);
+            holder.sizesLabelledSpinner.setEnabled(false);
+            holder.brandsLabelledSpinner.getSpinner().setEnabled(false);
+            holder.sizesLabelledSpinner.getSpinner().setEnabled(false);
+        } else {
+            if (this.productionType == 1 && product.wholesale_type == 0){
+                holder.addToCart.setVisibility(View.INVISIBLE);
+            } else {
+                holder.addToCart.setVisibility(View.VISIBLE);
+            }
+
+            holder.minusQuantity.setEnabled(true);
+            holder.plusQuantity.setEnabled(true);
+            holder.brandsLabelledSpinner.setEnabled(true);
+            holder.sizesLabelledSpinner.setEnabled(true);
+            holder.brandsLabelledSpinner.getSpinner().setEnabled(true);
+            holder.sizesLabelledSpinner.getSpinner().setEnabled(true);
         }
 
         return convertView;

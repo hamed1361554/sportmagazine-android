@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ public class CartListFragment extends Fragment implements View.OnLongClickListen
     ProductsListAdapter listAdapter;
 
     private TooltipWindow tipWindow;
+    private ImageView backImageView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,14 @@ public class CartListFragment extends Fragment implements View.OnLongClickListen
 
         this.listview = (ListView) rootView.findViewById(R.id.cart_products_listview);
         this.purchaseButton = (CircleButton) rootView.findViewById(R.id.cart_products_purchase);
+        this.backImageView = (ImageView) rootView.findViewById(R.id.cart_products_back);
+
+        this.backImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                parentActivity.onBackPressed();
+            }
+        });
 
         // listening to single listitem click
         this.listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -67,6 +77,7 @@ public class CartListFragment extends Fragment implements View.OnLongClickListen
         this.listAdapter = new ProductsListAdapter(this.parentActivity,
                 R.layout.product_list_row,
                 this.products);
+        this.listAdapter.setShowForViewOnly(true);
         this.listview.setAdapter(this.listAdapter);
 
         for (Saleable p: CartHelper.getCart().getProducts()) {

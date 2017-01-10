@@ -1,6 +1,9 @@
 package com.mitranetpars.sportmagazine;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -9,14 +12,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.slider.library.SliderLayout;
@@ -26,7 +32,11 @@ import com.mitranetpars.sportmagazine.common.SecurityEnvironment;
 import com.mitranetpars.sportmagazine.common.dto.product.Product;
 import com.mitranetpars.sportmagazine.common.dto.security.User;
 import com.mitranetpars.sportmagazine.services.ProductServicesI;
+import com.mitranetpars.sportmagazine.services.SecurityServicesI;
+import com.mitranetpars.sportmagazine.services.SystemUtils;
+import com.mitranetpars.sportmagazine.utils.ImageUtils;
 import com.mitranetpars.sportmagazine.widgets.TooltipWindow;
+import com.mvc.imagepicker.ImagePicker;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -47,6 +57,7 @@ public class ProducerMainActivity extends AppCompatActivity
     private CircleButton retailPurchase;
     private CircleButton wholesalePurchase;
     private TooltipWindow tipWindow;
+    private ImageView logoImageView;
 
     private ListView listview;
     ArrayList<Product> products;
@@ -91,11 +102,38 @@ public class ProducerMainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(getString(R.string.default_color))));
+            actionBar.setCustomView(R.layout.producer_action_bar_custom_view);
+            actionBar.setDisplayShowCustomEnabled(true);
+
+            View header = actionBar.getCustomView();
+            header.findViewById(R.id.producer_action_bar_custom_view_wholesale_type).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (wholesaleType == 0) {
+                        wholesaleType = 1;
+                    } else {
+                        wholesaleType = 0;
+                    }
+                    searchProducts();
+                }
+            });
+            header.findViewById(R.id.producer_action_bar_custom_view_add_product).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent productIntent = new Intent(ProducerMainActivity.this, ProducerProductActivity.class);
+                    startActivity(productIntent);
+                }
+            });
+        }
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
 
-        //this.sliderShow = (SliderLayout) findViewById(R.id.slider);
+        this.sliderShow = (SliderLayout) findViewById(R.id.slider);
         if (this.sliderShow != null) {
             HashMap<String, String> urlMaps = new HashMap<String, String>();
             urlMaps.put("Hannibal", "http://static2.hypable.com/wp-content/uploads/2013/12/hannibal-season-2-release-date.jpg");
@@ -112,9 +150,26 @@ public class ProducerMainActivity extends AppCompatActivity
             }
         }
 
+        User user = SecurityEnvironment.<SecurityEnvironment>getInstance().getUser();
+
         View header = navigationView.getHeaderView(0);
-        ImageView logoImageView = (ImageView) header.findViewById(R.id.producer_nav_header_imageView);
-        Picasso.with(this).load(R.drawable.logo240).into(logoImageView);
+        logoImageView = (ImageView) header.findViewById(R.id.producer_nav_header_imageView);
+        TextView logoTextView = (TextView) header.findViewById(R.id.producer_nav_header_textView);
+        logoTextView.setText(user.getFullName());
+        header.setBackgroundColor(Color.parseColor(getString(R.string.default_color)));
+
+        if (user.getImage() == null || user.getImage() == "") {
+            Picasso.with(this).load(R.drawable.logo240).into(logoImageView);
+        } else {
+            logoImageView.setImageBitmap(ImageUtils.decodeFromBase64(user.getImage()));
+        }
+
+        logoImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPickImage(v);
+            }
+        });
 
         this.retailPurchase = (CircleButton) findViewById(R.id.producer_retail_purchase_button);
         this.wholesalePurchase = (CircleButton) findViewById(R.id.producer_wholesale_purchase_button);
@@ -153,13 +208,34 @@ public class ProducerMainActivity extends AppCompatActivity
         this.listview.setAdapter(this.listAdapter);
 
         Menu nav_Menu = navigationView.getMenu();
-        User user = SecurityEnvironment.<SecurityEnvironment>getInstance().getUser();
         if (user.getProductionPackage() == FREE) {
             nav_Menu.findItem(R.id.producer_nav_wholesale_purchase).setVisible(false);
             nav_Menu.findItem(R.id.producer_nav_retail_purchase).setVisible(false);
         }
         if (user.getProductionPackage() == SILVER){
             nav_Menu.findItem(R.id.producer_nav_retail_purchase).setVisible(false);
+        }
+    }
+
+    public void onPickImage(View view) {
+        // Click on image button
+        ImagePicker.pickImage(this, getString(R.string.select_your_image));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            Bitmap gotImage = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
+            if (gotImage != null) {
+                Bitmap userImage = ImageUtils.compressLogo(gotImage);
+                //this.userImage = gotImage;
+
+                SecurityServicesI.getInstance().updateUser("", "", "", "", ImageUtils.encodeToBase64(userImage));
+                this.logoImageView.setImageBitmap(userImage);
+            }
+        }
+        catch (Exception error) {
+            Toast.makeText(getApplicationContext(), getString(R.string.processing_image_error, error.getMessage()), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -218,9 +294,9 @@ public class ProducerMainActivity extends AppCompatActivity
         if (id == R.id.producer_nav_home) {
 
         } else if (id == R.id.producer_nav_retail_purchase) {
-
+            showProducerInvoiceList(0);
         } else if (id == R.id.producer_nav_wholesale_purchase) {
-
+            showProducerInvoiceList(1);
         } else if (id == R.id.producer_nav_profile) {
             Intent profileIntent = new Intent(this, ProfileActivity.class);
             this.startActivity(profileIntent);
@@ -235,11 +311,20 @@ public class ProducerMainActivity extends AppCompatActivity
             this.startActivity(eulaIntent);
         } else if (id == R.id.producer_nav_transactions){
             showInvoicesList();
+        } else if (id == R.id.producer_nav_exit){
+            exit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void exit(){
+        Intent intent = new Intent();
+        intent.putExtra("forceClose", true);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     @Override
@@ -253,6 +338,17 @@ public class ProducerMainActivity extends AppCompatActivity
     private void showProductsList(int wholesaleType) {
         ProductsListFragment fragment = new ProductsListFragment();
         fragment.setWholesaleType(wholesaleType);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.addToBackStack(null);
+        transaction.replace(R.id.producer_main_frame_container, fragment, null);
+        transaction.commitAllowingStateLoss();
+    }
+
+    private void showProducerInvoiceList(int wholesaleType) {
+        ProducerInvoicesListFragment fragment = new ProducerInvoicesListFragment();
+        fragment.setWholesaleType(wholesaleType);
+        fragment.setReplacementID(R.id.producer_main_frame_container);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.addToBackStack(null);

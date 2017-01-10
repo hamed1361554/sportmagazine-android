@@ -31,6 +31,7 @@ public class SecurityServicesI {
     private final BlockingQueue<User> getUserQueue = new ArrayBlockingQueue<User>(1, true);
     private final BlockingQueue<String> activateQueue = new ArrayBlockingQueue<String>(1, true);
     private final BlockingQueue<String> changePasswordQueue = new ArrayBlockingQueue<String>(1, true);
+    private final BlockingQueue<User> updateUserQueue = new ArrayBlockingQueue<User>(1, true);
 
     static {
         instance = new SecurityServicesI();
@@ -84,7 +85,8 @@ public class SecurityServicesI {
         return ticket;
     }
 
-    public User create(String userName, String password, String fullName, String email, String mobile, String address) throws Exception {
+    public User create(String userName, String password, String fullName, String email,
+                       String mobile, String address, String image) throws Exception {
         User user = new User();
         user.setUserName(userName);
         user.setPassword(password);
@@ -92,13 +94,14 @@ public class SecurityServicesI {
         user.setEmail(email);
         user.setMobile(mobile);
         user.setAddress(address);
+        user.setImage(image);
 
         return createUser(user);
     }
 
     public User createProducer(String userName, String password, String fullName, String email, String mobile, String address,
                                String phone, String nationalCode, int producerDivision, String producerDivisionName,
-                               int productionPackage) throws Exception {
+                               int productionPackage, String image) throws Exception {
         User user = new User();
         user.setUserName(userName);
         user.setPassword(password);
@@ -112,6 +115,7 @@ public class SecurityServicesI {
         user.setProducerDivision(producerDivision);
         user.setProducerDivisionName(producerDivisionName);
         user.setProductionPackage(productionPackage);
+        user.setImage(image);
 
         return createUser(user);
     }
@@ -210,6 +214,41 @@ public class SecurityServicesI {
         }
 
         return result;
+    }
+
+    public User updateUser(String fullName, String mobile, String address,
+                            String phone, String image) throws Exception {
+        User user = new User();
+        user.setUserName(SecurityEnvironment.<SecurityEnvironment>getInstance().getUserName());
+        user.setTicket(SecurityEnvironment.<SecurityEnvironment>getInstance().getLoginTicket());
+        user.setFullName(fullName);
+        user.setMobile(mobile);
+        user.setAddress(address);
+        user.setPhone(phone);
+        user.setImage(image);
+
+        UpdateAsyncTask updateAsyncTask = new UpdateAsyncTask();
+        updateAsyncTask.execute(user);
+
+        User updated_user = this.updateUserQueue.take();
+        if (updated_user == null) {
+            throw new Exception(String.format("%s%s", "error", SportMagazineApplication.getContext().getString(R.string.OutOfService)));
+        }
+
+        if (updated_user.getUserName() == null || updated_user.getUserName() == "" ||
+                updated_user.getPassword() == null || updated_user.getPassword() == ""){
+            if (updated_user.getTicket().startsWith("error")){
+                String error = updated_user.getTicket().substring(5);
+                throw new Exception(error);
+            }
+            if (updated_user.getTicket().startsWith("htmlerrorbody")) {
+                String error = updated_user.getTicket().substring(13);
+                throw new Exception(Html.fromHtml(error).toString());
+            }
+        }
+
+        SecurityEnvironment.<SecurityEnvironment>getInstance().setUser(updated_user);
+        return updated_user;
     }
 
     private class LoginAsyncTask extends AsyncTask{
@@ -414,6 +453,49 @@ public class SecurityServicesI {
             }
 
             return result;
+        }
+    }
+
+    private class UpdateAsyncTask extends AsyncTask{
+
+        @Override
+        protected User doInBackground(Object[] callVariables) {
+            Call<User> callUser = securityServices.updateUser((User) callVariables[0]);
+
+            User user = null;
+            try {
+                Response<User> response = callUser.execute();
+
+                User body = response.body();
+                if (body == null) {
+                    ResponseBody errorBody = response.errorBody();
+                    String error = errorBody.string();
+                    user = new User();
+                    user.setTicket(String.format("%s%s", "htmlerrorbody", error));
+                    updateUserQueue.put(user);
+                }
+                else {
+                    user = response.body();
+                    if (user != null) {
+                        updateUserQueue.put(user);
+                    } else {
+                        user = new User();
+                        user.setTicket(String.format("%s%s", "error", SportMagazineApplication.getContext().getString(R.string.could_not_update_user)));
+                        updateUserQueue.put(user);
+                    }
+                }
+            } catch (Exception ticketEx) {
+                user = new User();
+                try {
+                    user.setTicket(String.format("%s%s", "error", ticketEx.getMessage()));
+                    updateUserQueue.put(user);
+                } catch (Exception queueEx){
+                    user.setTicket(String.format("%s%s", "error", ticketEx.getMessage()));
+                    updateUserQueue.add(user);
+                }
+            }
+
+            return user;
         }
     }
 }
