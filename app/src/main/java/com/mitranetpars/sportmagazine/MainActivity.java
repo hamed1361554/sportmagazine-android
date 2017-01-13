@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.mitranetpars.sportmagazine.common.SecurityEnvironment;
 import com.mitranetpars.sportmagazine.common.dto.security.User;
-import com.mitranetpars.sportmagazine.services.SystemUtils;
+import com.mitranetpars.sportmagazine.utils.SystemUtils;
 import com.mitranetpars.sportmagazine.widgets.TooltipWindow;
 import com.squareup.picasso.Picasso;
 
@@ -27,6 +27,8 @@ import at.markushi.ui.CircleButton;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnLongClickListener {
+    public static final int REQUEST_CODE = 1;
+
     private RadioButton consumerRadioButton;
     private RadioButton producerRadioButton;
 
@@ -205,17 +207,17 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
                 SecurityEnvironment.<SecurityEnvironment>getInstance().getLoginTicket() != "") {
             if (SecurityEnvironment.<SecurityEnvironment>getInstance().getUser().getProductionType() == User.CONSUMER) {
                 Intent mainIntent = new Intent(MainActivity.this, ConsumerMainActivity.class);
-                MainActivity.this.startActivityForResult(mainIntent, 1);
+                this.startActivityForResult(mainIntent, REQUEST_CODE);
             } else {
                 Intent mainIntent = new Intent(MainActivity.this, ProducerMainActivity.class);
-                MainActivity.this.startActivityForResult(mainIntent, 1);
+                this.startActivityForResult(mainIntent, REQUEST_CODE);
             }
         }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
+        if (requestCode == REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 boolean forceClose = data.getBooleanExtra("forceClose", false);
                 if (forceClose) {

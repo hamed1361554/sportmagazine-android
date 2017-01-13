@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
@@ -56,6 +57,7 @@ public class ProductsListFragment extends Fragment implements View.OnLongClickLi
     private ImageView backImageView;
 
     private boolean isInAdvancedMode;
+    private boolean loadingFlag;
     private ProductSearchFilter filter;
 
     private String searchName;
@@ -74,6 +76,7 @@ public class ProductsListFragment extends Fragment implements View.OnLongClickLi
         this.filter = new ProductSearchFilter();
         this.searchName = "";
         this.searchCategory = -1;
+        this.loadingFlag = false;
     }
 
     public void setReplacementID(int id){
@@ -142,15 +145,46 @@ public class ProductsListFragment extends Fragment implements View.OnLongClickLi
         this.listAdapter.setReplacementID(this.replacementID);
         this.listview.setAdapter(this.listAdapter);
 
+        this.listview.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+                if(firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0) {
+                    if(!loadingFlag) {
+                        loadingFlag = true;
+                        loadNextPage();
+                    }
+                }
+            }
+        });
+
         this.categoryLabelledSpinner = (LabelledSpinner) rootView.findViewById(R.id.product_search_category);
         this.categoryLabelledSpinner.setItemsArray(getResources().getStringArray(R.array.product_category_items));
         this.categoryLabelledSpinner.getSpinner().setSelection(0);
+        this.categoryLabelledSpinner.setOnItemChosenListener(new LabelledSpinner.OnItemChosenListener() {
+            @Override
+            public void onItemChosen(View labelledSpinner, AdapterView<?> adapterView, View itemView,
+                                     int position, long id) {
+                searchProducts(labelledSpinner);
+            }
+
+            @Override
+            public void onNothingChosen(View labelledSpinner, AdapterView<?> adapterView) {
+
+            }
+
+        });
 
         return rootView;
     }
 
     private void searchProducts(View v){
         try {
+            this.loadingFlag = false;
             this.isInAdvancedMode = false;
             this.products.clear();
             this.listAdapter.notifyDataSetChanged();
@@ -192,6 +226,7 @@ public class ProductsListFragment extends Fragment implements View.OnLongClickLi
             this.products.addAll(list);
             this.listAdapter.notifyDataSetChanged();
             this.currentOffset = this.currentOffset + this.limitSize;
+            this.loadingFlag = false;
         } catch (Exception error){
             Toast.makeText(this.parentActivity, error.getMessage(), Toast.LENGTH_LONG).show();
         }

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.mitranetpars.sportmagazine.R;
 import com.mitranetpars.sportmagazine.SportMagazineApplication;
 import com.mitranetpars.sportmagazine.common.dto.invoice.ProducerInvoice;
+import com.mitranetpars.sportmagazine.utils.DateTimeUtils;
 import com.mitranetpars.sportmagazine.utils.ImageUtils;
 import com.mitranetpars.sportmagazine.widgets.ShapedCheckBox;
 import com.satsuware.usefulviews.LabelledSpinner;
@@ -33,14 +34,12 @@ public class ProducerInvoicesListAdapter extends ArrayAdapter<ProducerInvoice> {
     private LayoutInflater inflater = null;
     private FragmentManager fragmentManager;
     private int replacementID;
-    private SimpleDateFormat mFormatter;
 
     public ProducerInvoicesListAdapter(Context context, int layoutResourceId, ArrayList<ProducerInvoice> data) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.data = data;
         this.inflater = ((Activity)context).getLayoutInflater();
-        this.mFormatter = new SimpleDateFormat("yyyy MMMM dd");
     }
 
     public void setFragmentManager(FragmentManager fm){
@@ -88,7 +87,7 @@ public class ProducerInvoicesListAdapter extends ArrayAdapter<ProducerInvoice> {
         holder.holderItemPrice.setText(String.valueOf(invoice.getItemPrice()));
         holder.holderItemQuantity.setText(String.valueOf(invoice.getItemQuantity()));
         if (invoice.getInvoiceDate() != null) {
-            holder.holderDateTime.setText(this.mFormatter.format(invoice.getInvoiceDate()));
+            holder.holderDateTime.setText(DateTimeUtils.formatDateOnlyToPersian(invoice.getInvoiceDate()));
         }
 
         if (invoice.getItemSize() != null) {

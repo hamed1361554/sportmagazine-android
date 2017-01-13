@@ -16,11 +16,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,18 +32,20 @@ import com.mitranetpars.sportmagazine.common.dto.product.Product;
 import com.mitranetpars.sportmagazine.common.dto.security.User;
 import com.mitranetpars.sportmagazine.services.ProductServicesI;
 import com.mitranetpars.sportmagazine.services.SecurityServicesI;
-import com.mitranetpars.sportmagazine.services.SystemUtils;
 import com.mitranetpars.sportmagazine.utils.ImageUtils;
+import com.mitranetpars.sportmagazine.utils.SystemUtils;
 import com.mitranetpars.sportmagazine.widgets.TooltipWindow;
 import com.mvc.imagepicker.ImagePicker;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
 import at.markushi.ui.CircleButton;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProducerMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnLongClickListener {
@@ -57,7 +58,8 @@ public class ProducerMainActivity extends AppCompatActivity
     private CircleButton retailPurchase;
     private CircleButton wholesalePurchase;
     private TooltipWindow tipWindow;
-    private ImageView logoImageView;
+    private CircleImageView logoImageView;
+    private File logoImageFilePath;
 
     private ListView listview;
     ArrayList<Product> products;
@@ -66,6 +68,7 @@ public class ProducerMainActivity extends AppCompatActivity
     private int currentOffset;
     private int limitSize;
     private int wholesaleType;
+    private boolean loadingFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,15 +139,15 @@ public class ProducerMainActivity extends AppCompatActivity
         this.sliderShow = (SliderLayout) findViewById(R.id.slider);
         if (this.sliderShow != null) {
             HashMap<String, String> urlMaps = new HashMap<String, String>();
-            urlMaps.put("Hannibal", "http://static2.hypable.com/wp-content/uploads/2013/12/hannibal-season-2-release-date.jpg");
-            urlMaps.put("Big Bang Theory", "http://tvfiles.alphacoders.com/100/hdclearart-10.png");
-            urlMaps.put("House of Cards", "http://cdn3.nflximg.net/images/3093/2043093.jpg");
-            urlMaps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
+            urlMaps.put("1",
+                    "http://www.sportmagazine.ir/images/slogan/148265487526897.jpg");
+            urlMaps.put("2",
+                    "http://sportmagazine.ir/images/slogan/148168265248147.jpg");
 
             for (String key : urlMaps.keySet()) {
                 TextSliderView textSliderView = new TextSliderView(this);
                 textSliderView
-                        .description(key)
+                        .description(getString(R.string.app_name))
                         .image(urlMaps.get(key));
                 sliderShow.addSlider(textSliderView);
             }
@@ -153,15 +156,21 @@ public class ProducerMainActivity extends AppCompatActivity
         User user = SecurityEnvironment.<SecurityEnvironment>getInstance().getUser();
 
         View header = navigationView.getHeaderView(0);
-        logoImageView = (ImageView) header.findViewById(R.id.producer_nav_header_imageView);
+        logoImageView = (CircleImageView) header.findViewById(R.id.producer_nav_header_imageView);
         TextView logoTextView = (TextView) header.findViewById(R.id.producer_nav_header_textView);
         logoTextView.setText(user.getFullName());
         header.setBackgroundColor(Color.parseColor(getString(R.string.default_color)));
 
-        if (user.getImage() == null || user.getImage() == "") {
+        if (user.getImage() == null || user.getImage().isEmpty()) {
             Picasso.with(this).load(R.drawable.logo240).into(logoImageView);
         } else {
-            logoImageView.setImageBitmap(ImageUtils.decodeFromBase64(user.getImage()));
+            //logoImageView.setImageBitmap(ImageUtils.decodeFromBase64(user.getImage()));
+            try {
+                logoImageFilePath = ImageUtils.decodeAndSaveFromBase64(user.getImage());
+                Picasso.with(this).load(logoImageFilePath).error(R.drawable.logo240).into(logoImageView);
+            } catch (Exception error) {
+                Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
 
         logoImageView.setOnClickListener(new View.OnClickListener() {
@@ -215,6 +224,24 @@ public class ProducerMainActivity extends AppCompatActivity
         if (user.getProductionPackage() == SILVER){
             nav_Menu.findItem(R.id.producer_nav_retail_purchase).setVisible(false);
         }
+
+        this.loadingFlag = false;
+        this.listview.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+                if(firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0) {
+                    if(!loadingFlag) {
+                        loadingFlag = true;
+                        loadNextPage();
+                    }
+                }
+            }
+        });
     }
 
     public void onPickImage(View view) {
@@ -228,10 +255,15 @@ public class ProducerMainActivity extends AppCompatActivity
             Bitmap gotImage = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
             if (gotImage != null) {
                 Bitmap userImage = ImageUtils.compressLogo(gotImage);
-                //this.userImage = gotImage;
+                User user =
+                        SecurityServicesI.getInstance().updateUser("", "", "", "", ImageUtils.encodeToBase64(userImage));
 
-                SecurityServicesI.getInstance().updateUser("", "", "", "", ImageUtils.encodeToBase64(userImage));
-                this.logoImageView.setImageBitmap(userImage);
+                try {
+                    logoImageFilePath = ImageUtils.decodeAndSaveFromBase64(user.getImage());
+                    Picasso.with(this).load(logoImageFilePath).error(R.drawable.logo240).into(logoImageView);
+                } catch (Exception error) {
+                    Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         }
         catch (Exception error) {
@@ -321,6 +353,8 @@ public class ProducerMainActivity extends AppCompatActivity
     }
 
     private void exit(){
+        SystemUtils.saveProfile(SportMagazineApplication.getContext());
+        moveTaskToBack(true);
         Intent intent = new Intent();
         intent.putExtra("forceClose", true);
         setResult(RESULT_OK, intent);
@@ -391,11 +425,18 @@ public class ProducerMainActivity extends AppCompatActivity
     public void onDestroy() {
         if(tipWindow != null && tipWindow.isTooltipShown())
             tipWindow.dismissTooltip();
+
+        try {
+            logoImageFilePath.delete();
+        } catch (Exception error){
+        }
+
         super.onDestroy();
     }
 
     private void searchProducts(){
         try {
+            this.loadingFlag = false;
             this.products.clear();
             this.listAdapter.notifyDataSetChanged();
             this.searchStartDate = Calendar.getInstance().getTime();
@@ -423,6 +464,7 @@ public class ProducerMainActivity extends AppCompatActivity
             this.products.addAll(list);
             this.listAdapter.notifyDataSetChanged();
             this.currentOffset = this.currentOffset + this.limitSize;
+            this.loadingFlag = false;
         } catch (Exception error){
             Toast.makeText(this, error.getMessage(), Toast.LENGTH_LONG).show();
         }

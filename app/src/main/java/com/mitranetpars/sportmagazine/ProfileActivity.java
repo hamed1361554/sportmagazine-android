@@ -19,10 +19,17 @@ import com.mitranetpars.sportmagazine.common.dto.security.User;
 import com.mitranetpars.sportmagazine.services.SecurityServicesI;
 import com.mitranetpars.sportmagazine.utils.ImageUtils;
 import com.mvc.imagepicker.ImagePicker;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private ImageButton userProfilePhoto;
+    //private ImageButton userProfilePhoto;
+    private CircleImageView userProfilePhoto;
+    private File profilePhotoFilePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,19 +44,24 @@ public class ProfileActivity extends AppCompatActivity {
 
         User user = SecurityEnvironment.<SecurityEnvironment>getInstance().getUser();
 
-        ((TextView)findViewById(R.id.user_profile_name)).setText(user.getUserName());
-        ((TextView)findViewById(R.id.user_profile_email)).setText(user.getEmail());
-        ((TextView)findViewById(R.id.user_profile_fullname)).setText(user.getFullName());
-        ((TextView)findViewById(R.id.user_profile_mobile)).setText(user.getMobile());
-        ((TextView)findViewById(R.id.user_profile_address)).setText(user.getAddress());
+        ((TextView)findViewById(R.id.user_profile_name)).setText(String.format("%s: %s",
+                getString(R.string.user_name), user.getUserName()));
+        ((TextView)findViewById(R.id.user_profile_email)).setText(String.format("%s: %s",
+                getString(R.string.email), user.getEmail()));
+        ((TextView)findViewById(R.id.user_profile_fullname)).setText(String.format("%s: %s",
+                getString(R.string.full_name), user.getFullName()));
+        ((TextView)findViewById(R.id.user_profile_mobile)).setText(String.format("%s: %s",
+                getString(R.string.mobile), user.getMobile()));
+        ((TextView)findViewById(R.id.user_profile_address)).setText(String.format("%s: %s",
+                getString(R.string.address), user.getAddress()));
 
         TextView nationalCode = (TextView) findViewById(R.id.user_profile_nationalcode);
         TextView phone = (TextView) findViewById(R.id.user_profile_phone);
         if (user.getProductionType() == User.PRODUCER) {
             nationalCode.setVisibility(View.VISIBLE);
-            nationalCode.setText(user.getNationalCode());
+            nationalCode.setText(String.format("%s: %s", getString(R.string.national_code), user.getNationalCode()));
             phone.setVisibility(View.VISIBLE);
-            phone.setText(user.getPhone());
+            phone.setText(String.format("%s: %s", getString(R.string.phone), user.getPhone()));
         } else {
             nationalCode.setVisibility(View.INVISIBLE);
             nationalCode.setText("");
@@ -57,10 +69,15 @@ public class ProfileActivity extends AppCompatActivity {
             phone.setText("");
         }
 
-        userProfilePhoto = (ImageButton) findViewById(R.id.user_profile_photo);
+        userProfilePhoto = (CircleImageView) findViewById(R.id.user_profile_photo);
         userProfilePhoto.bringToFront();
-        if (user.getImage() != null && user.getImage() != "") {
-            userProfilePhoto.setImageBitmap(ImageUtils.decodeFromBase64(user.getImage()));
+        if (user.getImage() != null && !user.getImage().isEmpty()) {
+            try {
+                profilePhotoFilePath = ImageUtils.decodeAndSaveFromBase64(user.getImage());
+                Picasso.with(this).load(profilePhotoFilePath).error(R.drawable.profile128).into(userProfilePhoto);
+            } catch (Exception error){
+                Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
 
         userProfilePhoto.setOnClickListener(new View.OnClickListener() {
@@ -95,14 +112,29 @@ public class ProfileActivity extends AppCompatActivity {
             Bitmap gotImage = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
             if (gotImage != null) {
                 Bitmap userImage = ImageUtils.compressLogo(gotImage);
-                //this.userImage = gotImage;
+                User user =
+                        SecurityServicesI.getInstance().updateUser("", "", "", "", ImageUtils.encodeToBase64(userImage));
 
-                SecurityServicesI.getInstance().updateUser("", "", "", "", ImageUtils.encodeToBase64(userImage));
-                this.userProfilePhoto.setImageBitmap(userImage);
+                try {
+                    profilePhotoFilePath = ImageUtils.decodeAndSaveFromBase64(user.getImage());
+                    Picasso.with(this).load(profilePhotoFilePath).error(R.drawable.profile128).into(userProfilePhoto);
+                } catch (Exception error) {
+                    Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         }
         catch (Exception error) {
             Toast.makeText(getApplicationContext(), getString(R.string.processing_image_error, error.getMessage()), Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        try {
+            profilePhotoFilePath.delete();
+        } catch (Exception error){
+        }
+
+        super.onDestroy();
     }
 }

@@ -1,10 +1,11 @@
-package com.mitranetpars.sportmagazine.services;
+package com.mitranetpars.sportmagazine.utils;
 
 import android.content.Context;
 
 import com.google.gson.Gson;
 import com.mitranetpars.sportmagazine.common.SecurityEnvironment;
 import com.mitranetpars.sportmagazine.common.dto.security.User;
+import com.mitranetpars.sportmagazine.services.SecurityServicesI;
 import com.snappydb.DB;
 import com.snappydb.DBFactory;
 import com.snappydb.SnappydbException;
@@ -72,6 +73,13 @@ public class SystemUtils {
 
                 SecurityEnvironment.<SecurityEnvironment>getInstance().setUserName(userName);
                 SecurityEnvironment.<SecurityEnvironment>getInstance().setLoginTicket(loginTicket);
+
+                try {
+                    SecurityServicesI.getInstance().getUser(userName);
+                } catch (Exception error){
+                    resetProfile(context);
+                    return;
+                }
 
                 Gson gson = new Gson();
                 String user = snappydb.get("user");

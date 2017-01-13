@@ -161,7 +161,7 @@
     <string name="title_activity_table_layout">TableLayout</string>
     <string name="sign_in">Sign In &#8230;</string>
     <string name="email">ایمیل</string>
-    <string name="password">Password</string>
+    <string name="password">رمز عبور</string>
     <string name="let_me_in">Let me in!</string>
     <string name="linear_layout">LinearLayout</string>
     <string name="relative_layout">RelativeLayout</string>
@@ -193,6 +193,9 @@
     <string name="could_not_update_user">امکان بروزرسانی کاربر وجود ندارد.</string>
     <string name="select_color">لطفا یک رنگ انتخاب شود!</string>
     <string name="back">بازگشت</string>
+    <string name="full_name">نام کامل</string>
+    <string name="mobile">موبایل</string>
+    <string name="phone">تلفن</string>
 
     <string-array name="pref_example_list_titles">
         <item>همواره</item>

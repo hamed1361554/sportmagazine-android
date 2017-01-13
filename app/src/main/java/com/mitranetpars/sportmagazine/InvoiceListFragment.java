@@ -21,6 +21,7 @@ import com.mitranetpars.sportmagazine.adapters.InvoiceListAdapter;
 import com.mitranetpars.sportmagazine.common.dto.invoice.Invoice;
 import com.mitranetpars.sportmagazine.common.dto.invoice.InvoiceItem;
 import com.mitranetpars.sportmagazine.services.InvoiceServicesI;
+import com.mitranetpars.sportmagazine.utils.DateTimeUtils;
 import com.mitranetpars.sportmagazine.widgets.TooltipWindow;
 
 import java.text.SimpleDateFormat;
@@ -44,7 +45,6 @@ public class InvoiceListFragment extends Fragment implements InvoiceItemsDetails
     private CircleButton searchButton;
     private CircleButton loadNextPageButton;
     private Activity parentActivity;
-    private SimpleDateFormat mFormatter;
     private FragmentManager fragmentManager;
     private ImageView backImageView;
 
@@ -65,7 +65,7 @@ public class InvoiceListFragment extends Fragment implements InvoiceItemsDetails
         @Override
         public void onDateTimeSet(Date date) {
             fromDate = date;
-            fromDateTextView.setText(mFormatter.format(date));
+            fromDateTextView.setText(DateTimeUtils.formatDateTimeToPersian(date));
         }
 
         // Optional cancel listener
@@ -81,7 +81,7 @@ public class InvoiceListFragment extends Fragment implements InvoiceItemsDetails
         @Override
         public void onDateTimeSet(Date date) {
             toDate = date;
-            toDateTextView.setText(mFormatter.format(date));
+            toDateTextView.setText(DateTimeUtils.formatDateTimeToPersian(date));
         }
 
         // Optional cancel listener
@@ -96,7 +96,6 @@ public class InvoiceListFragment extends Fragment implements InvoiceItemsDetails
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.parentActivity = getActivity();
-        this.mFormatter = new SimpleDateFormat("yyyy MMMM dd hh:mm:ss");
         this.fromDate = null;
         this.toDate = null;
         this.toDate = Calendar.getInstance().getTime();
@@ -183,7 +182,7 @@ public class InvoiceListFragment extends Fragment implements InvoiceItemsDetails
 
         this.listview.setAdapter(this.listAdapter);
 
-        this.toDateTextView.setText(mFormatter.format(this.toDate));
+        this.toDateTextView.setText(DateTimeUtils.formatDateTimeToPersian(this.toDate));
 
         this.searchButton.setOnClickListener(new View.OnClickListener() {
             @Override

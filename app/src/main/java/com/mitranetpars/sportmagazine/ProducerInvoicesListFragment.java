@@ -45,7 +45,6 @@ public class ProducerInvoicesListFragment extends Fragment implements View.OnLon
     private TooltipWindow tipWindow;
     private ProducerInvoiceSearchFilter filter;
     private ImageView backImageView;
-    private SimpleDateFormat mFormatter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,7 +54,6 @@ public class ProducerInvoicesListFragment extends Fragment implements View.OnLon
         this.currentOffset = 0;
         this.limitSize = 10;
         this.filter = new ProducerInvoiceSearchFilter();
-        this.mFormatter = new SimpleDateFormat("yyyy MMMM dd hh:mm:ss");
     }
 
     public void setReplacementID(int id){

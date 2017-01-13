@@ -135,8 +135,10 @@ public class ProducerSigninActivity extends AppCompatActivity {
         try {
             Bitmap gotImage = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
             if (gotImage != null) {
+                if (this.userImage != null){
+                    this.userImage.recycle();
+                }
                 this.userImage = ImageUtils.compressLogo(gotImage);
-                //this.userImage = gotImage;
                 this.userImageView.setImageBitmap(this.userImage);
             } else {
                 this.userImage = null;
@@ -146,6 +148,16 @@ public class ProducerSigninActivity extends AppCompatActivity {
         catch (Exception error) {
             Toast.makeText(getApplicationContext(), getString(R.string.processing_image_error, error.getMessage()), Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (this.userImage != null){
+            this.userImage.recycle();
+            this.userImage = null;
+        }
+
+        super.onDestroy();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)

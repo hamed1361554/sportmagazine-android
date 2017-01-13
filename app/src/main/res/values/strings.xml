@@ -255,4 +255,7 @@
     <string name="could_not_update_user">User could not updated.</string>
     <string name="select_color">Please select a color!</string>
     <string name="back">Back</string>
+    <string name="full_name">Full Name</string>
+    <string name="mobile">Mobile</string>
+    <string name="phone">Phone</string>
 </resources>

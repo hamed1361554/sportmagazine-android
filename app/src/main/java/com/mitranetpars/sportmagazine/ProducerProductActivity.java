@@ -198,8 +198,11 @@ public class ProducerProductActivity extends AppCompatActivity {
         try {
             Bitmap gotImage = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
             if (gotImage != null) {
+                if (this.productImage != null){
+                    this.productImage.recycle();
+                }
+
                 this.productImage = ImageUtils.compressBitmap(gotImage);
-                //this.productImage = gotImage;
                 this.productImageView.setImageBitmap(this.productImage);
             } else {
                 this.productImage = null;
@@ -452,5 +455,15 @@ public class ProducerProductActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (this.productImage != null) {
+            this.productImage.recycle();
+            this.productImage = null;
+        }
+
+        super.onDestroy();
     }
 }

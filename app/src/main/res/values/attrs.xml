@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CircleImageView">
+        <attr name="civ_border_width" format="dimension" />
+        <attr name="civ_border_color" format="color" />
+        <attr name="civ_border_overlay" format="boolean" />
+        <attr name="civ_fill_color" format="color" />
+    </declare-styleable>
+	
+	<declare-styleable name="PersianDatePicker">
+        <attr name="minYear" format="integer" />
+        <attr name="maxYear" format="integer" />
+        <attr name="selectedYear" format="integer" />
+        <attr name="selectedMonth" format="integer" />
+        <attr name="selectedDay" format="integer" />
+        <attr name="displayMonthNames" format="boolean" />
+        <attr name="yearRange" format="integer" />
+        <attr name="displayDescription" format="boolean" />
+    </declare-styleable>
+	
+</resources>

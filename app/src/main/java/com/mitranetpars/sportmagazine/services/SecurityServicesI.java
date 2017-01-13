@@ -266,8 +266,7 @@ public class SecurityServicesI {
                     ResponseBody errorBody = response.errorBody();
                     String error = errorBody.string();
                     loginQueue.put(String.format("%s%s", "htmlerrorbody", error));
-                }
-                else {
+                } else {
                     ticket = response.body().getTicket();
                     if (ticket != null && !ticket.trim().isEmpty()) {
                         loginQueue.put(String.format("%s%s", "ticket", ticket));
@@ -288,7 +287,7 @@ public class SecurityServicesI {
             } catch (Exception ticketEx) {
                 try {
                     loginQueue.put(String.format("%s%s", "error", ticketEx.getMessage()));
-                } catch (Exception queueEx){
+                } catch (Exception queueEx) {
                     loginQueue.add(String.format("%s%s", "error", queueEx.getMessage()));
                 }
             }

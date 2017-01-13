@@ -2,11 +2,9 @@ package com.mitranetpars.sportmagazine;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.preference.PreferenceManager;
 
-import com.mitranetpars.sportmagazine.services.SystemUtils;
+import com.mitranetpars.sportmagazine.utils.SystemUtils;
 
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;

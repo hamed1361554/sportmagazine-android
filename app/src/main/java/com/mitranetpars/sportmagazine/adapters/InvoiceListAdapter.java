@@ -18,6 +18,7 @@ import com.mitranetpars.sportmagazine.InvoiceListFragment;
 import com.mitranetpars.sportmagazine.R;
 import com.mitranetpars.sportmagazine.common.dto.invoice.Invoice;
 import com.mitranetpars.sportmagazine.common.dto.invoice.InvoiceItem;
+import com.mitranetpars.sportmagazine.utils.DateTimeUtils;
 
 import org.w3c.dom.Text;
 
@@ -34,7 +35,6 @@ public class InvoiceListAdapter extends ArrayAdapter<Invoice> implements EventLi
     private int layoutResourceId;
     private ArrayList<Invoice> data;
     private LayoutInflater inflater;
-    private SimpleDateFormat mFormatter;
 
     private ArrayList<InvoiceItemsDetailsEventListener> listeners;
 
@@ -57,7 +57,6 @@ public class InvoiceListAdapter extends ArrayAdapter<Invoice> implements EventLi
         this.layoutResourceId = layoutResourceId;
         this.data = data;
         this.inflater = ((Activity)context).getLayoutInflater();
-        this.mFormatter = new SimpleDateFormat("yyyy MMMM dd hh:mm:ss");
         this.listeners = new ArrayList<InvoiceItemsDetailsEventListener>();
     }
 
@@ -84,7 +83,7 @@ public class InvoiceListAdapter extends ArrayAdapter<Invoice> implements EventLi
         final Invoice invoice = data.get(position);
         holder.invoiceTotalPriceTextView.setText(String.valueOf(invoice.getTotalPrice()));
         holder.invoiceItemQuantityTextView.setText(String.valueOf(invoice.getInvoiceItems().size()));
-        holder.invoiceDateTextView.setText(String.valueOf(this.mFormatter.format(invoice.getDate())));
+        holder.invoiceDateTextView.setText(String.valueOf(DateTimeUtils.formatDateTimeToPersian(invoice.getDate())));
         holder.invoiceCommentTextView.setText(invoice.getComment());
 
         holder.detailImageView.setOnClickListener(new View.OnClickListener() {
